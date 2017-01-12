@@ -2,10 +2,19 @@
 <head>
 <title>Yupik</title>
 <script type = "text/javascript" src = "yupik.js"></script>
+
 </head>
 <body> 
 <input type="text" name="field1" id="field1" placeholder="Enter Yupik word here">
-<button value="submit" onclick = "convert()">Tokenize into graphemes</button>
+<script type = "text/javascript">
+document.getElementById("field1").addEventListener("keydown", function(event) {
+    //event.preventDefault();
+    if (event.keyCode == 13) {
+        document.getElementById("button1").click();
+    }
+});
+</script>
+<button value="submit" id="button1" onclick = "output.innerHTML=tokenize_to_string(field1.value)">Tokenize into graphemes</button>
 <div id="output">foo</div>
 </body> 
 </html>
