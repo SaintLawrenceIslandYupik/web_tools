@@ -1,20 +1,46 @@
 <html>
-<head>
-<title>Yupik</title>
-<script type = "text/javascript" src = "yupik.js"></script>
+	<head>
+		<meta charset="UTF-8">
+		<title>Yupik</title>
+		<script type = "text/javascript" src = "yupik.js"></script>
+	</head>
 
-</head>
-<body> 
-<input type="text" name="field1" id="field1" placeholder="Enter Yupik word here">
-<script type = "text/javascript">
-document.getElementById("field1").addEventListener("keydown", function(event) {
-    //event.preventDefault();
-    if (event.keyCode == 13) {
-        document.getElementById("button1").click();
-    }
-});
-</script>
-<button value="submit" id="button1" onclick = "output.innerHTML=tokenize_to_string(field1.value)">Tokenize into graphemes</button>
-<div id="output">foo</div>
-</body> 
+	<body>
+
+		<table width="400">
+		  <tr>
+		    <td><button value="submit" id="button1">Enter</button></td>
+		    <td><input type="text" name="field1" id="field1" placeholder="Enter Yupik word here"></td>
+		  </tr>
+		  <tr>
+		    <td><a href="https://en.wikipedia.org/wiki/Latin_script">Latin</a></td>
+		    <td><div id="us_ess"></div></td>
+		  </tr>
+		  <tr>
+		    <td>Undoubled</td>
+		    <td><div id="us_ess_undoubled"></div></td>
+		  </tr>
+		  <tr>
+		    <td><a href="https://en.wikipedia.org/wiki/International_Phonetic_Alphabet">Phonetic (IPA)</a></td>
+		    <td><div id="ipa"></div></td>
+		  </tr>
+		  <tr>
+		    <td><a href="https://en.wikipedia.org/wiki/Americanist_phonetic_notation">Phonetic</a> <a href="https://www.degruyter.com/view/j/ling.1975.13.issue-152/ling.1975.13.152.39/ling.1975.13.152.39.xml?format=INT">(Krauss 1975)</a></td>
+		    <td><div id="krauss1975"></div></td>
+		  </tr>
+		  <tr>
+		    <td><a href="https://en.wikipedia.org/wiki/Americanist_phonetic_notation">Phonetic</a> <a href="http://lingdy.aacore.jp/en/elpr/publication-A2.html#A2-006">(Nagai 2001)</a></td>
+		    <td><div id="nagai2001"></div></td>
+		  </tr>
+		  <tr>
+		    <td><a href="https://en.wikipedia.org/wiki/Cyrillic_script">Кириллица</a></td>
+		    <td><div id="ru_ess"></div></td>
+		  </tr>
+		</table>
+
+
+		<script type = "text/javascript" src="controller.js"></script>
+
+	</body> 
+
 </html>

@@ -58,6 +58,17 @@ function tokenize(word, keep_apostrophes) {
 }
 
 
+function tokens_to_string(tokens) {
+	
+	var s=""
+	for (var i=0; i<tokens.length; i++) {
+		s += tokens[i]
+		//s += " "
+	}
+	
+	return s
+}
+
 
 function tokenize_to_string(word) {
 	var tokens = graphemes2phonemes_nagai2001(undouble(tokenize(word.toLowerCase(), false)))
@@ -138,7 +149,7 @@ function undouble(graphemes) {
 
 
 
-function graphemes2phonemes_ipa(graphemes) {
+function graphemes_to_phonemes_ipa(graphemes) {
 
     var ipa = {
             // Vowels                                                                                                                     
@@ -163,8 +174,8 @@ function graphemes2phonemes_ipa(graphemes) {
             "r"  :"\u027B",              // LATIN SMALL LETTER TURNED R WITH HOOK
             "g"  :"\u0263",              // LATIN SMALL LETTER GAMMA
             "w"  :"\u0263\u02B7",        // LATIN SMALL LETTER GAMMA                       with MODIFIER LETTER SMALL W
-            "gh" :"\0281",               // LATIN LATTER SMALL CAPITAL INVERTED R
-            "ghw":"\0281\u02B7",         // LATIN LATTER SMALL CAPITAL INVERTED R          with MODIFIER LETTER SMALL W
+            "gh" :"\u0281",               // LATIN LATTER SMALL CAPITAL INVERTED R
+            "ghw":"\u0281\u02B7",         // LATIN LATTER SMALL CAPITAL INVERTED R          with MODIFIER LETTER SMALL W
 
             // Voiceless fricatives                                                                                                       
             "f"   :"\u0066",             // LATIN SMALL LETTER F
@@ -186,8 +197,8 @@ function graphemes2phonemes_ipa(graphemes) {
             // Voiceless nasals                                                                                                           
             "mm":"\u006D\u0325",         // LATIN SMALL LETTER M   with COMBINING RING BELOW
             "nn":"\u006E\u0325",         // LATIN SMALL LETTER N   with COMBINING RING BELOW
-            "ngng":"\u014B\030A",        // LATIN SMALL LETTER ENG with COMBINING RING ABOVE
-            "ngngw":"\u014B\030A\u02B7", // LATIN SMALL LETTER ENG with COMBINING RING ABOVE and MODIFIER LETTER SMALL W
+            "ngng":"\u014B\u030A",        // LATIN SMALL LETTER ENG with COMBINING RING ABOVE
+            "ngngw":"\u014B\u030A\u02B7", // LATIN SMALL LETTER ENG with COMBINING RING ABOVE and MODIFIER LETTER SMALL W
           }
 
     var result = []
@@ -207,7 +218,7 @@ function graphemes2phonemes_ipa(graphemes) {
 
 
 
-function graphemes2phonemes_krauss1975(graphemes) {
+function graphemes_to_phonemes_krauss1975(graphemes) {
 
     var krauss1975 = {
             // Vowels                                                                                                                     
@@ -274,7 +285,7 @@ function graphemes2phonemes_krauss1975(graphemes) {
 	return result
 }
 
-function graphemes2phonemes_nagai2001(graphemes) {
+function graphemes_to_phonemes_nagai2001(graphemes) {
 
     var nagai2001 = {
             // Vowels                                                                                                                     
