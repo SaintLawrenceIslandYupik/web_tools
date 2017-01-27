@@ -85,7 +85,7 @@ function tokenize_to_string(word) {
 
 function undouble(graphemes) {
 
-	var doubled_fricative=new Set(['ll', 'rr', 'gg', 'ghh', 'ghhw'])
+    var doubled_fricative=new Set(['ll', 'rr', 'gg', 'ghh', 'ghhw'])
 
     var doubleable_fricative=new Set(['l', 'r', 'g', 'gh', 'ghw'])
     var doubleable_nasal=new Set(['n', 'm', 'ng', 'ngw'])
@@ -352,24 +352,24 @@ function graphemes_to_phonemes_nagai2001(graphemes) {
 }
 
 function latin_to_cyrillic(graphemes) {
-
-    // INCOMPLETE
-    // Isn't outputting long vowels correctly
-    // Fix should be in tokenize() function?
     
     // Grammar says that 'w' is often written as 'ry', not just 'y'
     // Should we implement it as 'y' or 'ry'?
- 
-    var cyrillic = {
-            // Vowels                                                                                                                     
+
+    var shortVowels = {
             "i":"\u0438",                // CYRILLIC SMALL LETTER I 
             "a":"\u0430",                // CYRILLIC SMALL LETTER A
             "u":"\u0443",                // CYRILLIC SMALL LETTER U
             "e":"\u044B",                // CYRILLIC SMALL LETTER YERU
-            "ii":"\u04E3",               // CYRILLIC SMALL LETTER I with MACRON
-            "aa": "\u0101",              // CYRILLIC SMALL LETTER A with MACRON
-            "uu": "\u04EF",              // CYRILLIC SMALL LETTER U with MACRON
+    }
 
+    var longVowels = {
+            "i":"\u04E3",               // CYRILLIC SMALL LETTER I with MACRON
+            "a": "\u0101",              // CYRILLIC SMALL LETTER A with MACRON
+            "u": "\u04EF",              // CYRILLIC SMALL LETTER U with MACRON
+    }
+ 
+    var consonants= {
             // Stops                                                                                                                      
             "p" :"\u043F",               // CYRILLIC SMALL LETTER PE
             "t" :"\u0442",               // CYRILLIC SMALL LETTER TE
@@ -416,14 +416,25 @@ function latin_to_cyrillic(graphemes) {
 
      var result = []
 
-	for (var i=0; i<graphemes.length; i++) {
-		var grapheme = graphemes[i]
-		if (grapheme in cyrillic) {
-			result.push(cyrillic[grapheme])
-		} else if (isAlpha(grapheme)) {
-			result.push(grapheme)
-		}
-	}
+         for (var i = 0; i < graphemes.length; i++) {
+             var grapheme = graphemes[i]
+
+             if (i < graphemes.length && grapheme in shortVowels) {
+                 if (grapheme == graphemes[i+1]) {
+                     result.push(longVowels[grapheme])
+                     i++
+                 }
+                 else {
+                     result.push(shortVowels[grapheme])
+                 }
+             }
+             else if (grapheme in consonants) {
+                 result.push(consonants[grapheme])
+             }
+             else if (isAlpha(grapheme)) {
+                 result.push(grapheme)
+             }
+	 }
 	
 	return result
 }
@@ -431,11 +442,15 @@ function latin_to_cyrillic(graphemes) {
 function cyrillic_adjustments(cyr_graphemes) {
 
     // INCOMPLETE: Can be organized better
-    // Adjustments don't take long vowels into account yet
 
     var shortAU = {
         "\u0430":"\u042F",        // CYRILLIC SMALL LETTER A to SMALL LETTER YA
         "\u0443":"\u042E",        // CYRILLIC SMALL LETTER U to SMALL LETTER YU
+    }
+
+    var longAU = {
+        "\u0101":"\u044F\u0304",  // CYRILLIC SMALL LETTER A with MACRON
+        "\u04EF":"\u044E\u0304",  // CYRILLIC SMALL LETTER U with MACRON
     }
 
     var vowels = {      
@@ -519,6 +534,10 @@ function cyrillic_adjustments(cyr_graphemes) {
                         result.push("\u044C")    // CYRILLIC SMALL LETTER SOFT SIGN
                     }
                     result.push(shortAU[graphemeAfter])
+                    i++
+                }
+                else if (graphemeAfter in longAU) {
+                    result.push(longAU[graphemeAfter])
                     i++
                 }
             }
