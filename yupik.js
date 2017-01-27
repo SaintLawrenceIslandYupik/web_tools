@@ -441,16 +441,14 @@ function latin_to_cyrillic(graphemes) {
 
 function cyrillic_adjustments(cyr_graphemes) {
 
-    // INCOMPLETE: Can be organized better
-
     var shortAU = {
         "\u0430":"\u042F",        // CYRILLIC SMALL LETTER A to SMALL LETTER YA
         "\u0443":"\u042E",        // CYRILLIC SMALL LETTER U to SMALL LETTER YU
     }
 
     var longAU = {
-        "\u0101":"\u044F\u0304",  // CYRILLIC SMALL LETTER A with MACRON
-        "\u04EF":"\u044E\u0304",  // CYRILLIC SMALL LETTER U with MACRON
+        "\u0101":"\u044F\u0304",  // CYRILLIC SMALL LETTER A with MACRON to SMALL LETTER YA WITH MACRON
+        "\u04EF":"\u044E\u0304",  // CYRILLIC SMALL LETTER U with MACRON to SMALL LETTER YU WITH MACRON
     }
 
     var vowels = {      
@@ -523,15 +521,18 @@ function cyrillic_adjustments(cyr_graphemes) {
         for (var i = 0; i < cyr_graphemes.length; i++) {
             var grapheme = cyr_graphemes[i]
 
-            // Adjustment 1 and 2
-            if (grapheme == "\u04E5" && (i < cyr_graphemes.length - 1)) {    // CYRILLIC SMALL LETTER I WITH DIERESIS
+            // ADJUSTMENT 1: The Cyrillic pairings of 'y-a', 'y-u', 'y-aa', 'y-uu'are rewritten
+            // into Cyrillic YA, YU, YA WITH MACRON, YU WITH MACRON respectively
+            // First checks if grapheme is Cyrillic 'y'
+            if (grapheme == "\u04E5" && (i < cyr_graphemes.length - 1)) {    
                 graphemeAfter = cyr_graphemes[i+1]
 
                 if (graphemeAfter in shortAU) {
 
-                    // Adjustment 2
+                    // ADJUSTMENT 2: If ya or yu follow a consonant, insert
+                    // a Cyrillic soft sign between
                     if (i > 0 && !(cyr_graphemes[i-1] in vowels)) {
-                        result.push("\u044C")    // CYRILLIC SMALL LETTER SOFT SIGN
+                        result.push("\u044C")
                     }
                     result.push(shortAU[graphemeAfter])
                     i++
@@ -540,44 +541,34 @@ function cyrillic_adjustments(cyr_graphemes) {
                     result.push(longAU[graphemeAfter])
                     i++
                 }
+                else {
+                    result.push(grapheme)
+                }
             }
  
-            // Adjustment 3
-            else if (i > 0 && grapheme in shortAU) {
-                if (cyr_graphemes[i-1] in lzlls) {
-                    result.push(shortAU[grapheme])
-                } else {
-                    result.push(grapheme)
-                }
+            // ADJUSTMENT 3: The 'a', 'u' Cyrillic representations are rewritten 
+            // if they follow the Cyrillic representations of 'l', 'z', 'll', 's'
+            else if (i > 0 && grapheme in shortAU && cyr_graphemes[i-1] in lzlls) {
+                result.push(shortAU[grapheme])
             }
     
-            // Adjustment - Position of Labialization Symbol
-            else if (i > 0 && grapheme in labialC) {
-                if (cyr_graphemes[i-1] in vowels) {
-                    result.push(labialC[grapheme])
-                } else {
-                    result.push(grapheme)
-                }
+            // ADJUSTMENT - Labialization symbol can appear either before or after
+            // the consonant it labializes. It moves to appear next to a vowel 
+            else if (i > 0 && grapheme in labialC && cyr_graphemes[i-1] in vowels) {
+                result.push(labialC[grapheme])
             }
 
-            // Adjustment - Deletion of 'e' Before Voiceless Consonant Cluster
-            else if (grapheme == "\u044B" && (i < cyr_graphemes.length - 2)) {
-                if (cyr_graphemes[i+1] in voicelessC && cyr_graphemes[i+2] in voicelessC) {
-                    i++
-                }
-                else {
-                    result.push(grapheme)
-                }
+            // Adjustment - Cyrillic representation of 'e' deletes before a voiceless
+            // consonant cluster
+            else if (grapheme == "\u044B" && (i < cyr_graphemes.length - 2) &&
+                     cyr_graphemes[i+1] in voicelessC && cyr_graphemes[i+2] in voicelessC) {
+                result.push("") 
             }
 
-            // Adjustment - Omitting Devoicing Sign For Voiceless Nasals
-            else if (i > 0 && grapheme in voicelessNasals) {
-                if (cyr_graphemes[i-1] in voicelessC) {
-                    result.push(voicelessNasals[grapheme])
-                }
-                else {
-                    result.push(grapheme)
-                }
+            // Adjustment - Devoicing sign is omitted for a voiceless nasal if it
+            // appears after a voiceless consonant
+            else if (i > 0 && grapheme in voicelessNasals && cyr_graphemes[i-1] in voicelessC) {
+                result.push(voicelessNasals[grapheme])
             }
 
             // No adjustments applicable
