@@ -90,7 +90,7 @@ function undouble(graphemes) {
     var doubleable_fricative=new Set(['l', 'r', 'g', 'gh', 'ghw'])
     var doubleable_nasal=new Set(['n', 'm', 'ng', 'ngw'])
 
-    var undoubleable_unvoiced_consonant=new Set(['p', 't', 'k', 'kw', 'q', 'qw'])
+    var undoubleable_unvoiced_consonant=new Set(['p', 't', 'k', 'kw', 'q', 'qw', 'f', 's', 'wh'])
 
     var double={'l'  : 'll',
                 'r'  : 'rr',
@@ -375,7 +375,7 @@ function latin_to_cyrillic(graphemes) {
             "t" :"\u0442",               // CYRILLIC SMALL LETTER TE
             "k" :"\u043A",               // CYRILLIC SMALL LETTER KA
             "kw":"\u043A\u04F1",         // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
-            "q" :"\u049A",               // CYRILLIC SMALL LETTER KA with DESCENDER
+            "q" :"\u049B",               // CYRILLIC SMALL LETTER KA with DESCENDER
             "qw":"\u049A\u04F1",         // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
 
             // Voiced fricatives                                                                                                          
@@ -442,8 +442,8 @@ function latin_to_cyrillic(graphemes) {
 function cyrillic_adjustments(cyr_graphemes) {
 
     var shortAU = {
-        "\u0430":"\u042F",        // CYRILLIC SMALL LETTER A to SMALL LETTER YA
-        "\u0443":"\u042E",        // CYRILLIC SMALL LETTER U to SMALL LETTER YU
+        "\u0430":"\u044F",        // CYRILLIC SMALL LETTER A to SMALL LETTER YA
+        "\u0443":"\u044E",        // CYRILLIC SMALL LETTER U to SMALL LETTER YU
     }
 
     var longAU = {
@@ -510,7 +510,7 @@ function cyrillic_adjustments(cyr_graphemes) {
     // Removes devoicing sign, i.e. Small Letter Soft Sign
     var voicelessNasals = {
             "\u043C\u044C":"\u043C",             // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
-            "\u043D\u044C":"\u043D",              // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
+            "\u043D\u044C":"\u043D",             // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
             "\u04A3\u044C":"\u04A3",             // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
             "\u04A3\u044C\u04F1":"\u04A3\u04F1", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN
                                                  // & SMALL LETTER U with DIERESIS
