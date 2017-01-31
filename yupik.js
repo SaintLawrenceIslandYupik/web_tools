@@ -122,7 +122,7 @@ function undouble(graphemes) {
             i += 2
 		}
         // Rule 2                                                                                                                         
-        else if (undoubleable_unvoiced_consonant.has(first) && doubleable_nasal.has(second)) {
+        else if (undoubleable_unvoiced_consonant.has(first) ||  && doubleable_nasal.has(second)) {
             result[i+1] = double[second]
             i += 2
 		}
@@ -376,7 +376,7 @@ function latin_to_cyrillic(graphemes) {
             "k" :"\u043A",               // CYRILLIC SMALL LETTER KA
             "kw":"\u043A\u04F1",         // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
             "q" :"\u049B",               // CYRILLIC SMALL LETTER KA with DESCENDER
-            "qw":"\u049A\u04F1",         // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
+            "qw":"\u049B\u04F1",         // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
 
             // Voiced fricatives                                                                                                          
             "v"  :"\u0432",              // CYRILLIC SMALL LETTER VE
@@ -385,7 +385,7 @@ function latin_to_cyrillic(graphemes) {
             "y"  :"\u04E5",              // CYRILLIC SMALL LETTER U with DIERESIS
             "r"  :"\u043F",              // CYRILLIC SMALL LETTER ER
             "g"  :"\u0433",              // CYRILLIC SMALL LETTER GHE
-            "w"  :"\u004F1",             // CYRILLIC SMALL LETTER U with DIERESIS 
+            "w"  :"\u04F1",             // CYRILLIC SMALL LETTER U with DIERESIS 
             "gh" :"\u04F7",              // CYRILLIC SMALL LETTER GHE with DESCENDER
             "ghw":"\u04F7\u04F1",        // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
 
@@ -471,7 +471,7 @@ function cyrillic_adjustments(cyr_graphemes) {
     // Swaps position of the labialization symbol, i.e. Small Letter U with Dieresis
     var labialC = {
         "\u043A\u04F1":"\u04F1\u043A",             // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
-        "\u049A\u04F1":"\u04F1\u049A",             // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
+        "\u049B\u04F1":"\u04F1\u049B",             // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
         "\u04F7\u04F1":"\u04F1\u04F7",             // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
         "\u0445\u04F1":"\u04F1\u0445",             // CYRILLIC SMALL LETTER HA and SMALL LETTER U with DIERESIS
         "\u04B3\u04F1":"\u04F1\u04B3",             // CYRILLIC SMALL LETTER HA with DESCENDER and SMALL LETTER U with DIERESIS
@@ -486,8 +486,8 @@ function cyrillic_adjustments(cyr_graphemes) {
             "\u0442":"t",                 // CYRILLIC SMALL LETTER TE
             "\u043A":"k",                 // CYRILLIC SMALL LETTER KA
             "\u043A\u04F1":"kw",          // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
-            "\u049A":"q",                 // CYRILLIC SMALL LETTER KA with DESCENDER
-            "\u049A\u04F1":"qw",          // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
+            "\u049B":"q",                 // CYRILLIC SMALL LETTER KA with DESCENDER
+            "\u049B\u04F1":"qw",          // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
 
             // Voiceless fricatives                                                                                                       
             "\u0444":"ff",                // CYRILLIC SMALL LETTER EF
