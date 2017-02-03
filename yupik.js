@@ -576,15 +576,6 @@ function cyrillic_adjustments(cyr_graphemes) {
     return result
 }
 
-function contains(a, obj) {
-    var i = a.length;
-    while (i--) {
-       if (a[i] === obj) {
-           return true;
-       }
-    }
-    return false;
-}
 
 function syllabify_stress(graphemes) {
 
@@ -612,9 +603,6 @@ function syllabify_stress(graphemes) {
     var syllables = []
     var syllable_count = 1
 
-    var merged_cv = []
-    var j = 0  // Counter to help merge c_v into syllables
-
     for (var i = 0; i < c_v.length; i++) {
         var grapheme = c_v[i]
 
@@ -622,64 +610,60 @@ function syllabify_stress(graphemes) {
             if (i == 0) {
                 syllables.push(graphemes[i])
             } else if (i == c_v.length - 1) {
-                syllables.push(graphemes[i])
-                syllables.push(syllable_count)
-
-                merged_cv.push(c_v.slice(j).join(""))
+                syllables.push(graphemes[i], syllable_count)
             } else {
                 if (c_v[i+1] == "c") {
                     syllables.push(graphemes[i], syllable_count, "/")
                     syllable_count += 1
-
-                    merged_cv.push(c_v.slice(j, i+1).join(""))
-                    j = i+1
                 } else if (c_v[i-1] == "v") {
                     syllables.push(syllable_count, "/", graphemes[i])
                     syllable_count += 1
-
-                    merged_cv.push(c_v.slice(j, i).join(""))
-                    j = i
                 } else if (c_v[i-1] == "c") {
                     syllables.push(graphemes[i])
                 }
             }
         }
         else {
-            syllables.push(graphemes[i])
+            if (i == c_v.length - 1) {
+                syllables.push(graphemes[i], syllable_count)
+            } else {
+                syllables.push(graphemes[i])
+            }
         }
+    }
+
+
+    acuteStress = {
+        "i":"í",
+        "a":"á",
+        "u":"ú",
+    }
+
+    circumflexStress = {
+        "i":"î",
+        "a":"â",
+        "u":"û",
     }
 
     // Mark stress patterns
     var result = []
+    var vowel_count = 0 
 
-    for (var i = 0; i < merged_cv.length; i++) {
-        if (i == merged_cv.length - 1 && i % 2 != 0) {
-            result.push(" specialCase")
-        }
+    for (var i = 0; i < syllables.length; i++) {
+        grapheme = syllables[i]
 
-        else if (i > 0 && i % 2 != 0) {
-            // Closed Syllables - Circumflex
-            if (merged_cv[i].slice(-1) == "c") {
-                if (merged_cv[i].indexOf("vv") != -1) {
-                    result.push(" closedLong ")
-                } else {
-                    result.push(" closedShort ")
-                }
-            }
-            // Open Syllables - Acute Accent
-            else {
-                if (merged_cv[i].indexOf("vv") != -1) {
-                    result.push(" openLong ")
-                } else {
-                    result.push(" openShort ")
-                }
-            }
+        if (vowels.has(grapheme) && vowel_count > 0 && vowel_count % 2 == 0) {
+            result.push("HI")
         }
-        // No stress marking applicable
         else {
-            result.push("noStress")
+            if (vowels.has(grapheme)) {
+                vowel_count += 1
+                result.push(grapheme, "HI")
+            } else {
+                result.push(grapheme)
+            }
         }
     }
-
-    return result
+ 
+    return syllables
 }
