@@ -577,13 +577,9 @@ function cyrillic_adjustments(cyr_graphemes) {
 }
 
 
-function syllabify_stress(graphemes) {
+function syllabify(graphemes, vowels) {
 
     // Convert graphemes to consonant "c" or vowel "v"
-    var vowels = new Set(['i', 'a', 'u', 'e'])
-
-    var consonants = new Set(['ngngw', 'ghhw', 'ngng', 'ghh', 'ghw', 'ngw', 'gg', 'gh', 'kw', 'll', 'mm', 'ng', 'nn', 'qw', 'rr', 'wh', 'f', 'g', 'h', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y', 'z'])
-
     var c_v = []
 
     for (var i = 0; i < graphemes.length; i++) {
@@ -591,16 +587,14 @@ function syllabify_stress(graphemes) {
 
         if (vowels.has(grapheme)) {
             c_v.push("v")
-        } else if (consonants.has(grapheme)) {
+        } else {
             c_v.push("c")
-        }
-        else {
-            c_v.push(grapheme)
         }
     }
 
     // Define syllable boundaries
-    var syllables = []
+    var syllableList = []
+    var syllable = []
     var syllable_count = 1
 
     for (var i = 0; i < c_v.length; i++) {
@@ -608,30 +602,44 @@ function syllabify_stress(graphemes) {
 
         if (grapheme == "c") {
             if (i == 0) {
-                syllables.push(graphemes[i])
+                syllable.push(graphemes[i])
             } else if (i == c_v.length - 1) {
-                syllables.push(graphemes[i], syllable_count)
+                syllable.push(graphemes[i], syllable_count)
+                syllableList.push(syllable)
+                syllable = []
             } else {
                 if (c_v[i+1] == "c") {
-                    syllables.push(graphemes[i], syllable_count, "/")
+                    syllable.push(graphemes[i], syllable_count, "/")
+                    syllableList.push(syllable)
+                    syllable = []
                     syllable_count += 1
                 } else if (c_v[i-1] == "v") {
-                    syllables.push(syllable_count, "/", graphemes[i])
+                    syllable.push(syllable_count, "/")
+                    syllableList.push(syllable)
                     syllable_count += 1
+
+                    syllable = []
+                    syllable.push(graphemes[i])
                 } else if (c_v[i-1] == "c") {
-                    syllables.push(graphemes[i])
+                    syllable.push(graphemes[i])
                 }
             }
         }
         else {
             if (i == c_v.length - 1) {
-                syllables.push(graphemes[i], syllable_count)
+                syllable.push(graphemes[i], syllable_count)
+                syllableList.push(syllable)
+                syllable = []
             } else {
-                syllables.push(graphemes[i])
+                syllable.push(graphemes[i])
             }
         }
-    }
+    } // End 'for' Loop
 
+    return syllableList
+}
+
+function stress(graphemeList) {
 
     acuteStress = {
         "i":"í",
@@ -652,6 +660,7 @@ function syllabify_stress(graphemes) {
     for (var i = 0; i < syllables.length; i++) {
         grapheme = syllables[i]
 
+        // First and last syllables receive no stress
         if (vowels.has(grapheme) && vowel_count > 0 && vowel_count % 2 == 0) {
             result.push("HI")
         }
@@ -664,6 +673,4 @@ function syllabify_stress(graphemes) {
             }
         }
     }
- 
-    return syllables
 }
