@@ -576,10 +576,17 @@ function cyrillic_adjustments(cyr_graphemes) {
     return result
 }
 
+function contains(a, obj) {
+    var i = a.length;
+    while (i--) {
+       if (a[i] === obj) {
+           return true;
+       }
+    }
+    return false;
+}
 
 function syllabify_stress(graphemes) {
-
-    var letters = graphemes.slice(0) // Copy the list of graphemes
 
     // Convert graphemes to consonant "c" or vowel "v"
     var vowels = new Set(['i', 'a', 'u', 'e'])
@@ -597,44 +604,82 @@ function syllabify_stress(graphemes) {
             c_v.push("c")
         }
         else {
-            result.push(grapheme)
+            c_v.push(grapheme)
         }
     }
 
     // Define syllable boundaries
-    var result = []
-    var syllable_count = 1 
+    var syllables = []
+    var syllable_count = 1
+
+    var merged_cv = []
+    var j = 0  // Counter to help merge c_v into syllables
 
     for (var i = 0; i < c_v.length; i++) {
         var grapheme = c_v[i]
 
         if (grapheme == "c") {
             if (i == 0) {
-                result.push(letters[i])
+                syllables.push(graphemes[i])
             } else if (i == c_v.length - 1) {
-                result.push(letters[i])
-                result.push(syllable_count)
+                syllables.push(graphemes[i])
+                syllables.push(syllable_count)
+
+                merged_cv.push(c_v.slice(j).join(""))
             } else {
                 if (c_v[i+1] == "c") {
-                    result.push(letters[i])
-                    result.push(syllable_count)
-                    result.push("/")
+                    syllables.push(graphemes[i], syllable_count, "/")
                     syllable_count += 1
+
+                    merged_cv.push(c_v.slice(j, i+1).join(""))
+                    j = i+1
                 } else if (c_v[i-1] == "v") {
-                    result.push(syllable_count)
-                    result.push("/")
-                    result.push(letters[i])
+                    syllables.push(syllable_count, "/", graphemes[i])
                     syllable_count += 1
+
+                    merged_cv.push(c_v.slice(j, i).join(""))
+                    j = i
                 } else if (c_v[i-1] == "c") {
-                    result.push(letters[i])
+                    syllables.push(graphemes[i])
                 }
             }
         }
         else {
-            result.push(letters[i])
+            syllables.push(graphemes[i])
         }
     }
-        
-    return result	
-}
 
+    // Mark stress patterns
+    var result = []
+
+    for (var i = 0; i < merged_cv.length; i++) {
+        if (i == merged_cv.length - 1 && i % 2 != 0) {
+            result.push(" specialCase")
+        }
+
+        else if (i > 0 && i % 2 != 0) {
+            // Closed Syllables - Circumflex
+            if (merged_cv[i].slice(-1) == "c") {
+                if (merged_cv[i].indexOf("vv") != -1) {
+                    result.push(" closedLong ")
+                } else {
+                    result.push(" closedShort ")
+                }
+            }
+            // Open Syllables - Acute Accent
+            else {
+                if (merged_cv[i].indexOf("vv") != -1) {
+                    result.push(" openLong ")
+                } else {
+                    result.push(" openShort ")
+                }
+            }
+        }
+        // No stress marking applicable
+        else {
+            result.push("noStress")
+        }
+    }
+
+    return result
+}
