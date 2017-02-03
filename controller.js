@@ -11,13 +11,16 @@ document.getElementById("button1").onclick = function() {
         var tokenized_cyrillic         = latin_to_cyrillic(undoubled)
         var adjusted_cyrillic          = cyrillic_adjustments(tokenized_cyrillic)
 
+        var syllabified                = syllabify_stress(tokenized)
+
 	us_ess.innerHTML               = tokens_to_string(tokenized_with_apostrophes)
 	us_ess_undoubled.innerHTML     = tokens_to_string(undoubled)
 	ipa.innerHTML                  = tokens_to_string(phonetic_ipa)
 	krauss1975.innerHTML           = tokens_to_string(phonetic_krauss1975)
 	nagai2001.innerHTML            = tokens_to_string(phonetic_nagai2001)
         ru_ess.innerHTML               = tokens_to_string(adjusted_cyrillic)
-	
+
+        syllable_stress.innerHTML      = tokens_to_string(syllabified)	
 };
 
 

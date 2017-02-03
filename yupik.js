@@ -122,7 +122,7 @@ function undouble(graphemes) {
             i += 2
 		}
         // Rule 2                                                                                                                         
-        else if (undoubleable_unvoiced_consonant.has(first) ||  && doubleable_nasal.has(second)) {
+        else if (undoubleable_unvoiced_consonant.has(first) && doubleable_nasal.has(second)) {
             result[i+1] = double[second]
             i += 2
 		}
@@ -145,8 +145,6 @@ function undouble(graphemes) {
 	return result
 
 }
-
-
 
 
 function graphemes_to_phonemes_ipa(graphemes) {
@@ -353,9 +351,6 @@ function graphemes_to_phonemes_nagai2001(graphemes) {
 
 function latin_to_cyrillic(graphemes) {
     
-    // Grammar says that 'w' is often written as 'ry', not just 'y'
-    // Should we implement it as 'y' or 'ry'?
-
     var shortVowels = {
             "i":"\u0438",                // CYRILLIC SMALL LETTER I 
             "a":"\u0430",                // CYRILLIC SMALL LETTER A
@@ -385,7 +380,7 @@ function latin_to_cyrillic(graphemes) {
             "y"  :"\u04E5",              // CYRILLIC SMALL LETTER U with DIERESIS
             "r"  :"\u043F",              // CYRILLIC SMALL LETTER ER
             "g"  :"\u0433",              // CYRILLIC SMALL LETTER GHE
-            "w"  :"\u04F1",             // CYRILLIC SMALL LETTER U with DIERESIS 
+            "w"  :"\u04F1",              // CYRILLIC SMALL LETTER U with DIERESIS 
             "gh" :"\u04F7",              // CYRILLIC SMALL LETTER GHE with DESCENDER
             "ghw":"\u04F7\u04F1",        // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
 
@@ -580,3 +575,66 @@ function cyrillic_adjustments(cyr_graphemes) {
 
     return result
 }
+
+
+function syllabify_stress(graphemes) {
+
+    var letters = graphemes.slice(0) // Copy the list of graphemes
+
+    // Convert graphemes to consonant "c" or vowel "v"
+    var vowels = new Set(['i', 'a', 'u', 'e'])
+
+    var consonants = new Set(['ngngw', 'ghhw', 'ngng', 'ghh', 'ghw', 'ngw', 'gg', 'gh', 'kw', 'll', 'mm', 'ng', 'nn', 'qw', 'rr', 'wh', 'f', 'g', 'h', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y', 'z'])
+
+    var c_v = []
+
+    for (var i = 0; i < graphemes.length; i++) {
+        var grapheme = graphemes[i]
+
+        if (vowels.has(grapheme)) {
+            c_v.push("v")
+        } else if (consonants.has(grapheme)) {
+            c_v.push("c")
+        }
+        else {
+            result.push(grapheme)
+        }
+    }
+
+    // Define syllable boundaries
+    var result = []
+    var syllable_count = 1 
+
+    for (var i = 0; i < c_v.length; i++) {
+        var grapheme = c_v[i]
+
+        if (grapheme == "c") {
+            if (i == 0) {
+                result.push(letters[i])
+            } else if (i == c_v.length - 1) {
+                result.push(letters[i])
+                result.push(syllable_count)
+            } else {
+                if (c_v[i+1] == "c") {
+                    result.push(letters[i])
+                    result.push(syllable_count)
+                    result.push("/")
+                    syllable_count += 1
+                } else if (c_v[i-1] == "v") {
+                    result.push(syllable_count)
+                    result.push("/")
+                    result.push(letters[i])
+                    syllable_count += 1
+                } else if (c_v[i-1] == "c") {
+                    result.push(letters[i])
+                }
+            }
+        }
+        else {
+            result.push(letters[i])
+        }
+    }
+        
+    return result	
+}
+
