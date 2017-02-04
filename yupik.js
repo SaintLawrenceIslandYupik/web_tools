@@ -592,8 +592,8 @@ function syllabify(graphemes, vowels) {
         }
     }
 
-    // Define syllable boundaries
-    var syllableList = []
+    // Define syllable boundaries, between 'c' and 'c' & 'v' and 'c'
+    var result = []    // A list of lists, where each embedded list is a syllable
     var syllable = []
     var syllable_count = 1
 
@@ -605,17 +605,19 @@ function syllabify(graphemes, vowels) {
                 syllable.push(graphemes[i])
             } else if (i == c_v.length - 1) {
                 syllable.push(graphemes[i], syllable_count)
-                syllableList.push(syllable)
+                result.push(syllable)
+
                 syllable = []
             } else {
                 if (c_v[i+1] == "c") {
                     syllable.push(graphemes[i], syllable_count, "/")
-                    syllableList.push(syllable)
-                    syllable = []
+                    result.push(syllable)
                     syllable_count += 1
+
+                    syllable = []
                 } else if (c_v[i-1] == "v") {
                     syllable.push(syllable_count, "/")
-                    syllableList.push(syllable)
+                    result.push(syllable)
                     syllable_count += 1
 
                     syllable = []
@@ -628,7 +630,8 @@ function syllabify(graphemes, vowels) {
         else {
             if (i == c_v.length - 1) {
                 syllable.push(graphemes[i], syllable_count)
-                syllableList.push(syllable)
+                result.push(syllable)
+
                 syllable = []
             } else {
                 syllable.push(graphemes[i])
@@ -636,41 +639,74 @@ function syllabify(graphemes, vowels) {
         }
     } // End 'for' Loop
 
-    return syllableList
+    return result 
 }
 
-function stress(graphemeList) {
+
+function stress(syllableList, vowels) {
 
     acuteStress = {
         "i":"í",
         "a":"á",
         "u":"ú",
+        "e":"e",
     }
 
     circumflexStress = {
         "i":"î",
         "a":"â",
         "u":"û",
+        "e":"e",
     }
+
 
     // Mark stress patterns
     var result = []
-    var vowel_count = 0 
+    var vowel_count = 0
 
-    for (var i = 0; i < syllables.length; i++) {
-        grapheme = syllables[i]
+    for (var s = 0; s < syllableList.length; s++) {
+        for (var i = 0; i < syllableList[s].length; i++) {
+            grapheme = syllableList[s][i]
 
-        // First and last syllables receive no stress
-        if (vowels.has(grapheme) && vowel_count > 0 && vowel_count % 2 == 0) {
-            result.push("HI")
-        }
-        else {
             if (vowels.has(grapheme)) {
                 vowel_count += 1
-                result.push(grapheme, "HI")
+
+                if ((vowel_count % 2 == 0) && (s != syllableList.length - 1)) {
+                    before = syllableList[s][i-1]
+                    after = syllableList[s][i+1]
+                    after2 = syllableList[s][i+2]
+                    // Closed syllable
+                    if (isAlpha(after.toString()) && !vowels.has(after)) {
+                        result.push(acuteStress[grapheme])
+                    }
+                    // Considers long vowels
+                    else if (isAlpha(after.toString()) && vowels.has(after)) {
+                        // Closed syllable
+                        if (isAlpha(after2.toString()) && !vowels.has(after2)) {
+                            result.push(grapheme, acuteStress[grapheme])
+                            i += 1
+                        }
+                        // Open syllable
+                        else {
+                            result.push(grapheme, circumflexStress[grapheme])
+                            i += 1
+                        }
+                    }
+                    // Open syllable, short vowel
+                    else if (isAlpha(before.toString()) && vowels.has(before))  {
+                        result.push(acuteStress[grapheme])
+                    } else { result.push(circumflexStress[grapheme]) }
+
+                } else {
+                    result.push(grapheme)
+                }
+
             } else {
                 result.push(grapheme)
             }
-        }
-    }
+          
+        } // End syllable 'for' Loop
+    } // End syllableList 'for' Loop
+
+    return result
 }

@@ -13,6 +13,7 @@ document.getElementById("button1").onclick = function() {
 
         var latin_vowels = new Set(['i', 'a', 'u', 'e'])
         var latin_syllabified          = syllabify(tokenized, latin_vowels)
+        var latin_stressed             = stress(latin_syllabified, latin_vowels)
 
 	us_ess.innerHTML               = tokens_to_string(tokenized_with_apostrophes)
 	us_ess_undoubled.innerHTML     = tokens_to_string(undoubled)
@@ -21,7 +22,7 @@ document.getElementById("button1").onclick = function() {
 	nagai2001.innerHTML            = tokens_to_string(phonetic_nagai2001)
         ru_ess.innerHTML               = tokens_to_string(adjusted_cyrillic)
 
-        latin_syllables.innerHTML   = tokens_to_string(latin_syllabified)	
+        latin_stress.innerHTML         = tokens_to_string(latin_stressed)
 };
 
 
