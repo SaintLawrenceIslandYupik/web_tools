@@ -645,18 +645,18 @@ function syllabify(graphemes, vowels) {
 
 function stress(syllableList, vowels) {
 
-    acuteStress = {
+    acute = {
         "i":"í",
         "a":"á",
         "u":"ú",
-        "e":"e",
+        "e":"é",
     }
 
-    circumflexStress = {
+    circumflex = {
         "i":"î",
         "a":"â",
         "u":"û",
-        "e":"e",
+        "e":"é",
     }
 
 
@@ -670,37 +670,37 @@ function stress(syllableList, vowels) {
 
             if (vowels.has(grapheme)) {
                 vowel_count += 1
-
+                // Stress applicable
                 if ((vowel_count % 2 == 0) && (s != syllableList.length - 1)) {
                     before = syllableList[s][i-1]
                     after = syllableList[s][i+1]
                     after2 = syllableList[s][i+2]
-                    // Closed syllable
-                    if (isAlpha(after.toString()) && !vowels.has(after)) {
-                        result.push(acuteStress[grapheme])
-                    }
-                    // Considers long vowels
-                    else if (isAlpha(after.toString()) && vowels.has(after)) {
-                        // Closed syllable
-                        if (isAlpha(after2.toString()) && !vowels.has(after2)) {
-                            result.push(grapheme, acuteStress[grapheme])
-                            i += 1
-                        }
-                        // Open syllable
-                        else {
-                            result.push(grapheme, circumflexStress[grapheme])
-                            i += 1
-                        }
-                    }
-                    // Open syllable, short vowel
-                    else if (isAlpha(before.toString()) && vowels.has(before))  {
-                        result.push(acuteStress[grapheme])
-                    } else { result.push(circumflexStress[grapheme]) }
 
+                    if (vowels.has(after) && !isAlpha(after2.toString())) {
+                        result.push(grapheme, circumflex[grapheme])
+                        i += 1
+                    }
+                    else if (vowels.has(after) && !vowels.has(after2)) {
+                        result.push(grapheme, acute[grapheme])
+                        i += 1
+                    }
+                    else if (vowels.has(before) && !isAlpha(after.toString())) {
+                        result.push(acute[grapheme])
+                    }
+                    else if (vowels.has(before) && !vowels.has(after)) {
+                        result.push(acute[grapheme])
+                    }
+                    else if (!vowels.has(before) && !isAlpha(after.toString())) {
+                        result.push(circumflex[grapheme])
+                    }
+                    else if (!vowels.has(before) && !vowels.has(after)) {
+                        result.push(acute[grapheme])
+                    } 
+                // Vowel where stress is not applicable
                 } else {
                     result.push(grapheme)
                 }
-
+            // Consonants, syllable boundaries where stress is not applicable
             } else {
                 result.push(grapheme)
             }
