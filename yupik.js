@@ -650,6 +650,11 @@ function stress(syllableList, vowels) {
         "a":"á",
         "u":"ú",
         "e":"é",
+
+        "\u0438":"\u0438\u0301",    // CYRILLIC SMALL LETTER I to I with ACUTE ACCENT
+        "\u0430":"\u0430\u0301",    // CYRILLIC SMALL LETTER A to A with ACUTE ACCENT
+        "\u0443":"\u0443\u0301",    // CYRILLIC SMALL LETTER U to U with ACUTE ACCENT
+        "\u044B":"\u044B\u0301",    // CYRILLIC SMALL LETTER YERU to YERU with ACUTE ACCENT
     }
 
     circumflex = {
@@ -657,6 +662,11 @@ function stress(syllableList, vowels) {
         "a":"â",
         "u":"û",
         "e":"é",
+
+        "\u0438":"\u0438\u0302",    // CYRILLIC SMALL LETTER I to I with CIRCUMFLEX
+        "\u0430":"\u0430\u0302",    // CYRILLIC SMALL LETTER A to A with CIRCUMFLEX
+        "\u0443":"\u0443\u0302",    // CYRILLIC SMALL LETTER U to U with CIRCUMFLEX
+        "\u044B":"\u044B\u0302",    // CYRILLIC SMALL LETTER YERU to YERU with ACUTE ACCENT
     }
 
 
