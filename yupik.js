@@ -143,7 +143,6 @@ function undouble(graphemes) {
 	}
 	
 	return result
-
 }
 
 
@@ -172,8 +171,8 @@ function graphemes_to_phonemes_ipa(graphemes) {
             "r"  :"\u027B",              // LATIN SMALL LETTER TURNED R WITH HOOK
             "g"  :"\u0263",              // LATIN SMALL LETTER GAMMA
             "w"  :"\u0263\u02B7",        // LATIN SMALL LETTER GAMMA                       with MODIFIER LETTER SMALL W
-            "gh" :"\u0281",               // LATIN LATTER SMALL CAPITAL INVERTED R
-            "ghw":"\u0281\u02B7",         // LATIN LATTER SMALL CAPITAL INVERTED R          with MODIFIER LETTER SMALL W
+            "gh" :"\u0281",              // LATIN LATTER SMALL CAPITAL INVERTED R
+            "ghw":"\u0281\u02B7",        // LATIN LATTER SMALL CAPITAL INVERTED R          with MODIFIER LETTER SMALL W
 
             // Voiceless fricatives                                                                                                       
             "f"   :"\u0066",             // LATIN SMALL LETTER F
@@ -193,8 +192,8 @@ function graphemes_to_phonemes_ipa(graphemes) {
             "ngw":"\u014B\u02B7",        // LATIN SMALL LETTER ENG                          with MODIFIER LETTER SMALL W
 
             // Voiceless nasals                                                                                                           
-            "mm":"\u006D\u0325",         // LATIN SMALL LETTER M   with COMBINING RING BELOW
-            "nn":"\u006E\u0325",         // LATIN SMALL LETTER N   with COMBINING RING BELOW
+            "mm":"\u006D\u0325",          // LATIN SMALL LETTER M   with COMBINING RING BELOW
+            "nn":"\u006E\u0325",          // LATIN SMALL LETTER N   with COMBINING RING BELOW
             "ngng":"\u014B\u030A",        // LATIN SMALL LETTER ENG with COMBINING RING ABOVE
             "ngngw":"\u014B\u030A\u02B7", // LATIN SMALL LETTER ENG with COMBINING RING ABOVE and MODIFIER LETTER SMALL W
           }
@@ -431,7 +430,8 @@ function cyrillic_adjust_doubleVowel(graphemes) {
         "\u0438":"\u04E3",    // CYRILLIC SMALL LETTER I to I with MACRON
         "\u0430":"\u0101",    // CYRILLIC SMALL LETTER A to A with MACRON
         "\u0443":"\u04EF",    // CYRILLIC SMALL LETTER U to U with MACRON
-        
+
+        // TODO: These display poorly. Needs fixing! 
         "\u0438\u0301":"\u04E3\u0301",    // CYRILLIC SMALL LETTER I to I with ACUTE ACCENT 
         "\u0430\u0301":"\u0101\u0301",    // CYRILLIC SMALL LETTER A to A with ACUTE ACCENT
         "\u0443\u0301":"\u04EF\u0301",    // CYRILLIC SMALL LETTER U to U with ACUTE ACCENT 
@@ -687,6 +687,11 @@ function stress(syllableList, vowels) {
         "u":"ú",
         "e":"é",
 
+        "\u0069":"\u0069\u0301",    // LATIN SMALL LETTER I to I with ACUTE ACCENT
+        "\u0251":"\u0251\u0301",    // LATIN SMALL LETTER ALPHA to ALPHA with ACUTE ACCENT
+        "\u0075":"\u0075\u0301",    // LATIN SMALL LETTER U to U with ACUTE ACCENT
+        "\u0259":"\u0259\u0301",    // LATIN SMALL LETTER SCHWA to SCHWA with ACUTE ACCENT
+
         "\u0438":"\u0438\u0301",    // CYRILLIC SMALL LETTER I to I with ACUTE ACCENT
         "\u0430":"\u0430\u0301",    // CYRILLIC SMALL LETTER A to A with ACUTE ACCENT
         "\u0443":"\u0443\u0301",    // CYRILLIC SMALL LETTER U to U with ACUTE ACCENT
@@ -698,6 +703,11 @@ function stress(syllableList, vowels) {
         "a":"â",
         "u":"û",
         "e":"é",
+
+        "\u0069":"\u0069\u0302",    // LATIN SMALL LETTER I to I with ACUTE ACCENT
+        "\u0251":"\u0251\u0302",    // LATIN SMALL LETTER ALPHA to ALPHA with ACUTE ACCENT
+        "\u0075":"\u0075\u0302",    // LATIN SMALL LETTER U to U with ACUTE ACCENT
+        "\u0259":"\u0259\u0302",    // LATIN SMALL LETTER SCHWA to SCHWA with ACUTE ACCENT
 
         "\u0438":"\u0438\u0302",    // CYRILLIC SMALL LETTER I to I with CIRCUMFLEX
         "\u0430":"\u0430\u0302",    // CYRILLIC SMALL LETTER A to A with CIRCUMFLEX
