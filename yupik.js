@@ -432,13 +432,13 @@ function cyrillic_adjust_doubleVowel(graphemes) {
         "\u0443":"\u04EF",    // CYRILLIC SMALL LETTER U to U with MACRON
 
         // TODO: These display poorly. Needs fixing! 
-        "\u0438\u0301":"\u04E3\u0301",    // CYRILLIC SMALL LETTER I to I with ACUTE ACCENT 
-        "\u0430\u0301":"\u0101\u0301",    // CYRILLIC SMALL LETTER A to A with ACUTE ACCENT
-        "\u0443\u0301":"\u04EF\u0301",    // CYRILLIC SMALL LETTER U to U with ACUTE ACCENT 
+        "\u0438\u0301":"\u04E3\u0301",    // CYRILLIC SMALL LETTER I with ACUTE ACCENT to I with MACRON and ACUTE ACCENT 
+        "\u0430\u0301":"\u0101\u0301",    // CYRILLIC SMALL LETTER A with ACUTE ACCENT to A with MACRON and ACUTE ACCENT
+        "\u0443\u0301":"\u04EF\u0301",    // CYRILLIC SMALL LETTER U with ACUTE ACCENT to U with MACRON and ACUTE ACCENT 
         
-        "\u0438\u0302":"\u04E3\u0302",    // CYRILLIC SMALL LETTER I to I with CIRCUMFLEX
-        "\u0430\u0302":"\u0101\u0302",    // CYRILLIC SMALL LETTER A to A with CIRCUMFLEX
-        "\u0443\u0302":"\u04EF\u0302",    // CYRILLIC SMALL LETTER U to U with CIRCUMFLEX 
+        "\u0438\u0302":"\u04E3\u0302",    // CYRILLIC SMALL LETTER I with CIRCUMFLEX to I with MACRON and CIRCUMFLEX
+        "\u0430\u0302":"\u0101\u0302",    // CYRILLIC SMALL LETTER A with CIRCUMFLEX to A with MACRON and CIRCUMFLEX
+        "\u0443\u0302":"\u04EF\u0302",    // CYRILLIC SMALL LETTER U with CIRCUMFLEX to U with MACRON and CIRCUMFLEX 
     }
 
     var stressedVowel = new Set(['\u0438\u0301', '\u0430\u0301', '\u0443\u0301', '\u0438\u0302', '\u0430\u0302', '\u0443\u0302'])
@@ -455,7 +455,7 @@ function cyrillic_adjust_doubleVowel(graphemes) {
                  if (graphemes[i-1] in doubleVowel) {
                      result[i-1] = doubleVowel[grapheme]
                  } else {
-                     result.push(doubleVowel[grapheme])
+                     result.push(grapheme)
                  }
              } else if (grapheme in doubleVowel && stressedVowel.has(grapheme)) {
                  result.push(doubleVowel[grapheme])
@@ -476,11 +476,15 @@ function cyrillic_adjustments(graphemes) {
     var shortAU = {
         "\u0430":"\u044F",        // CYRILLIC SMALL LETTER A to SMALL LETTER YA
         "\u0443":"\u044E",        // CYRILLIC SMALL LETTER U to SMALL LETTER YU
+
+        "\u00E2":"hi",
     }
 
     var longAU = {
         "\u0101":"\u044F\u0304",  // CYRILLIC SMALL LETTER A with MACRON to SMALL LETTER YA WITH MACRON
         "\u04EF":"\u044E\u0304",  // CYRILLIC SMALL LETTER U with MACRON to SMALL LETTER YU WITH MACRON
+
+        "\u0101\u0301":"\u044F\u0304\u0301",
     }
 
     var vowels = {      
@@ -557,19 +561,19 @@ function cyrillic_adjustments(graphemes) {
             // into Cyrillic YA, YU, YA WITH MACRON, YU WITH MACRON respectively
             // First checks if grapheme is Cyrillic 'y'
             if (grapheme == "\u04E5" && (i < cyr_graphemes.length - 1)) {    
-                graphemeAfter = cyr_graphemes[i+1]
+                after = cyr_graphemes[i+1]
 
-                if (graphemeAfter in shortAU) {
-
+                if (after in shortAU) {
+                    
                     // ADJUSTMENT 2: If ya or yu follow a consonant, insert a Cyrillic soft sign between
                     if (i > 0 && !(cyr_graphemes[i-1] in vowels)) {
                         result.push("\u044C")
                     }
-                    result.push(shortAU[graphemeAfter])
+                    result.push(shortAU[after])
                     i++
                 }
-                else if (graphemeAfter in longAU) {
-                    result.push(longAU[graphemeAfter])
+                else if (after in longAU) {
+                    result.push(longAU[after])
                     i++
                 }
                 else {
