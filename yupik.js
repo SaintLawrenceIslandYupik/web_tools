@@ -349,6 +349,7 @@ function graphemes_to_phonemes_nagai2001(graphemes) {
 	return result
 }
 
+// Transliterates Latin letters to Cyrillic letters one-to-one
 function latin_to_cyrillic(graphemes) {
     
     var shortVowels = {
@@ -358,12 +359,6 @@ function latin_to_cyrillic(graphemes) {
             "e":"\u044B",                // CYRILLIC SMALL LETTER YERU
     }
 
-    var longVowels = {
-            "i":"\u04E3",               // CYRILLIC SMALL LETTER I with MACRON
-            "a": "\u0101",              // CYRILLIC SMALL LETTER A with MACRON
-            "u": "\u04EF",              // CYRILLIC SMALL LETTER U with MACRON
-    }
- 
     var consonants= {
             // Stops                                                                                                                      
             "p" :"\u043F",               // CYRILLIC SMALL LETTER PE
@@ -414,14 +409,8 @@ function latin_to_cyrillic(graphemes) {
          for (var i = 0; i < graphemes.length; i++) {
              var grapheme = graphemes[i]
 
-             if (i < graphemes.length && grapheme in shortVowels) {
-                 if (grapheme == graphemes[i+1]) {
-                     result.push(longVowels[grapheme])
-                     i++
-                 }
-                 else {
-                     result.push(shortVowels[grapheme])
-                 }
+             if (grapheme in shortVowels) {
+                 result.push(shortVowels[grapheme])
              }
              else if (grapheme in consonants) {
                  result.push(consonants[grapheme])
@@ -434,7 +423,55 @@ function latin_to_cyrillic(graphemes) {
 	return result
 }
 
-function cyrillic_adjustments(cyr_graphemes) {
+// Rewrites all double (long) vowels into their Cyrillic single vowel counterpart
+function cyrillic_adjust_doubleVowel(graphemes) {
+
+    var doubleVowel = {
+
+        "\u0438":"\u04E3",    // CYRILLIC SMALL LETTER I to I with MACRON
+        "\u0430":"\u0101",    // CYRILLIC SMALL LETTER A to A with MACRON
+        "\u0443":"\u04EF",    // CYRILLIC SMALL LETTER U to U with MACRON
+        
+        "\u0438\u0301":"\u04E3\u0301",    // CYRILLIC SMALL LETTER I to I with ACUTE ACCENT 
+        "\u0430\u0301":"\u0101\u0301",    // CYRILLIC SMALL LETTER A to A with ACUTE ACCENT
+        "\u0443\u0301":"\u04EF\u0301",    // CYRILLIC SMALL LETTER U to U with ACUTE ACCENT 
+        
+        "\u0438\u0302":"\u04E3\u0302",    // CYRILLIC SMALL LETTER I to I with CIRCUMFLEX
+        "\u0430\u0302":"\u0101\u0302",    // CYRILLIC SMALL LETTER A to A with CIRCUMFLEX
+        "\u0443\u0302":"\u04EF\u0302",    // CYRILLIC SMALL LETTER U to U with CIRCUMFLEX 
+    }
+
+    var stressedVowel = new Set(['\u0438\u0301', '\u0430\u0301', '\u0443\u0301', '\u0438\u0302', '\u0430\u0302', '\u0443\u0302'])
+
+    var result = []
+
+         for (var i = 0; i < graphemes.length; i++) {
+             var grapheme = graphemes[i]
+
+             if (grapheme in doubleVowel && grapheme == graphemes[i+1]) {
+                 result.push(doubleVowel[grapheme])
+                 i++
+             } else if (stressedVowel.has(grapheme)) {
+                 if (graphemes[i-1] in doubleVowel) {
+                     result[i-1] = doubleVowel[grapheme]
+                 } else {
+                     result.push(doubleVowel[grapheme])
+                 }
+             } else if (grapheme in doubleVowel && stressedVowel.has(grapheme)) {
+                 result.push(doubleVowel[grapheme])
+                 i++
+             } else {
+                 result.push(grapheme)
+             }
+	 }
+	
+    return result
+}
+
+// Applies Cyrillic orthography adjustments
+function cyrillic_adjustments(graphemes) {
+
+    cyr_graphemes = cyrillic_adjust_doubleVowel(graphemes)
 
     var shortAU = {
         "\u0430":"\u044F",        // CYRILLIC SMALL LETTER A to SMALL LETTER YA
@@ -524,8 +561,7 @@ function cyrillic_adjustments(cyr_graphemes) {
 
                 if (graphemeAfter in shortAU) {
 
-                    // ADJUSTMENT 2: If ya or yu follow a consonant, insert
-                    // a Cyrillic soft sign between
+                    // ADJUSTMENT 2: If ya or yu follow a consonant, insert a Cyrillic soft sign between
                     if (i > 0 && !(cyr_graphemes[i-1] in vowels)) {
                         result.push("\u044C")
                     }
@@ -567,7 +603,7 @@ function cyrillic_adjustments(cyr_graphemes) {
             }
 
             // No adjustments applicable
-            else if (isAlpha(grapheme)) {
+            else {
                 result.push(grapheme)
 	    }
 

@@ -18,7 +18,7 @@ document.getElementById("button1").onclick = function() {
         var cyrillic_vowels = new Set(['\u0438', '\u0430', '\u0443', '\u044B', '\u04E3', '\u0101', '\u04EF'])
         var cyrillic_syllabified       = syllabify(tokenized_cyrillic, cyrillic_vowels)
         var cyrillic_stressed          = stress(cyrillic_syllabified, cyrillic_vowels)
-//        var cyr_stress_adjusted        = cyrillic_adjustments(cyrillic_stressed)
+        var cyrillic_stress_adjusted   = cyrillic_adjustments(cyrillic_stressed)
 
 	us_ess.innerHTML               = tokens_to_string(tokenized_with_apostrophes)
 	us_ess_undoubled.innerHTML     = tokens_to_string(undoubled)
@@ -28,7 +28,7 @@ document.getElementById("button1").onclick = function() {
         ru_ess.innerHTML               = tokens_to_string(adjusted_cyrillic)
 
         latin_stress.innerHTML         = tokens_to_string(latin_stressed)
-        cyrillic_stress.innerHTML      = tokens_to_string(cyrillic_stressed)
+        cyrillic_stress.innerHTML      = tokens_to_string(cyrillic_stress_adjusted)
 };
 
 
