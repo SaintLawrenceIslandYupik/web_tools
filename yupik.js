@@ -1,3 +1,52 @@
+function spellcheck(graphemes, vowels, entry) {
+
+    var alphabet = new Set(['ngngw', 'ghhw', 'ngng', 'ghh', 'ghw', 'ngw', 'gg', 'gh', 'kw', 'll', 'mm', 'ng', 'nn', 'qw', 'rr', 'wh', 'a', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z', "'", '\u2019'])
+
+    // Checks for illegal letters and converts graphemes to consonant "c" or vowel "v"
+    var c_v = []
+
+    for (var i = 0; i < graphemes.length; i++) {
+        var grapheme = graphemes[i]
+
+        if (!alphabet.has(grapheme)) {
+            return false
+        }
+
+        if (vowels.has(grapheme)) {
+            c_v.push("v")
+        } else if (grapheme == "'" || grapheme == '\u2019') {
+            c_v.push(grapheme)
+        } else {
+            c_v.push("c")
+        }
+    }
+
+    // Checks for illegal apostrophe, consonant, and vowel clusters
+    var str = entry
+    var cv  = c_v.join("")
+    var apostrophe = /'/g
+
+    var consecutiveApostrophes = /''+/
+    var consonantCluster = /ccc+/
+    var vowelCluster = /iii+|aaa+|uuu+|ee+|ia+|iu+|ie+|ai+|au+|ae+|ui+|ua+|ue+|ei+|ea+|eu+/
+
+    if (apostrophe.test(str)) {
+        if (consecutiveApostrophes.test(str)) {
+            return false
+        } else {
+            substr = str.split("'")
+            subcv  = cv.split("'")
+
+            if (vowelCluster.test(substr.join("")) || consonantCluster.test(subcv.join(""))) {
+                return false
+            }
+        }
+    } else if (vowelCluster.test(str) || consonantCluster.test(cv)) {
+        return false
+    }
+
+    return true
+}
 
 
 function isAlpha(character) {
@@ -477,14 +526,22 @@ function cyrillic_adjustments(graphemes) {
         "\u0430":"\u044F",        // CYRILLIC SMALL LETTER A to SMALL LETTER YA
         "\u0443":"\u044E",        // CYRILLIC SMALL LETTER U to SMALL LETTER YU
 
-        "\u00E2":"hi",
+        "\u0430\u0301":"\u044F\u0301",        // CYRILLIC SMALL LETTER A with ACUTE ACCENT to SMALL LETTER YA with ACUTE ACCENT
+        "\u0443\u0301":"\u044E\u0301",        // CYRILLIC SMALL LETTER U with ACUTE ACCENT to SMALL LETTER YU with ACUTE ACCENT
+
+        "\u0430\u0302":"\u044F\u0302",        // CYRILLIC SMALL LETTER A with CIRCUMFLEX to SMALL LETTER YA with CIRCUMFLEX
+        "\u0443\u0302":"\u044E\u0302",        // CYRILLIC SMALL LETTER U with CIRCUMFLEX to SMALL LETTER YU with CIRCUMFLEX
     }
 
     var longAU = {
-        "\u0101":"\u044F\u0304",  // CYRILLIC SMALL LETTER A with MACRON to SMALL LETTER YA WITH MACRON
-        "\u04EF":"\u044E\u0304",  // CYRILLIC SMALL LETTER U with MACRON to SMALL LETTER YU WITH MACRON
+        "\u0101":"\u044F\u0304",  // CYRILLIC SMALL LETTER A with MACRON to SMALL LETTER YA with MACRON
+        "\u04EF":"\u044E\u0304",  // CYRILLIC SMALL LETTER U with MACRON to SMALL LETTER YU with MACRON
 
-        "\u0101\u0301":"\u044F\u0304\u0301",
+        "\u0101\u0301":"\u044F\u0304\u0301",    // A with MACRON and ACUTE to YA with MACRON and ACUTE
+        "\u04EF\u0301":"\u044E\u0304\u0301",    // U with MACRON and ACUTE to YU with MACRON and ACUTE
+
+        "\u0101\u0302":"\u044F\u0304\u0302",    // A with MACRON and CIRCUMFLEX to YA with MACRON and CIRCUMFLEX
+        "\u04EF\u0302":"\u044E\u0304\u0302",    // U with MACRON and CIRCUMFLEX to YU with MACRON and CIRCUMFLEX
     }
 
     var vowels = {      
