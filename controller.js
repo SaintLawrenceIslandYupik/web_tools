@@ -10,6 +10,7 @@ document.getElementById("button1").onclick = function() {
         if (spellcheck(tokenized_with_apostrophes, latin_vowels, original)) {
             var undoubled                  = undouble(tokenized)
             var phonetic_ipa               = graphemes_to_phonemes_ipa(undoubled)
+            var adjusted_phonetic_ipa      = ipa_adjust_doubleVowel(phonetic_ipa)
             var phonetic_krauss1975        = graphemes_to_phonemes_krauss1975(undoubled)
             var phonetic_nagai2001         = graphemes_to_phonemes_nagai2001(undoubled)
             var tokenized_cyrillic         = latin_to_cyrillic(undoubled)
@@ -21,6 +22,7 @@ document.getElementById("button1").onclick = function() {
             var ipa_vowels = new Set(['\u0069', '\u0251', '\u0075', '\u0259'])
             var ipa_syllabified            = syllabify(phonetic_ipa, ipa_vowels)
             var ipa_stressed               = stress(ipa_syllabified, ipa_vowels)
+            var ipa_stress_adjusted        = ipa_adjust_doubleVowel(ipa_stressed)
 
             var cyrillic_vowels = new Set(['\u0438', '\u0430', '\u0443', '\u044B', '\u04E3', '\u0101', '\u04EF'])
             var cyrillic_syllabified       = syllabify(tokenized_cyrillic, cyrillic_vowels)
@@ -29,13 +31,13 @@ document.getElementById("button1").onclick = function() {
 
             us_ess.innerHTML               = tokens_to_string(tokenized_with_apostrophes)
             us_ess_undoubled.innerHTML     = tokens_to_string(undoubled)
-            ipa.innerHTML                  = tokens_to_string(phonetic_ipa)
+            ipa.innerHTML                  = tokens_to_string(adjusted_phonetic_ipa)
             krauss1975.innerHTML           = tokens_to_string(phonetic_krauss1975)
             nagai2001.innerHTML            = tokens_to_string(phonetic_nagai2001)
             ru_ess.innerHTML               = tokens_to_string(adjusted_cyrillic)
 
             latin_stress.innerHTML         = tokens_to_string(latin_stressed).replace(/(\d+)/g, "<sub>$1</sub>")
-            ipa_stress.innerHTML           = tokens_to_string(ipa_stressed).replace(/(\d+)/g, "<sub>$1</sub>")
+            ipa_stress.innerHTML           = tokens_to_string(ipa_stress_adjusted).replace(/(\d+)/g, "<sub>$1</sub>")
             cyrillic_stress.innerHTML      = tokens_to_string(cyrillic_stress_adjusted).replace(/(\d+)/g, "<sub>$1</sub>")
         }
         else {
