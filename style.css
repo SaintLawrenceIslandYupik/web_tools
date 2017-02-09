@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'doulosSIL';
+    src: url('DoulosSIL-R.ttf');
+}
+
+body {
+    background-color: powderblue;
+
+    font-family: "doulosSIL", Times New Roman, serif;
+}
