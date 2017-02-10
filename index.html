@@ -14,31 +14,27 @@
 
     <div style="background: #f0f0f0 repeat-x; padding: 25px">
         <div style="background: #ffffff; padding: 25px; text-align: center;">
-            <textarea style="background-color: #ffffff;" rows="8" cols="120" name="field1" id="field1">Enter Text Here</textarea>
+            <textarea style="background-color: #ffffff;" rows="8" cols="120" name="field1" id="field1">yupik</textarea>
             <button class="button1" value="submit" id="button1">Enter</button>
         </div>
-         
-         <table>
-           <tr align="left">
-             <td><h4><a href="https://en.wikipedia.org/wiki/Latin_script">Latin</a></h4></td>
-             <td><button class="button2" onclick="showHide()">[show]</button></td>
-           </tr>
-           <tr>
-             <td><div id="showhide" style="text-align: left;"><div id="us_ess"></div></div></td>
-           </tr>
-           <tr align="left">
-             <td><h4>Undoubled</h4></td>
-             <td><button class="button2" onclick="showHide()">[show]</button></td>
-           </tr>
-           <tr>
-             <td><div id="showhide" style="text-align: left;"><div id="ipa"></div></div></td>
-           </tr>
-         </table>
-    </div>
+
+        <a href="https://en.wikipedia.org/wiki/Latin_script">Latin</a><button class="button2">[show]</button></td>
+        <div style="display:none"><div id="us_ess"></div></div>
+
+        <p></p>
+
+        Undoubled<button class="button2">[show]</button>
+        <div style="display:none"><div id="ipa"></div></div>
     
     <div style="background-color: #ffffff; padding: 2px;">
         <p> Footer </p>
     </div>
+
+
+
+
+
+
 
 
 		<table width="400">
@@ -84,14 +80,23 @@
 
 		<script type = "text/javascript" src="controller.js"></script>
 <script>
-function showHide() {
-    var x = document.getElementById('showhide');
-    if (x.style.display === 'block') {
-        x.style.display = 'none';
-    } else {
-        x.style.display = 'block';
+function toggleDocs(event) {
+
+    if (event.target && event.target.className == 'button2') {
+
+        var next = event.target.nextElementSibling;
+
+
+        if (next.style.display == "block") {
+            next.style.display = "none";
+
+        } else {
+            next.style.display = "block";
+        }
     }
 }
+
+document.addEventListener('click', toggleDocs, true);
 </script>
 
 	</body> 
