@@ -8,3 +8,45 @@ body {
 
     font-family: "doulosSIL", Times New Roman, serif;
 }
+
+h4 {
+    padding: 2px;
+    margin: 0px;
+}
+
+.button1 {
+    background-color: #ffffff;
+    color: #4f4e3e;
+    border: outset 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button2 {
+    background-color: #f0f0f0;
+    color: #000000;
+    border: 1px solid #f0f0f0;
+    padding: 2px 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.button2:hover {
+    color: #4f4e3e;
+}
+
+a:link, a:visited, a:active {
+    text-decoration: none;
+    color: #000000;
+    border: none;
+}
+a:hover {
+    color: #4f4e3e;
+}
