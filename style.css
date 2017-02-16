@@ -9,6 +9,11 @@ body {
     font-family: "doulosSIL", Times New Roman, serif;
 }
 
+br {
+    display: block;
+    margin-top: -10px;
+}
+
 h4 {
     padding: 2px;
     margin: 0px;
