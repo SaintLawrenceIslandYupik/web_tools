@@ -14,9 +14,17 @@ br {
     margin-top: -5px;
 }
 
-h4 {
+h2 {
     padding: 2px;
     margin: 0px;
+}
+
+li {
+    display: inline;
+}
+
+[type="checkbox"] {
+    vertical-align: -25%;
 }
 
 .button1 {

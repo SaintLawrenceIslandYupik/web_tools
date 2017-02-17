@@ -47,7 +47,7 @@ document.getElementById("button1").onclick = function() {
                     var tokenized                  = tokenize(lowercased, false)
 
                     var latin_vowels = new Set(['i', 'a', 'u', 'e'])
-                    if (spellcheck(tokenized_with_apostrophes, latin_vowels, original)) {
+//                    if (spellcheck(tokenized_with_apostrophes, latin_vowels, original)) {
                         var undoubled                  = undouble(tokenized)
                         var phonetic_ipa               = graphemes_to_phonemes_ipa(undoubled)
                         var adjusted_phonetic_ipa      = ipa_adjust_doubleVowel(phonetic_ipa)
@@ -68,10 +68,10 @@ document.getElementById("button1").onclick = function() {
                         var cyrillic_syllabified       = syllabify(tokenized_cyrillic, cyrillic_vowels)
                         var cyrillic_stressed          = stress(cyrillic_syllabified, cyrillic_vowels)
                         var cyrillic_stress_adjusted   = cyrillic_adjustments(cyrillic_stressed)
-                    }
-                    else {
-                        window.alert("Entry was misspelled. Please try again")
-                    }
+//                    }
+//                    else {
+//                        window.alert("Entry was misspelled. Please try again")
+//                    }
 
                     split_latin.push(tokens_to_string(tokenized_with_apostrophes))
                     split_undoubled.push(tokens_to_string(undoubled))
