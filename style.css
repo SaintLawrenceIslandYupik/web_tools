@@ -19,12 +19,43 @@ h2 {
     margin: 0px;
 }
 
-li {
-    display: inline;
+
+ul.topnav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
 }
 
-[type="checkbox"] {
-    vertical-align: -25%;
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 8px 20px;
+    text-decoration: none;
+}
+
+ul.topnav li a:hover:not(.active) {background-color: #111;}
+
+ul.topnav li a.active {background-color: #4CAF50;}
+
+ul.topnav li.right {float: right;}
+
+@media screen and (max-width: 600px){
+    ul.topnav li.right, 
+    ul.topnav li {float: none;}
+}
+
+.chkbox {
+    display: none;
+}
+
+label input.chkbox:checked + .label-text {
+    color: powderblue;
+    font-weight: bold;
 }
 
 .button1 {
@@ -39,27 +70,12 @@ li {
     cursor: pointer;
 }
 
-.button2 {
-    background-color: #f0f0f0;
-    color: #000000;
-    border: 1px solid #f0f0f0;
-    padding: 2px 2px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.button2:hover {
-    color: #4f4e3e;
-}
-
 a:link, a:visited, a:active {
     text-decoration: none;
     color: #000000;
     border: none;
 }
+
 a:hover {
     color: #4f4e3e;
 }
