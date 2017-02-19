@@ -15,33 +15,31 @@
 
     <div style="background:#f0f0f0; padding:25px; padding-bottom:25px">
 
-    <ul class="topnav">
+    <ul>
         <li>
             <a><label><input type="checkbox" class="chkbox"><span class="label-text">Latin</label></label></a>
         </li>
         <li>
             <a><label><input type="checkbox" class="chkbox"><span class="label-text">Undoubled</label></label></a>
         </li>
-        <li>
-            <a><label><input type="checkbox" class="chkbox"><span class="label-text">Phonetic (IPA)</label></label></a>
-        </li>
-        <li>
-            <a><label><input type="checkbox" class="chkbox"><span class="label-text">Phonetic (Krauss)</label></label></a>
-        </li>
-        <li>
-            <a><label><input type="checkbox" class="chkbox"><span class="label-text">Phonetic (Nagai)</label></label></a>
+        <li class="dropdown">
+            <a><label>Phonetic Transcription</label>
+            <div class="dropdown-content">
+                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Phonetic (IPA)</label></label></a>
+                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Phonetic (Krauss)</label></label></a>
+                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Phonetic (Nagai)</label></label></a>
+            </div>
         </li>
         <li>
             <a><label><input type="checkbox" class="chkbox"><span class="label-text">Кириллица</label></label></a>
         </li>
-        <li>
-            <a><label><input type="checkbox" class="chkbox"><span class="label-text">Latin Stress Patterning</label></label></a>
-        </li>
-        <li>
-            <a><label><input type="checkbox" class="chkbox"><span class="label-text">IPA Stress Patterning</label></label></a>
-        </li>
-        <li>
-            <a><label><input type="checkbox" class="chkbox"><span class="label-text">Cyrillic Stress Patterning</label></label></a>
+        <li class="dropdown">
+            <a><label>Stress Patterning</label>
+            <div class="dropdown-content">
+                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Latin Stress Patterning</label></label></a>
+                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">IPA Stress Patterning<label></label></a>
+                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Cyrillic Stress Patterning</label></label></a>
+            </div>
         </li>
     </ul>
 
@@ -113,6 +111,9 @@
 
     </div>
 
+    <div style="background-color:#ffffff; padding:5px;" align="center">
+        <h6>Copyright?</h6>
+    </div>
 
 <script type="text/javascript" src="controller.js"></script>
 
