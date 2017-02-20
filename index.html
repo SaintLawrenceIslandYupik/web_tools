@@ -49,7 +49,7 @@
         </div>
 
         <div style= "display:none" class="chkbox_div">
-            <b><a href="https://en.wikipedia.org/wiki/Latin_script">Latin</a></b>
+            <b><a class="link-text" href="https://en.wikipedia.org/wiki/Latin_script">Latin</a></b>
             <div id="us_ess"></div>
         </div>
 
@@ -63,28 +63,28 @@
         <p></p>
 
         <div style= "display:none" class="chkbox_div">
-            <b><a href="https://en.wikipedia.org/wiki/International_Phonetic_Alphabet">Phonetic (IPA)</a></b>
+            <b><a class="link-text" href="https://en.wikipedia.org/wiki/International_Phonetic_Alphabet">Phonetic (IPA)</a></b>
             <div id="ipa"></div>
         </div>
 
         <p></p>
 
         <div style= "display:none" class="chkbox_div">
-            <b><a href="https://en.wikipedia.org/wiki/Americanist_phonetic_notation">Phonetic</a> <a href="https://www.degruyter.com/view/j/ling.1975.13.issue-152/ling.1975.13.152.39/ling.1975.13.152.39.xml?format=INT">(Krauss 1975)</a></b>
+            <b><a class="link-text" href="https://en.wikipedia.org/wiki/Americanist_phonetic_notation">Phonetic</a> <a class="link-text" href="https://www.degruyter.com/view/j/ling.1975.13.issue-152/ling.1975.13.152.39/ling.1975.13.152.39.xml?format=INT">(Krauss 1975)</a></b>
             <div id="krauss1975"></div>
         </div>
 
         <p></p>
  
         <div style= "display:none" class="chkbox_div">
-            <b><a href="https://en.wikipedia.org/wiki/Americanist_phonetic_notation">Phonetic</a> <a href="http://lingdy.aacore.jp/en/elpr/publication-A2.html#A2-006">(Nagai 2001)</a></b>
+            <b><a class="link-text" href="https://en.wikipedia.org/wiki/Americanist_phonetic_notation">Phonetic</a> <a class="link-text" href="http://lingdy.aacore.jp/en/elpr/publication-A2.html#A2-006">(Nagai 2001)</a></b>
             <div id="nagai2001"></div>
         </div>
 
         <p></p>
 
         <div style= "display:none" class="chkbox_div">
-            <b><a href="https://en.wikipedia.org/wiki/Cyrillic_script">Кириллица</a></b>
+            <b><a class="link-text" href="https://en.wikipedia.org/wiki/Cyrillic_script">Кириллица</a></b>
             <div id="ru_ess"></div>
         </div>
 
@@ -111,16 +111,18 @@
 
     </div>
 
-    <div style="background-color:#ffffff; padding:5px;" align="center">
-        <h6>Copyright?</h6>
+    <div style="background-color:#ffffff; color:#444444; padding:5px;" align="center">
+        <h6></h6>
     </div>
 
 <script type="text/javascript" src="controller.js"></script>
 
 <script>
+event_count = 0
+
 function showHide(event) {
 
-    if (event.target && event.target.className == 'button1') {
+    if (event.target && event.target.className == 'button1' || event.target.className == "chkbox" && event_count > 0) {
 
         var chkbox = document.getElementsByClassName("chkbox");
         var chkbox_div = document.getElementsByClassName("chkbox_div");
@@ -132,6 +134,7 @@ function showHide(event) {
                 chkbox_div[i].style.display = 'none';
             }
         }
+        event_count += 1
     }
 
 }

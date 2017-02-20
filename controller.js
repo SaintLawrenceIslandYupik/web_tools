@@ -110,11 +110,10 @@ document.getElementById("button1").onclick = function() {
 
 };
 
-/**
+
 document.getElementById("field1").addEventListener("keydown", function(event) {
     //event.preventDefault();
-    if (event.keyCode == 13) {
+    if ((event.keyCode == 10 || event.keyCode == 13) && event.ctrlKey) {
         document.getElementById("button1").click();
     }
 });
-*/
