@@ -75,7 +75,7 @@ document.getElementById("button1").onclick = function() {
 
                     split_latin.push(tokens_to_string(tokenized_with_apostrophes))
                     split_undoubled.push(tokens_to_string(undoubled))
-                    split_ipa.push(tokens_to_string(phonetic_ipa))
+                    split_ipa.push(tokens_to_string(adjusted_phonetic_ipa))
                     split_krauss.push(tokens_to_string(phonetic_krauss1975))
                     split_nagai.push(tokens_to_string(phonetic_nagai2001))
                     split_cyrillic.push(tokens_to_string(adjusted_cyrillic))
