@@ -159,22 +159,22 @@ function undouble(graphemes) {
         }
         // Rule 1b                                                                                                                        
         else if (undoubleable_unvoiced_consonant.has(first) && doubleable_fricative.has(second)) {
-            result[i+1] = double[second]
+            result[i+1] = double[second].fontcolor("#b20000")
             i += 2
         }
         // Rule 2                                                                                                                         
         else if (undoubleable_unvoiced_consonant.has(first) && doubleable_nasal.has(second)) {
-            result[i+1] = double[second]
+            result[i+1] = double[second].fontcolor("#b20000")
             i += 2
         }
         // Rule 3a                                                                                                                        
         else if (doubled_fricative.has(first) && (doubleable_fricative.has(second) || doubleable_nasal.has(second))) {
-            result[i+1] = double[second]
+            result[i+1] = double[second].fontcolor("#b2000")
             i += 2
         }
         // Rule 3b                                                                                                                        
         else if ((doubleable_fricative.has(first) || doubleable_nasal.has(first)) && second=='ll') {
-            result[i] = double[first]
+            result[i] = double[first].fontcolor("#b20000")
             i += 2
         } 
         else {
