@@ -402,9 +402,9 @@ function ipa_adjust_doubleVowel(graphemes) {
         "\u0251\u0301":"\u0251\u0301\u02D0",    // LATIN SMALL LETTER ALPHA with ACUTE ACCENT to ALPHA with IPA COLON and ACUTE ACCENT
         "\u0075\u0301":"\u0075\u0301\u02D0",    // LATIN SMALL LETTER U with ACUTE ACCENT to U with IPA COLON and ACUTE ACCENT 
         
-        "\u0069\u0302":"\u0069\u0301\u02D0\u02D0",    // LATIN SMALL LETTER I with ACUTE ACCENT to I with TWO IPA COLONS and ACUTE ACCENT 
-        "\u0251\u0302":"\u0251\u0301\u02D0\u02D0",    // LATIN SMALL LETTER ALPHA with ACUTE ACCENT to ALPHA with TWO IPA COLONS and ACUTE ACCENT
-        "\u0075\u0302":"\u0075\u0301\u02D0\u02D0",    // LATIN SMALL LETTER U with ACUTE ACCENT to U with TWO IPA COLONS and ACUTE ACCENT 
+         "\u0069\u0302":"\u0069\u0301\u02D0\u02D0",    // LATIN SMALL LETTER I with CIRCUMFLEX ACCENT to I with TWO IPA COLONS and ACUTE ACCENT 
+         "\u0251\u0302":"\u0251\u0301\u02D0\u02D0",    // LATIN SMALL LETTER ALPHA with CIRCUMFLEX ACCENT to ALPHA with TWO IPA COLONS and ACUTE ACCENT 
+         "\u0075\u0302":"\u0075\u0301\u02D0\u02D0",    // LATIN SMALL LETTER U with CIRCUMFLEX ACCENT to U with TWO IPA COLONS and ACUTE ACCENT 
     }
 
     var stressedVowel = new Set(['\u0069\u0301', '\u0251\u0301', '\u0075\u0301', '\u0069\u0302', '\u0251\u0302', '\u0075\u0302'])
@@ -419,7 +419,7 @@ function ipa_adjust_doubleVowel(graphemes) {
             i++
         } else if (stressedVowel.has(grapheme)) {
             if (graphemes[i-1] in doubleVowel) {
-                result[i-1] = doubleVowel[grapheme]
+                result[result.length - 1] = doubleVowel[grapheme]
             } else {
                 result.push(grapheme)
             }
@@ -705,7 +705,7 @@ function cyrillic_adjustments(graphemes) {
 }
 
 
-function syllabify(graphemes, vowels) {
+function syllabify(graphemes, vowels, ipa_format) {
 
     // Convert graphemes to consonant "c" or vowel "v"
     var c_v = []
@@ -732,19 +732,31 @@ function syllabify(graphemes, vowels) {
             if (i == 0) {
                 syllable.push(graphemes[i])
             } else if (i == c_v.length - 1) {
-                syllable.push(graphemes[i], syllable_count)
+                if (ipa_format) {
+                    syllable.push(graphemes[i])
+                } else {
+                    syllable.push(graphemes[i], syllable_count)
+                }
                 result.push(syllable)
 
                 syllable = []
             } else {
                 if (c_v[i+1] == "c") {
-                    syllable.push(graphemes[i], syllable_count, "/")
+                    if (ipa_format) {
+                        syllable.push(graphemes[i], ".")
+                    } else {
+                        syllable.push(graphemes[i], syllable_count, "/")
+                    }
                     result.push(syllable)
                     syllable_count += 1
 
                     syllable = []
                 } else if (c_v[i-1] == "v") {
-                    syllable.push(syllable_count, "/")
+                    if (ipa_format) {
+                        syllable.push(".")
+                    } else {
+                        syllable.push(syllable_count, "/")
+                    }
                     result.push(syllable)
                     syllable_count += 1
 
@@ -757,7 +769,11 @@ function syllabify(graphemes, vowels) {
         }
         else {
             if (i == c_v.length - 1) {
-                syllable.push(graphemes[i], syllable_count)
+                if (ipa_format) {
+                    syllable.push(graphemes[i])
+                } else {
+                    syllable.push(graphemes[i], syllable_count)
+                }
                 result.push(syllable)
 
                 syllable = []
@@ -771,7 +787,7 @@ function syllabify(graphemes, vowels) {
 }
 
 
-function stress(syllableList, vowels) {
+function stress(syllableList, vowels, ipa_format) {
 
     var acute = {
         "i":"í",
@@ -857,3 +873,62 @@ function stress(syllableList, vowels) {
 
     return result
 }
+
+
+function find_syllable_boundary(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+        var grapheme = arr[i]
+
+        if (i == 1) {
+            return 0
+        } else if (grapheme == '.') {
+            return i
+        }
+    }
+}
+
+
+function ipa_format_stress(ipa_graphemes) {
+    var graphemes = ipa_adjust_doubleVowel(ipa_graphemes)
+
+    var stressedVowel = {
+        "\u0069\u0301":"\u0069",                // LATIN SMALL LETTER I with ACUTE to I
+        "\u0251\u0301":"\u0251",                // LATIN SMALL LETTER ALPHA with ACUTE to ALPHA
+        "\u0075\u0301":"\u0075",                // LATIN SMALL LETTER U with ACUTE to U
+        "\u0259\u0301":"\u0259",                // LATIN SMALL LETTER SCHWA with ACUTE to SCHWA
+
+        "\u0069\u0302":"\u0069\u02D0",          // LATIN SMALL LETTER I with CIRCUMFLEX to I with IPA COLON
+        "\u0251\u0302":"\u0251\u02D0",          // LATIN SMALL LETTER ALPHA with CIRCUMFLEX to ALPHA with IPA COLON
+        "\u0075\u0302":"\u0075\u02D0",          // LATIN SMALL LETTER U with CIRCUMFLEX to U with IPA COLON
+
+        "\u0069\u0301\u02D0":"\u0069\u02D0",    // LATIN SMALL LETTER I with ACUTE and IPA COLON to I with IPA COLON
+        "\u0251\u0301\u02D0":"\u0251\u02D0",    // LATIN SMALL LETTER ALPHA with ACUTE and IPA COLON to ALPHA with IPA COLON
+        "\u0075\u0301\u02D0":"\u0075\u02D0",    // LATIN SMALL LETTER U with ACUTE and IPA COLON to U with IPA COLON
+
+        "\u0069\u0301\u02D0\u02D0":"\u0069\u02D0\u02D0",    // LATIN SMALL LETTER I with ACUTE and TWO IPA COLONS to I with TWO IPA COLONS
+        "\u0251\u0301\u02D0\u02D0":"\u0251\u02D0\u02D0",    // LATIN SMALL LETTER ALPHA with ACUTE and TWO IPA COLONS to ALPHA with TWO IPA COLONS
+        "\u0075\u0301\u02D0\u02D0":"\u0075\u02D0\u02D0",    // LATIN SMALL LETTER U with ACUTE and TWO IPA COLONS to U with TWO IPA COLONS
+    }
+
+    var result = []
+
+    for (var i = 0; i < graphemes.length; i++) {
+        grapheme = graphemes[i]
+
+        if (grapheme in stressedVowel) {
+            result.push(stressedVowel[grapheme])
+           
+            index = find_syllable_boundary(result)
+            if (index == 0) {
+                result.splice(index, 0, "'")
+            } else {
+                result.splice(index + 1, 0, "'")
+            }
+        } else {
+            result.push(grapheme)
+        }
+    }
+
+    return result 
+}
+
