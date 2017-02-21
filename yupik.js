@@ -876,11 +876,11 @@ function stress(syllableList, vowels, ipa_format) {
 
 
 function find_syllable_boundary(arr) {
-    for (var i = arr.length - 1; i > 0; i--) {
+    for (var i = arr.length - 1; i >= 0; i--) {
         var grapheme = arr[i]
 
-        if (i == 1) {
-            return 0
+        if (i == 0) {
+            return i 
         } else if (grapheme == '.') {
             return i
         }
@@ -922,7 +922,7 @@ function ipa_format_stress(ipa_graphemes) {
             if (index == 0) {
                 result.splice(index, 0, "'")
             } else {
-                result.splice(index + 1, 0, "'")
+                result.splice(index + 1, 0, "'") 
             }
         } else {
             result.push(grapheme)
