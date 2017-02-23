@@ -47,9 +47,8 @@ document.getElementById("button1").onclick = function() {
                     var tokenized                  = tokenize(lowercased, false)
 
 //                    if (spellcheck(tokenized_with_punctuation, latin_vowels, original)) {
-                        var undoubled_with_color       = undouble(tokenized, true)
+                        var undoubled_with_color       = undouble(tokenized_with_punctuation, true)
                         var undoubled                  = undouble(tokenized, false)
-                        var undoubled_with_punctuation = undouble(tokenized_with_punctuation, false)
 
                         var phonetic_ipa               = graphemes_to_phonemes_ipa(undoubled)
                         var adjusted_phonetic_ipa      = ipa_adjust_doubleVowel(phonetic_ipa)
