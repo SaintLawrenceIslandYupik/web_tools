@@ -57,12 +57,14 @@ function isAlpha(character) {
 }
 
 
-function tokenize(word, keep_apostrophes) {
-    if (keep_apostrophes === undefined) {
-        keep_apostrophes = false
+function tokenize(word, keep_punctuation) {
+    if (keep_punctuation === undefined) {
+        keep_punctuation = false
     }
 
     var graphemes = ['ngngw', 'ghhw', 'ngng', 'ghh', 'ghw', 'ngw', 'gg', 'gh', 'kw', 'll', 'mm', 'ng', 'nn', 'qw', 'rr', 'wh', 'a', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z']
+
+    var punctuation = new Set(["'", '\u2019', '.', ',', '!', '?', ';', ':'])
 
     var result = []
 
@@ -88,7 +90,7 @@ function tokenize(word, keep_apostrophes) {
 			
                 if (isAlpha(character)) {
                     result.unshift(character)
-                } else if (keep_apostrophes && (character==="'" || character==="\u2019")) {
+                } else if (keep_punctuation && punctuation.has(character)) {
                     result.unshift(character)
                 } 
 
@@ -123,9 +125,93 @@ function tokenize_to_string(word) {
     return s
 }
 
+/*
+// Converts Latin capital letter to its Cyrillic counterpart - INCOMPLETE
+function capitalize_cyrillic(graphemes) {
+
+    var single_letter = {
+        "I":"\u0418",                // I to CYRILLIC CAPITAL LETTER I
+        "A":"\u0410",                // A to CYRILLIC CAPITAL LETTER A
+        "U":"\u0423",                // U to CYRILLIC CAPITAL LETTER U
+        "E":"\u042B",                // E to CYRILLIC CAPITAL LETTER YERU
+
+        "P" :"\u043F",               // CYRILLIC SMALL LETTER PE
+        "T" :"\u0442",               // CYRILLIC SMALL LETTER TE
+        "K" :"\u043A",               // CYRILLIC SMALL LETTER KA
+        "Q" :"\u049B",               // CYRILLIC SMALL LETTER KA with DESCENDER
+
+        "V":"\u0432",              // CYRILLIC SMALL LETTER VE
+        "L":"\u043B",              // CYRILLIC SMALL LETTER EL
+        "Z":"\u0437",              // CYRILLIC SMALL LETTER ZE
+        "Y":"\u04E5",              // CYRILLIC SMALL LETTER U with DIERESIS
+        "R":"\u043F",              // CYRILLIC SMALL LETTER ER
+        "G":"\u0433",              // CYRILLIC SMALL LETTER GHE
+        "W":"\u04F1",              // CYRILLIC SMALL LETTER U with DIERESIS 
+
+        "F" :"\u0444",             // CYRILLIC SMALL LETTER EF
+        "S" :"\u0441",             // CYRILLIC SMALL LETTER ES
+        "H":"\u0433",              // CYRILLIC SMALL LETTER GHE
+
+        "M"  :"\u043C",              // CYRILLIC SMALL LETTER EM
+        "N"  :"\u043D",              // CYRILLIC SMALL LETTER EN
+    }
+
+    var multiple_letters = {
+        "I\u0438":"\u04E2",          // Ii to CYRILLIC CAPITAL LETTER YERU
+        "AA":"AA",                   // Aa to CYRILLIC CAPITAL LETTER YERU
+        "U\u":"\u04EE",              // Uu to CYRILLIC CAPITAL LETTER YERU
+
+        "K\u04F1":"\u043A\u04F1",         // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
+        "Q\u04F1":"\u049B\u04F1",         // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
+
+        "G\u0433" :"\u04F7",              // CYRILLIC SMALL LETTER GHE with DESCENDER
+        "G\u0433\u04F1":"\u04F7\u04F1",        // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
+
+        "L\u043B":"\u043B\u044C",       // CYRILLIC SMALL LETTER EL and SMALL LETTER SOFT SIGN
+        "R\u043F":"\u0448",             // CYRILLIC SMALL LETTER SHA
+        "G\u0433":"\u0445",             // CYRILLIC SMALL LETTER HA
+        "W\u0433":"\u0445\u04F1",       // CYRILLIC SMALL LETTER HA and SMALL LETTER U with DIERESIS
+        "G\u0433\u0433" :"\u04B3",             // CYRILLIC SMALL LETTER HA with DESCENDER
+        "G\u0433\u0433\u04F1":"\u04B3\u04F1",  // CYRILLIC SMALL LETTER HA with DESCENDER and SMALL LETTER U with DIERESIS
+
+        "N\u0433" :"\u04A3",                   // CYRILLIC SMALL LETTER EN with DESCENDER
+        "N\u0433\u04F1":"\u04A3\u04F1",        // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER U with DIERESIS
+
+        "MM":"\u043C\u044C",          // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
+        "NN":"\u043D\u044C",          // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
+        "N\u0443\u04B3":"\u04A3\u044C",             // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
+        "N\u0443\u04B3\u04F1":"\u04A3\u044C\u04F1", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN & SMALL LETTER U with DIERESIS
+
+        // Combinations from adjustments
+        "Ya":
+        "Yaa":
+        "Yu":
+        "Yuu"
+
+        "Sa"
+        "Su"
+        "Za"
+        "Zu"
+    }
+
+    var result = []
+    
+    for (var i = 0; i < graphemes.length; i++) {
+        grapheme = graphemes[i]
+
+        if (grapheme in alphabet) {
+            result.push(alphabet[grapheme])
+        } else {
+            result.push(grapheme)
+        }
+    }
+
+    return result
+}
+*/
 
 // Undoes the Latin orthographic undoubling rules, i.e. redoubles the graphemes that underlyingly voiceless
-function undouble(graphemes) {
+function undouble(graphemes, color) {
 
     var doubled_fricative=new Set(['ll', 'rr', 'gg', 'ghh', 'ghhw'])
 
@@ -154,27 +240,47 @@ function undouble(graphemes) {
 	
         // Rule 1a                                                                                                                        
         if (doubleable_fricative.has(first) && undoubleable_unvoiced_consonant.has(second)) {
-            result[i] = double[first]
+            if (color) {
+                result[i] = double[first].fontcolor("#b20000")
+            } else {
+                result[i] = double[first]
+            }
             i += 2
         }
         // Rule 1b                                                                                                                        
         else if (undoubleable_unvoiced_consonant.has(first) && doubleable_fricative.has(second)) {
+            if (color) {
             result[i+1] = double[second].fontcolor("#b20000")
+            } else {
+                result[i+1] = double[second]
+            }
             i += 2
         }
         // Rule 2                                                                                                                         
         else if (undoubleable_unvoiced_consonant.has(first) && doubleable_nasal.has(second)) {
-            result[i+1] = double[second].fontcolor("#b20000")
+            if (color) {
+                result[i+1] = double[second].fontcolor("#b20000")
+            } else {
+                result[i+1] = double[second]
+            }
             i += 2
         }
         // Rule 3a                                                                                                                        
         else if (doubled_fricative.has(first) && (doubleable_fricative.has(second) || doubleable_nasal.has(second))) {
-            result[i+1] = double[second].fontcolor("#b2000")
+            if (color) {
+                result[i+1] = double[second].fontcolor("#b2000")
+            } else {
+                result[i+1] = double[second]
+            }
             i += 2
         }
         // Rule 3b                                                                                                                        
         else if ((doubleable_fricative.has(first) || doubleable_nasal.has(first)) && second=='ll') {
-            result[i] = double[first].fontcolor("#b20000")
+            if (color) {
+                result[i] = double[first].fontcolor("#b20000")
+            } else {
+                result[i] = double[first]
+            }
             i += 2
         } 
         else {
@@ -498,7 +604,7 @@ function latin_to_cyrillic(graphemes) {
             result.push(shortVowels[grapheme])
         } else if (grapheme in consonants) {
             result.push(consonants[grapheme])
-        } else if (isAlpha(grapheme)) {
+        } else {
             result.push(grapheme)
         }
     }
