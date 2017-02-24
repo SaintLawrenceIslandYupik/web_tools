@@ -42,41 +42,42 @@ document.getElementById("button1").onclick = function() {
 
                 for (var w = 0; w < split_text.length; w++) {
 
-                    var lowercased                 = split_text[w].toLowerCase()
                     var tokenized_with_punctuation = tokenize(split_text[w], true)
+                    var lowercased                 = split_text[w].toLowerCase()
                     var tokenized                  = tokenize(lowercased, false)
 
-//                    if (spellcheck(tokenized_with_punctuation, latin_vowels, original)) {
-                        var undoubled_with_color       = undouble(tokenized_with_punctuation, true)
-                        var undoubled                  = undouble(tokenized, false)
+                    var undoubled_with_color       = undouble(tokenized_with_punctuation, true)
+                    var undoubled_with_punc        = undouble(tokenized_with_punctuation, false)
+                    var undoubled                  = undouble(tokenized, false)
 
-                        var phonetic_ipa               = graphemes_to_phonemes_ipa(undoubled)
-                        var adjusted_phonetic_ipa      = ipa_adjust_doubleVowel(phonetic_ipa)
-                        var phonetic_krauss1975        = graphemes_to_phonemes_krauss1975(undoubled)
-                        var phonetic_nagai2001         = graphemes_to_phonemes_nagai2001(undoubled)
+                    var phonetic_ipa               = graphemes_to_phonemes_ipa(undoubled)
+                    var adjusted_phonetic_ipa      = ipa_adjust_doubleVowel(phonetic_ipa)
+                    var phonetic_krauss1975        = graphemes_to_phonemes_krauss1975(undoubled)
+                    var phonetic_nagai2001         = graphemes_to_phonemes_nagai2001(undoubled)
 
-                        var tokenized_cyrillic         = latin_to_cyrillic(undoubled)
-                        var adjusted_cyrillic          = cyrillic_adjustments(tokenized_cyrillic)
+                    var cyrillic_with_punc         = latin_to_cyrillic(undoubled_with_punc)
+                    var adjusted_cyrillic          = cyrillic_adjustments(cyrillic_with_punc)
 
-                        var latin_vowels = new Set(['i', 'a', 'u', 'e'])
-                        var latin_syllabified          = syllabify(tokenized, latin_vowels, false)
-                        var latin_stressed             = stress(latin_syllabified, latin_vowels, false)
+                    var latin_vowels = new Set(['i', 'a', 'u', 'e'])
+                    var latin_syllabified          = syllabify(tokenized, latin_vowels, false)
+                    var latin_stressed             = stress(latin_syllabified, latin_vowels, false)
 
-                        var ipa_vowels = new Set(['\u0069', '\u0251', '\u0075', '\u0259'])
-                        var ipa_syllabified            = syllabify(phonetic_ipa, ipa_vowels, true)
-                        var ipa_stressed               = stress(ipa_syllabified, ipa_vowels, true)
-                        var ipa_stress_adjusted        = ipa_format_stress(ipa_stressed)
+                    var ipa_vowels = new Set(['\u0069', '\u0251', '\u0075', '\u0259'])
+                    var ipa_syllabified            = syllabify(phonetic_ipa, ipa_vowels, true)
+                    var ipa_stressed               = stress(ipa_syllabified, ipa_vowels, true)
+                    var ipa_stress_adjusted        = ipa_format_stress(ipa_stressed)
 
-                        var cyrillic_vowels = new Set(['\u0438', '\u0430', '\u0443', '\u044B', '\u04E3', '\u0101', '\u04EF'])
-                        var cyrillic_syllabified       = syllabify(tokenized_cyrillic, cyrillic_vowels, false)
-                        var cyrillic_stressed          = stress(cyrillic_syllabified, cyrillic_vowels, false)
-                        var cyrillic_stress_adjusted   = cyrillic_adjustments(cyrillic_stressed)
-//                    }
-//                    else {
-//                        window.alert("Entry was misspelled. Please try again")
-//                    }
+                    var cyrillic_vowels = new Set(['\u0438', '\u0430', '\u0443', '\u044B', '\u04E3', '\u0101', '\u04EF'])
+                    var tokenized_cyrillic         = latin_to_cyrillic(undoubled)
+                    var cyrillic_syllabified       = syllabify(tokenized_cyrillic, cyrillic_vowels, false)
+                    var cyrillic_stressed          = stress(cyrillic_syllabified, cyrillic_vowels, false)
+                    var cyrillic_stress_adjusted   = cyrillic_adjustments(cyrillic_stressed)
 
-                    split_latin.push(tokens_to_string(tokenized_with_punctuation))
+                    if (spellcheck(tokenized, latin_vowels, lowercased)) {
+                        split_latin.push(tokens_to_string(tokenized_with_punctuation))
+                    } else {
+                        split_latin.push((tokens_to_string(tokenized_with_punctuation)).fontcolor("b20000"))
+                    }
                     split_undoubled.push(tokens_to_string(undoubled_with_color))
                     split_ipa.push(tokens_to_string(adjusted_phonetic_ipa))
                     split_krauss.push(tokens_to_string(phonetic_krauss1975))
