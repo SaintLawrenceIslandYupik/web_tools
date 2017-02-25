@@ -125,18 +125,6 @@ function tokenize_to_string(word) {
     return s
 }
 
-/*
-        // Combinations from adjustments
-        "Ya":
-        "Yaa":
-        "Yu":
-        "Yuu"
-
-        "Sa"
-        "Su"
-        "Za"
-        "Zu"
-*/
 
 // Undoes the Latin orthographic undoubling rules, i.e. redoubles the graphemes that underlyingly voiceless
 function undouble(graphemes, color) {
@@ -169,7 +157,7 @@ function undouble(graphemes, color) {
         // Rule 1a                                                                                                                        
         if (doubleable_fricative.has(first) && undoubleable_unvoiced_consonant.has(second)) {
             if (color) {
-                result[i] = double[first].fontcolor("#b20000")
+                result[i] = double[first].fontcolor("#810081")
             } else {
                 result[i] = double[first]
             }
@@ -178,7 +166,7 @@ function undouble(graphemes, color) {
         // Rule 1b                                                                                                                        
         else if (undoubleable_unvoiced_consonant.has(first) && doubleable_fricative.has(second)) {
             if (color) {
-            result[i+1] = double[second].fontcolor("#b20000")
+            result[i+1] = double[second].fontcolor("#810081")
             } else {
                 result[i+1] = double[second]
             }
@@ -187,7 +175,7 @@ function undouble(graphemes, color) {
         // Rule 2                                                                                                                         
         else if (undoubleable_unvoiced_consonant.has(first) && doubleable_nasal.has(second)) {
             if (color) {
-                result[i+1] = double[second].fontcolor("#b20000")
+                result[i+1] = double[second].fontcolor("#810081")
             } else {
                 result[i+1] = double[second]
             }
@@ -196,7 +184,7 @@ function undouble(graphemes, color) {
         // Rule 3a                                                                                                                        
         else if (doubled_fricative.has(first) && (doubleable_fricative.has(second) || doubleable_nasal.has(second))) {
             if (color) {
-                result[i+1] = double[second].fontcolor("#b2000")
+                result[i+1] = double[second].fontcolor("#810081")
             } else {
                 result[i+1] = double[second]
             }
@@ -205,7 +193,7 @@ function undouble(graphemes, color) {
         // Rule 3b                                                                                                                        
         else if ((doubleable_fricative.has(first) || doubleable_nasal.has(first)) && second=='ll') {
             if (color) {
-                result[i] = double[first].fontcolor("#b20000")
+                result[i] = double[first].fontcolor("#810081")
             } else {
                 result[i] = double[first]
             }
