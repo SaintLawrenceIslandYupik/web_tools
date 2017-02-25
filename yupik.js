@@ -788,7 +788,12 @@ function cyrillic_adjustments(graphemes) {
 
         // Adjustment - Cyrillic representation of 'e' deletes before a voiceless
         // consonant cluster
-        else if ((grapheme == "\u044B" || grapheme == "\u042B") && (i < cyr_graphemes.length - 2) &&
+        else if (grapheme == "\u042B" && (i < cyr_graphemes.length - 2) &&
+            cyr_graphemes[i+1] in voicelessC && cyr_graphemes[i+2] in voicelessC) {
+            result.push("")
+            result.push(cyr_graphemes[i+1].toUpperCase())
+            i++
+        } else if (grapheme == "\u044B" && (i < cyr_graphemes.length - 2) &&
             cyr_graphemes[i+1] in voicelessC && cyr_graphemes[i+2] in voicelessC) {
             result.push("") 
         }
