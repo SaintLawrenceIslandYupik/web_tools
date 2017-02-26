@@ -1,19 +1,21 @@
 function spellcheck(graphemes, vowels, entry) {
 
-    var alphabet = new Set(['ngngw', 'ghhw', 'ngng', 'ghh', 'ghw', 'ngw', 'gg', 'gh', 'kw', 'll', 'mm', 'ng', 'nn', 'qw', 'rr', 'wh', 'a', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z', "'", '\u2019'])
+    var alphabet = new Set(['ngngw', 'ghhw', 'ngng', 'ghh', 'ghw', 'ngw', 'gg', 'gh', 'kw', 'll', 'mm', 'ng', 'nn', 'qw', 'rr', 'wh', 'a', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z'])
+
+    var punctuation = new Set(["'", '\u2019', '.', ',', '!', '?', ';', ':', '\u2500'])
 
     var c_v = []
 
     for (var i = 0; i < graphemes.length; i++) {
         var grapheme = graphemes[i]
         // Check for illegal alphabetic characters
-        if (!alphabet.has(grapheme)) {
+        if (!alphabet.has(grapheme) && !punctuation.has(grapheme) && isNaN(grapheme)) {
             return false
         }
         // Converts legal characters to consonant "c" or vowel "v"
-        if (vowels.has(grapheme)) {
+        if (vowels.has(grapheme) && isNaN(grapheme)) {
             c_v.push("v")
-        } else if (grapheme == "'" || grapheme == '\u2019') {
+        } else if (punctuation.has(grapheme) || !isNaN(grapheme)) {
             c_v.push(grapheme)
         } else {
             c_v.push("c")
@@ -64,7 +66,7 @@ function tokenize(word, keep_punctuation) {
 
     var graphemes = ['Ngngw', 'ngngw', 'Ghhw', 'ghhw', 'Ngng', 'ngng', 'Ghh', 'ghh', 'Ghw', 'ghw', 'Ngw', 'ngw', 'Gg', 'gg', 'Gh', 'gh', 'Kw', 'kw', 'Ll', 'll', 'Mm', 'mm', 'Ng', 'ng', 'Nn', 'nn', 'Qw', 'qw', 'Rr', 'rr', 'Wh', 'wh', 'A', 'a', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'Y', 'y', 'Z', 'z']
 
-    var punctuation = new Set(["'", '\u2019', '.', ',', '!', '?', ';', ':'])
+    var punctuation = new Set(["'", '\u2019', '.', ',', '!', '?', ';', ':', '\u2500'])
 
     var result = []
 
@@ -90,7 +92,7 @@ function tokenize(word, keep_punctuation) {
 			
                 if (isAlpha(character)) {
                     result.unshift(character)
-                } else if (keep_punctuation && punctuation.has(character)) {
+                } else if (keep_punctuation && punctuation.has(character) || !isNaN(character)) {
                     result.unshift(character)
                 } 
 
