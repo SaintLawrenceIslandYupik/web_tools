@@ -751,7 +751,7 @@ function cyrillic_adjustments(graphemes) {
 
             if (after in shortAU) {
             // ADJUSTMENT 2: If 'ya' or 'yu' follow a consonant, insert a Cyrillic soft sign between
-                if (i > 0 && !(cyr_graphemes[i-1] in vowels)) {
+                if (i > 0 && isAlpha(cyr_graphemes[i-1]) && !(cyr_graphemes[i-1] in vowels)) {
                     result.push("\u044C")
                 }
                 result.push(shortAU[after])
