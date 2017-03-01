@@ -938,24 +938,29 @@ function stress(syllableList, vowels, ipa_format) {
                     before = syllableList[s][i-1]
                     after = syllableList[s][i+1]
                     after2 = syllableList[s][i+2]
-
+                    // Grapheme is first vowel in a long vowel in an open syllable
                     if (vowels.has(after) && !isAlpha(after2.toString())) {
                         result.push(grapheme, circumflex[grapheme])
                         i += 1
                     }
+                    // Grapheme is first vowel in a long vowel in a closed syllable
                     else if (vowels.has(after) && !vowels.has(after2)) {
                         result.push(grapheme, acute[grapheme])
                         i += 1
                     }
+                    // Grapheme is second vowel in a long vowel in an open syllable
                     else if (vowels.has(before) && !isAlpha(after.toString())) {
                         result.push(acute[grapheme])
                     }
+                    // Grapheme is second vowel in a long vowel in a closed syllable
                     else if (vowels.has(before) && !vowels.has(after)) {
                         result.push(acute[grapheme])
                     }
+                    // Grapheme is a short vowel in an open syllable
                     else if (!vowels.has(before) && !isAlpha(after.toString())) {
                         result.push(circumflex[grapheme])
                     }
+                    // Grapheme is a short vowel in a closed syllable
                     else if (!vowels.has(before) && !vowels.has(after)) {
                         result.push(acute[grapheme])
                     } 
