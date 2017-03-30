@@ -81,12 +81,26 @@ li.dropdown {
     padding-bottom: 0px;
 }
 
+.drop-chkbox {
+    display: none;
+}
+
+.drop-chkbox_div {
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
 label input.chkbox:checked + .label-text {
     color: powderblue;
     font-weight: bold;
 }
 
-label input.chkbox:checked + .dropdown-label {
+label input.drop-chkbox:checked + .dropdown-label {
+    font-weight: bold;
+}
+
+label input.drop-chkbox:checked + .drop-label {
+    color: powderblue;
     font-weight: bold;
 }
 
