@@ -2,7 +2,7 @@ function spellcheck(graphemes, vowels, entry) {
 
     var alphabet = new Set(['ngngw', 'ghhw', 'ngng', 'ghh', 'ghw', 'ngw', 'gg', 'gh', 'kw', 'll', 'mm', 'ng', 'nn', 'qw', 'rr', 'wh', 'a', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z'])
 
-    var punctuation = new Set(["'", '\u2019', '.', ',', '!', ';', ':', '-', '\u2500'])
+    var punctuation = new Set(["'", '\u2019', '.', ',', '!', '?', ';', ':', '\u2500'])
 
     var c_v = []
 
@@ -66,7 +66,7 @@ function tokenize(word, keep_punctuation) {
 
     var graphemes = ['Ngngw', 'ngngw', 'Ghhw', 'ghhw', 'Ngng', 'ngng', 'Ghh', 'ghh', 'Ghw', 'ghw', 'Ngw', 'ngw', 'Gg', 'gg', 'Gh', 'gh', 'Kw', 'kw', 'Ll', 'll', 'Mm', 'mm', 'Ng', 'ng', 'Nn', 'nn', 'Qw', 'qw', 'Rr', 'rr', 'Wh', 'wh', 'A', 'a', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'Y', 'y', 'Z', 'z']
 
-    var punctuation = new Set(["'", '\u2019', '.', ',', '!', '?', ';', ':', '-', '\u2500'])
+    var punctuation = new Set(["'", '\u2019', '.', ',', '!', '?', ';', ':', '\u2500'])
 
     var result = []
 
@@ -1036,4 +1036,3 @@ function ipa_format_stress(ipa_graphemes) {
 
     return result 
 }
-
