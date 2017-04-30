@@ -3,18 +3,18 @@ function tokenize_cyrillic(word, keep_punctuation) {
         keep_punctuation = false
     }
 
-    var graphemes = ["\u0438", "\u0430", "\u0443", "\u044B",    // Vowels (Lowercased)
-                     "\u0418", "\u0410", "\u0423", "\u042B",    // Vowels (Uppercased)
-                     "\u043F", "\u0442", "\u043A", "\u043A\u04F1", "\u049B", "\u049B\u04F1",    // Stops (L)
-                     "\u041F", "\u0422", "\u041A", "\u041A\u04F1", "\u049A", "\u049A\u04F1",    // Stops (U)
-                     "\u0432", "\u043B", "\u0437", "\u04E5", "\u0440", "\u0433", "\u04F1", "\u04F7", "\u04F7\u04F1",    // Voiced fricatives (L)
-                     "\u0412", "\u041B", "\u0417", "\u04E4", "\u0420", "\u0413", "\u04F0", "\u04F6", "\u04F6\u04F1",    // Voiced fricatives (U)
-                     "\u0444", "\u043B\u044C", "\u0441", "\u0448", "\u0445", "\u0445\u04F1", "\u04B3", "\u04B3\u04F1", "\u0433",    // Voiceless fricatives (L)
-                     "\u0444", "\u041B\u044C", "\u0421", "\u0428", "\u0425", "\u0425\u04F1", "\u04B2", "\u04B2\u04F1", "\u0413",    // Voiceless fricatives (U)
-                     "\u043C", "\u043D", "\u04A3", "\u04A3\u04F1",    // Voiced nasals (L)
-                     "\u041C", "\u041D", "\u04A2", "\u04A2\u04F1",    // Voiced nasals (U)
-                     "\u043C\u044C", "\u043D\u044C", "\u04A3\u044C", "\u04A3\u044C\u04F1",    // Voiceless nasals (L)
-                     "\u041C\u044C", "\u041D\u044C", "\u04A2\u044C", "\u04A2\u044C\u04F1"]    // Voiceless nasals (U)
+    var graphemes = ["\u04A2\u044C\u04F1", "\u04A3\u044C\u04F1", "\u04A2\u044C", "\u04A3\u044C", "\u04A2\u04F1", "\u04A3\u04F1",
+                     "\u04B2\u04F1", "\u04B3\u04F1", "\u04F6\u04F1", "\u04F7\u04F1", "\u041A\u04F1", "\u043A\u04F1",
+                     "\u041B\u044C", "\u043B\u044C", "\u041D\u044C", "\u043D\u044C", "\u0425\u04F1", "\u0445\u04F1",
+                     "\u041C\u044C", "\u043C\u044C", "\u049A\u04F1", "\u049B\u04F1",
+                     "\u04A2", "\u04A3", "\u04B2", "\u04B3", "\u04E4", "\u04E5", "\u04F0", "\u04F1", "\u04F6", "\u04F7",
+                     "\u041A", "\u043A", "\u041B", "\u043B", "\u041C", "\u043C", "\u041D", "\u043D", "\u041F", "\u043F",
+                     "\u042B", "\u044B", "\u049A", "\u049B",
+                     "\u0410", "\u0430", "\u0412", "\u0432", "\u0413", "\u0433", "\u0417", "\u0437", "\u0418", "\u0438",
+                     "\u0420", "\u0440", "\u0421", "\u0441", "\u0422", "\u0442", "\u0423", "\u0443", "\u0424", "\u0444",
+                     "\u0425", "\u0445", "\u0428", "\u0448",
+                     "\u04E2", "\u04E3", "\u0100", "\u0101", "\u04EE", "\u04EF",
+                     "\u044E\u0304", "\u044F\u0304", "\u042E", "\u044E", "\u042F", "\u044F"]
 
     var punctuation = new Set(["'", '\u2019', '.', ',', '!', '?', ';', ':', '\u2500'])
 
@@ -23,6 +23,7 @@ function tokenize_cyrillic(word, keep_punctuation) {
     var start = 0
     var end = word.length
 
+    // TODO: Need condition for \u04F1 appearing prior to the consonant it labializes
     while (start < end) {
         var found_grapheme = false
 		
