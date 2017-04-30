@@ -41,11 +41,13 @@ document.getElementById("button1").onclick = function() {
                 var split_cyrillic_stress = []
 
                 for (var w = 0; w < split_text.length; w++) {
+                    window.alert(tokenize_cyrillic(split_text[w], true))
 
                     var tokenized_with_punctuation = tokenize(split_text[w], true)
                     var lowercased                 = split_text[w].toLowerCase()
                     var tokenized                  = tokenize(lowercased, false)
 
+                    
                     var undoubled_with_color       = undouble(tokenized_with_punctuation, true)
                     var undoubled_with_punc        = undouble(tokenized_with_punctuation, false)
                     var undoubled                  = undouble(tokenized, false)
