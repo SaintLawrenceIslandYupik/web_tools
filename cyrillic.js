@@ -23,7 +23,6 @@ function tokenize_cyrillic(word, keep_punctuation) {
     var start = 0
     var end = word.length
 
-    // TODO: Need condition for \u04F1 appearing prior to the consonant it labializes
     while (start < end) {
         var found_grapheme = false
 		
@@ -54,6 +53,115 @@ function tokenize_cyrillic(word, keep_punctuation) {
     return result
 }
 
+
+
+// Undoes the Cyrillic orthography adjustments
+function undo_cyrillic_adjustments(graphemes) {
+
+    var undo = {
+        "\u04E3":"\u0438\u0438",    // CYRILLIC SMALL LETTER I with MACRON to 'ii' 
+        "\u0101":"\u0430\u0430",    // CYRILLIC SMALL LETTER A with MACRON to 'aa' 
+        "\u04EF":"\u0443\u0443",    // CYRILLIC SMALL LETTER U with MACRON to 'uu' 
+
+        "\u04E2":"\u0418",          // CYRILLIC CAPITAL LETTER I with MACRON to 'Ii'
+        "\u0100":"\u0410",          // CYRILLIC CAPITAL LETTER A with MACRON to 'Aa'
+        "\u04EE":"\u0423",          // CYRILLIC CAPITAL LETTER U with MACRON to 'Uu'
+
+        // TODO: Won't predict when YA and YU should rewrite to Yaa and Yuu
+        "\u042F":"\u04E4\u0430",    // CYRILLIC CAPITAL LETTER YA to 'Y-a'
+        "\u042E":"\u04E4\u0443",    // CYRILLIC CAPITAL LETTER YU to 'Y-u'
+
+        "\u044F":"\u04E5\u0430",                // CYRILLIC SMALL LETTER YA to 'y-a'
+        "\u044E":"\u04E5\u0443",                // CYRILLIC SMALL LETTER YU to 'y-u'
+        "\u044F\u0304":"\u04E5\u0430\u0430",    // CYRILLIC SMALL LETTER YA with MACRON to 'y-a-a'
+        "\u044E\u0304":"\u04E5\u0443\u0443",    // CYRILLIC SMALL LETTER YU with MACRON to 'y-u-u'
+    }
+
+    var lzlls = { 
+        "\u043B":"l",              // CYRILLIC SMALL LETTER EL
+        "\u0437":"z",              // CYRILLIC SMALL LETTER ZE
+        "\u043B\u044C":"ll",       // CYRILLIC SMALL LETTER EL and SMALL LETTER SOFT SIGN
+        "\u0441":"s",              // CYRILLIC SMALL LETTER ES
+
+        "\u041B":"L",              // CYRILLIC CAPITAL LETTER EL
+        "\u0417":"Z",              // CYRILLIC CAPITAL LETTER ZE
+        "\u0421":"S",              // CYRILLIC CAPITAL LETTER ES
+        "\u041B\u044C":"Ll",       // CYRILLIC CAPITAL LETTER EL and SMALL LETTER SOFT SIGN
+    }  
+
+    var undo_lzlls = {
+        "\u044F":"\u0430",         // CYRILLIC SMALL LETTER YA to 'a'
+        "\u044E":"\u0443",         // CYRILLIC SMALL LETTER YU to 'u'
+    }
+
+    // Swaps position of the labialization symbol, i.e. Small Letter U with Dieresis
+    var labialC = {
+        "\u043A\u04F1":"\u04F1\u043A",             // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
+        "\u049B\u04F1":"\u04F1\u049B",             // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
+        "\u04F7\u04F1":"\u04F1\u04F7",             // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
+        "\u0445\u04F1":"\u04F1\u0445",             // CYRILLIC SMALL LETTER HA and SMALL LETTER U with DIERESIS
+        "\u04B3\u04F1":"\u04F1\u04B3",             // CYRILLIC SMALL LETTER HA with DESCENDER and SMALL LETTER U with DIERESIS
+        "\u04A3\u04F1":"\u04F1\u04A3",             // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER U with DIERESIS
+        "\u04A3\u044C\u04F1":"\u04F1\u04A3\u044C", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN
+                                                   // & SMALL LETTER U with DIERESIS
+    }
+
+    var voicelessC = {
+        // Stops                                                                                                                      
+        "\u043F":"p",                       // CYRILLIC SMALL LETTER PE
+        "\u0442":"t",                       // CYRILLIC SMALL LETTER TE
+        "\u043A":"k",                       // CYRILLIC SMALL LETTER KA
+        "\u043A\u04F1":"kw",                // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
+        "\u049B":"q",                       // CYRILLIC SMALL LETTER KA with DESCENDER
+        "\u049B\u04F1":"qw",                // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
+
+        // Voiceless fricatives                                                                                                       
+        "\u0444":"ff",                      // CYRILLIC SMALL LETTER EF
+        "\u043B\u044C":"ll",                // CYRILLIC SMALL LETTER EL and SMALL LETTER SOFT SIGN
+        "\u0441":"s",                       // CYRILLIC SMALL LETTER ES
+        "\u0448":"rr",                      // CYRILLIC SMALL LETTER SHA
+        "\u0445":"gg",                      // CYRILLIC SMALL LETTER HA
+        "\u0445\u04F1":"wh",                // CYRILLIC SMALL LETTER HA and SMALL LETTER U with DIERESIS
+        "\u04B3":"ghh",                     // CYRILLIC SMALL LETTER HA with DESCENDER
+        "\u04B3\u04F1":"ghhw",              // CYRILLIC SMALL LETTER HA with DESCENDER and SMALL LETTER U with DIERESIS
+        "\u0433":"h",                       // CYRILLIC SMALL LETTER GHE
+
+        // Voiceless nasals                                                                                                           
+        "\u043C\u044C":"mm",                // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
+        "\u043D\u044C":"nn",                // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
+        "\u04A3\u044C":"ngng",              // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
+        "\u04A3\u044C\u04F1":"ngngw",       // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN & SMALL LETTER U with DIERESIS
+    }
+
+    // Removes devoicing sign, i.e. Small Letter Soft Sign
+    var voicelessNasals = {
+        "\u043C\u044C":"\u043C",             // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
+        "\u043D\u044C":"\u043D",             // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
+        "\u04A3\u044C":"\u04A3",             // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
+        "\u04A3\u044C\u04F1":"\u04A3\u04F1", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN
+    }                                        // & SMALL LETTER U with DIERESIS
+
+    var result = []
+
+    for (var i = 0; i < graphemes.length; i++) {
+        var grapheme = graphemes[i]
+
+        if (i < graphemes.length - 1) {
+            var after = graphemes[i+1]
+
+            if (grapheme in lzlls && after in undo_lzlls) {
+                result.push(grapheme, undo_lzlls[after])
+                i++
+            } else { result.push(grapheme) }
+        }
+
+        else {
+            result.push(grapheme)
+        }
+    }
+
+    return result
+}
 
 
 /**

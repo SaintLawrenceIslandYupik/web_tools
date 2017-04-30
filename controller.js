@@ -41,7 +41,8 @@ document.getElementById("button1").onclick = function() {
                 var split_cyrillic_stress = []
 
                 for (var w = 0; w < split_text.length; w++) {
-                    window.alert(tokenize_cyrillic(split_text[w], true))
+                    var tokenizedCYR_with_punctuation = tokenize_cyrillic(split_text[w], true)
+                    window.alert(undo_cyrillic_adjustments(tokenizedCYR_with_punctuation))
 
                     var tokenized_with_punctuation = tokenize(split_text[w], true)
                     var lowercased                 = split_text[w].toLowerCase()
