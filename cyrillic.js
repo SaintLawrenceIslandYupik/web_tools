@@ -94,7 +94,7 @@ function undo_cyrillic_adjustments(graphemes) {
         "\u044E":"\u0443",         // CYRILLIC SMALL LETTER YU to 'u'
     }
 
-    // Swaps position of the labialization symbol, i.e. Small Letter U with Dieresis
+    // Moves labialization symbol, i.e. Small Letter U with Dieresis to post-consonant position
     var undo_labialC = {
         "\u043A":"\u043A\u04F1",             // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
         "\u049B":"\u049B\u04F1",             // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
@@ -133,12 +133,12 @@ function undo_cyrillic_adjustments(graphemes) {
         "\u04A3\u044C\u04F1":"ngngw",       // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN & SMALL LETTER U with DIERESIS
     }
 
-    // Removes devoicing sign, i.e. Small Letter Soft Sign
+    // Inserts devoicing sign, i.e. Small Letter Soft Sign
     var voicelessNasals = {
-        "\u043C\u044C":"\u043C",             // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
-        "\u043D\u044C":"\u043D",             // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
-        "\u04A3\u044C":"\u04A3",             // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
-        "\u04A3\u044C\u04F1":"\u04A3\u04F1", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN
+        "\u043C":"\u043C\u044C",             // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
+        "\u043D":"\u043D\u044C",             // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
+        "\u04A3":"\u04A3\u044C",             // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
+        "\u04A3\u04F1":"\u04A3\u044C\u04F1", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN
     }                                        // & SMALL LETTER U with DIERESIS
 
     var result = []
@@ -146,27 +146,24 @@ function undo_cyrillic_adjustments(graphemes) {
     for (var i = 0; i < graphemes.length; i++) {
         var grapheme = graphemes[i]
 
-        if (i < graphemes.length - 1) {
-            var after = graphemes[i+1]
-
-            // ADJUSTMENT 3: The 'ya', 'yu' Cyrillic representations are rewritten as 'a'
-            // and 'u' if they follow the Cyrillic representations of 'l', 'z', 'll', 's'
-            if (grapheme in lzlls && after in undo_lzlls) {
-                result.push(grapheme, undo_lzlls[after])
-                i++
-            }
+        // ADJUSTMENT 3: The 'ya', 'yu' Cyrillic representations are rewritten as 'a'
+        // and 'u' if they follow the Cyrillic representations of 'l', 'z', 'll', 's'
+        if (i < graphemes.length - 1 && grapheme in lzlls && graphemes[i+1] in undo_lzlls) {
+            result.push(grapheme, undo_lzlls[graphemes[i+1]])
+            i++
+        }
        
-            // ADJUSTMENT - A labialization symbol that appears before the consonant
-            // it labializes is moved to a position after the consonant
-            else if (grapheme == "\u04F1" && after in undo_labialC) {
-                result.push(undo_labialC[after])
-                i++
-            }
+        // ADJUSTMENT - A labialization symbol that appears before the consonant
+        // it labializes is moved to a position after the consonant
+        else if (i < graphemes.length - 1 && grapheme == "\u04F1" && graphemes[i+1] in undo_labialC) {
+            result.push(undo_labialC[graphemes[i+1]])
+            i++
+        }
 
-            // No adjustments applicable
-            else {
-                result.push(grapheme)
-            }
+        // Adjustment - Devoicing sign is inserted after a voiceless nasal
+        // if it follows a voiceless consonant
+        else if (i > 0 && graphemes[i-1] in voicelessC && grapheme in voicelessNasals) {
+            result.push(voicelessNasals[grapheme])
         } else {
             result.push(grapheme)
         }
