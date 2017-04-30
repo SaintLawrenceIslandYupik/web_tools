@@ -776,7 +776,7 @@ function cyrillic_adjustments(graphemes) {
             result.push(labialC[grapheme])
         }
 
-        // Adjustment - Cyrillic representation of 'e' deletes before a voiceless
+        // ADJUSTMENT - Cyrillic representation of 'e' deletes before a voiceless
         // consonant cluster
         else if (grapheme == "\u042B" && (i < cyr_graphemes.length - 2) &&
             cyr_graphemes[i+1] in voicelessC && cyr_graphemes[i+2] in voicelessC) {
@@ -788,7 +788,7 @@ function cyrillic_adjustments(graphemes) {
             result.push("") 
         }
 
-        // Adjustment - Devoicing sign is omitted for a voiceless nasal if it
+        // ADJUSTMENT - Devoicing sign is omitted for a voiceless nasal if it
         // appears after a voiceless consonant
         else if (i > 0 && grapheme in voicelessNasals && cyr_graphemes[i-1] in voicelessC) {
             result.push(voicelessNasals[grapheme])

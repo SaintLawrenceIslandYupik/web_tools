@@ -95,15 +95,15 @@ function undo_cyrillic_adjustments(graphemes) {
     }
 
     // Swaps position of the labialization symbol, i.e. Small Letter U with Dieresis
-    var labialC = {
-        "\u043A\u04F1":"\u04F1\u043A",             // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
-        "\u049B\u04F1":"\u04F1\u049B",             // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
-        "\u04F7\u04F1":"\u04F1\u04F7",             // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
-        "\u0445\u04F1":"\u04F1\u0445",             // CYRILLIC SMALL LETTER HA and SMALL LETTER U with DIERESIS
-        "\u04B3\u04F1":"\u04F1\u04B3",             // CYRILLIC SMALL LETTER HA with DESCENDER and SMALL LETTER U with DIERESIS
-        "\u04A3\u04F1":"\u04F1\u04A3",             // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER U with DIERESIS
-        "\u04A3\u044C\u04F1":"\u04F1\u04A3\u044C", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN
-                                                   // & SMALL LETTER U with DIERESIS
+    var undo_labialC = {
+        "\u043A":"\u043A\u04F1",             // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
+        "\u049B":"\u049B\u04F1",             // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
+        "\u04F7":"\u04F7\u04F1",             // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
+        "\u0445":"\u0445\u04F1",             // CYRILLIC SMALL LETTER HA and SMALL LETTER U with DIERESIS
+        "\u04B3":"\u04B3\u04F1",             // CYRILLIC SMALL LETTER HA with DESCENDER and SMALL LETTER U with DIERESIS
+        "\u04A3":"\u04A3\u04F1",             // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER U with DIERESIS
+        "\u04A3\u044C":"\u04A3\u044C\u04F1", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN
+                                             // & SMALL LETTER U with DIERESIS
     }
 
     var voicelessC = {
@@ -149,13 +149,25 @@ function undo_cyrillic_adjustments(graphemes) {
         if (i < graphemes.length - 1) {
             var after = graphemes[i+1]
 
+            // ADJUSTMENT 3: The 'ya', 'yu' Cyrillic representations are rewritten as 'a'
+            // and 'u' if they follow the Cyrillic representations of 'l', 'z', 'll', 's'
             if (grapheme in lzlls && after in undo_lzlls) {
                 result.push(grapheme, undo_lzlls[after])
                 i++
-            } else { result.push(grapheme) }
-        }
+            }
+       
+            // ADJUSTMENT - A labialization symbol that appears before the consonant
+            // it labializes is moved to a position after the consonant
+            else if (grapheme == "\u04F1" && after in undo_labialC) {
+                result.push(undo_labialC[after])
+                i++
+            }
 
-        else {
+            // No adjustments applicable
+            else {
+                result.push(grapheme)
+            }
+        } else {
             result.push(grapheme)
         }
     }
