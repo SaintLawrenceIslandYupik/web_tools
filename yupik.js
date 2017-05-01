@@ -634,8 +634,8 @@ function cyrillic_adjustments(graphemes) {
         "\u0430":"\u042F",                      // CYRILLIC SMALL LETTER A to CAPITAL LETTER YA
         "\u0443":"\u042E",                      // CYRILLIC SMALL LETTER U to CAPITAL LETTER YU
  
-        "\u0430\u0304":"\u042F",                      // CYRILLIC SMALL LETTER A with MACRON to CAPITAL LETTER YA
-        "\u04EF":"\u042E",                      // CYRILLIC SMALL LETTER U with MACRON to CAPITAL LETTER YU
+        "\u0430\u0304":"\u042F\u0304",                      // CYRILLIC SMALL LETTER A with MACRON to CAPITAL LETTER YA
+        "\u04EF":"\u042E\u0304",                      // CYRILLIC SMALL LETTER U with MACRON to CAPITAL LETTER YU
     }
 
     var shortAU = {
