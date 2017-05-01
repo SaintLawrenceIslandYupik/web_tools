@@ -618,11 +618,11 @@ function cyrillic_adjust_doubleVowel(graphemes) {
 
     var doubleVowel = {
         "\u0438":"\u04E3",                // CYRILLIC SMALL LETTER I to I with MACRON
-        "\u0430":"\u0101",                // CYRILLIC SMALL LETTER A to A with MACRON
+        "\u0430":"\u0430\u00af",          // CYRILLIC SMALL LETTER A to A with MACRON
         "\u0443":"\u04EF",                // CYRILLIC SMALL LETTER U to U with MACRON
 
         "\u0438\u0301":"\u04E3\u0301",    // CYRILLIC SMALL LETTER I with ACUTE ACCENT to I with MACRON and ACUTE ACCENT 
-        "\u0430\u0301":"\u0101\u0301",    // CYRILLIC SMALL LETTER A with ACUTE ACCENT to A with MACRON and ACUTE ACCENT
+        "\u0430\u0301":"\u0430\u00af\u0301",    // CYRILLIC SMALL LETTER A with ACUTE ACCENT to A with MACRON and ACUTE ACCENT
         "\u0443\u0301":"\u04EF\u0301",    // CYRILLIC SMALL LETTER U with ACUTE ACCENT to U with MACRON and ACUTE ACCENT 
         
         "\u0438\u0302":"\u04E3\u0302",    // CYRILLIC SMALL LETTER I with CIRCUMFLEX to I with MACRON and CIRCUMFLEX
