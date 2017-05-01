@@ -57,8 +57,20 @@ function tokenize_cyrillic(word, keep_punctuation) {
 
 // Undoes the Cyrillic orthography adjustments
 function undo_cyrillic_adjustments(graphemes) {
+    // TODO: May unintentionally remove a soft sign that is meant to be there
+    var hasSoftSign = {
+        "\u043B\u044C":"\u043B",     // CYRILLIC SMALL LETTER EL and  SMALL LETTER SOFT SIGN
+        "\u043C\u044C":"\u043C",    // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
+        "\u043D\u044C":"\u043D",    // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
+        "\u04A3\u044C":"\u04A3",    // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
 
-    var undo = {
+        "\u041B\u044C":"\u041B",     // CYRILLIC CAPITAL LETTER EL and SMALL LETTER SOFT SIGN
+        "\u041C\u044C":"\u041C",    // CYRILLIC CAPITAL LETTER EM and SMALL LETTER SOFT SIGN
+        "\u041D\u044C":"\u041D",    // CYRILLIC CAPITAL LETTER EN and SMALL LETTER SOFT SIGN
+        "\u04A2\u044C":"\u04A2",    // CYRILLIC CAPITAL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
+    }
+
+    var undo_yaYuVowels = {
         "\u04E3":"\u0438\u0438",    // CYRILLIC SMALL LETTER I with MACRON to 'ii' 
         "\u0101":"\u0430\u0430",    // CYRILLIC SMALL LETTER A with MACRON to 'aa' 
         "\u04EF":"\u0443\u0443",    // CYRILLIC SMALL LETTER U with MACRON to 'uu' 
@@ -146,9 +158,23 @@ function undo_cyrillic_adjustments(graphemes) {
     for (var i = 0; i < graphemes.length; i++) {
         var grapheme = graphemes[i]
 
+        // ADJUSTMENT 2: Delete the Cyrillic soft sign that is inserted between 'ya'/'yu' and a consonant
+        if (i < graphemes.length - 1 && grapheme == "\u044C" && graphemes[i+1] in undo_yaYuVowels) {
+            result.push(undo_yaYuVowels[graphemes[i+1]])
+            i++
+        } else if (i < graphemes.length - 1 && grapheme in hasSoftSign && graphemes[i+1] in undo_yaYuVowels) {
+            result.push(hasSoftSign[grapheme])
+        }
+
+        // ADJUSTMENT 1: Rewrite all Cyrillic vowels with macrons into their doubled counterparts and
+        // rewrite Cyrillic YA, YAA, YU, and YUU as 'y-a', 'y-u', 'y-a-a', 'y-u-u' respectively
+        else if (grapheme in undo_yaYuVowels) {
+            result.push(undo_yaYuVowels[grapheme])
+        }
+
         // ADJUSTMENT 3: The 'ya', 'yu' Cyrillic representations are rewritten as 'a'
         // and 'u' if they follow the Cyrillic representations of 'l', 'z', 'll', 's'
-        if (i < graphemes.length - 1 && grapheme in lzlls && graphemes[i+1] in undo_lzlls) {
+        else if (i < graphemes.length - 1 && grapheme in lzlls && graphemes[i+1] in undo_lzlls) {
             result.push(grapheme, undo_lzlls[graphemes[i+1]])
             i++
         }
@@ -160,11 +186,21 @@ function undo_cyrillic_adjustments(graphemes) {
             i++
         }
 
-        // Adjustment - Devoicing sign is inserted after a voiceless nasal
-        // if it follows a voiceless consonant
+        // TODO: This inserts the 'e' before ANY voiceless consonant cluster, which should not always
+        //  be the case, e.g. neghyugtuq
+        // ADJUSTMENT - Cyrillic representation of 'e' is inserted before a voiceless consonant cluster
+        else if (i < graphemes.length - 1 && grapheme in voicelessC && graphemes[i+1] in voicelessC) {
+            result.push("\u044B", grapheme)
+        }
+
+        // ADJUSTMENT - Devoicing sign is inserted after a voiceless nasal if it follows
+        // a voiceless consonant
         else if (i > 0 && graphemes[i-1] in voicelessC && grapheme in voicelessNasals) {
             result.push(voicelessNasals[grapheme])
-        } else {
+        }
+
+        // No adjustments applicable
+        else {
             result.push(grapheme)
         }
     }
