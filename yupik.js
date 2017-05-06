@@ -582,16 +582,16 @@ function cyrillic_adjust_doubleVowel(graphemes) {
         "\u0443":"\u04EF",                // CYRILLIC SMALL LETTER U to U with MACRON
 
         "\u0418":"\u04E2",                // CYRILLIC CAPITAL LETTER I to I with MACRON
-        "\u0410":"\u0410\u0304",                // CYRILLIC CAPITAL LETTER A to A with MACRON
+        "\u0410":"\u0410\u0304",          // CYRILLIC CAPITAL LETTER A to A with MACRON
         "\u0423":"\u04EE",                // CYRILLIC CAPITAL LETTER U to U with MACRON
 
-        "\u0438\u0301":"\u04E3\u0301",    // CYRILLIC SMALL LETTER I with ACUTE ACCENT to I with MACRON and ACUTE ACCENT 
+        "\u0438\u0301":"\u04E3\u0301",          // CYRILLIC SMALL LETTER I with ACUTE ACCENT to I with MACRON and ACUTE ACCENT 
         "\u0430\u0301":"\u0430\u0304\u0301",    // CYRILLIC SMALL LETTER A with ACUTE ACCENT to A with MACRON and ACUTE ACCENT
-        "\u0443\u0301":"\u04EF\u0301",    // CYRILLIC SMALL LETTER U with ACUTE ACCENT to U with MACRON and ACUTE ACCENT 
+        "\u0443\u0301":"\u04EF\u0301",          // CYRILLIC SMALL LETTER U with ACUTE ACCENT to U with MACRON and ACUTE ACCENT 
         
-        "\u0438\u0302":"\u04E3\u0302",    // CYRILLIC SMALL LETTER I with CIRCUMFLEX to I with MACRON and CIRCUMFLEX
+        "\u0438\u0302":"\u04E3\u0302",          // CYRILLIC SMALL LETTER I with CIRCUMFLEX to I with MACRON and CIRCUMFLEX
         "\u0430\u0302":"\u0430\u0304\u0302",    // CYRILLIC SMALL LETTER A with CIRCUMFLEX to A with MACRON and CIRCUMFLEX
-        "\u0443\u0302":"\u04EF\u0302",    // CYRILLIC SMALL LETTER U with CIRCUMFLEX to U with MACRON and CIRCUMFLEX 
+        "\u0443\u0302":"\u04EF\u0302",          // CYRILLIC SMALL LETTER U with CIRCUMFLEX to U with MACRON and CIRCUMFLEX 
     }
 
     var stressedVowel = new Set(['\u0438\u0301', '\u0430\u0301', '\u0443\u0301', '\u0438\u0302', '\u0430\u0302', '\u0443\u0302'])
@@ -634,8 +634,8 @@ function cyrillic_adjustments(graphemes) {
         "\u0430":"\u042F",                      // CYRILLIC SMALL LETTER A to CAPITAL LETTER YA
         "\u0443":"\u042E",                      // CYRILLIC SMALL LETTER U to CAPITAL LETTER YU
  
-        "\u0430\u0304":"\u042F\u0304",                      // CYRILLIC SMALL LETTER A with MACRON to CAPITAL LETTER YA
-        "\u04EF":"\u042E\u0304",                      // CYRILLIC SMALL LETTER U with MACRON to CAPITAL LETTER YU
+        "\u0430\u0304":"\u042F\u0304",          // CYRILLIC SMALL LETTER A with MACRON to CAPITAL LETTER YA
+        "\u04EF":"\u042E\u0304",                // CYRILLIC SMALL LETTER U with MACRON to CAPITAL LETTER YU
     }
 
     var shortAU = {
@@ -650,14 +650,14 @@ function cyrillic_adjustments(graphemes) {
     }
 
     var longAU = {
-        "\u0430\u0304":"\u044F\u0304",                // CYRILLIC SMALL LETTER A with MACRON to SMALL LETTER YA with MACRON
+        "\u0430\u0304":"\u044F\u0304",          // CYRILLIC SMALL LETTER A with MACRON to SMALL LETTER YA with MACRON
         "\u04EF":"\u044E\u0304",                // CYRILLIC SMALL LETTER U with MACRON to SMALL LETTER YU with MACRON
 
         "\u0430\u0304\u0301":"\u044F\u0304\u0301",    // A with MACRON and ACUTE to YA with MACRON and ACUTE
-        "\u04EF\u0301":"\u044E\u0304\u0301",    // U with MACRON and ACUTE to YU with MACRON and ACUTE
+        "\u04EF\u0301":"\u044E\u0304\u0301",          // U with MACRON and ACUTE to YU with MACRON and ACUTE
 
         "\u0430\u0304\u0302":"\u044F\u0304\u0302",    // A with MACRON and CIRCUMFLEX to YA with MACRON and CIRCUMFLEX
-        "\u04EF\u0302":"\u044E\u0304\u0302",    // U with MACRON and CIRCUMFLEX to YU with MACRON and CIRCUMFLEX
+        "\u04EF\u0302":"\u044E\u0304\u0302",          // U with MACRON and CIRCUMFLEX to YU with MACRON and CIRCUMFLEX
     }
 
     var vowels = {      
@@ -666,7 +666,7 @@ function cyrillic_adjustments(graphemes) {
         "\u0443":"u",                           // CYRILLIC SMALL LETTER U
         "\u044B":"e",                           // CYRILLIC SMALL LETTER YERU
         "\u04E3":"ii",                          // CYRILLIC SMALL LETTER I with MACRON
-        "\u0430\u0304":"aa",                          // CYRILLIC SMALL LETTER A with MACRON
+        "\u0430\u0304":"aa",                    // CYRILLIC SMALL LETTER A with MACRON
         "\u04EF":"uu",                          // CYRILLIC SMALL LETTER U with MACRON
     } 
 

@@ -7,6 +7,7 @@ function tokenize_cyrillic(word, keep_punctuation) {
                      "\u04B2\u04F1", "\u04B3\u04F1", "\u04F6\u04F1", "\u04F7\u04F1", "\u041A\u04F1", "\u043A\u04F1",
                      "\u041B\u044C", "\u043B\u044C", "\u041D\u044C", "\u043D\u044C", "\u0425\u04F1", "\u0445\u04F1",
                      "\u041C\u044C", "\u043C\u044C", "\u049A\u04F1", "\u049B\u04F1",
+                     "\u0430\u0304",
                      "\u04A2", "\u04A3", "\u04B2", "\u04B3", "\u04E4", "\u04E5", "\u04F0", "\u04F1", "\u04F6", "\u04F7",
                      "\u041A", "\u043A", "\u041B", "\u043B", "\u041C", "\u043C", "\u041D", "\u043D", "\u041F", "\u043F",
                      "\u042B", "\u044B", "\u049A", "\u049B",
@@ -54,40 +55,8 @@ function tokenize_cyrillic(word, keep_punctuation) {
 }
 
 
-
 // Undoes the Cyrillic orthography adjustments
 function undo_cyrillic_adjustments(graphemes) {
-    // TODO: May unintentionally remove a soft sign that is meant to be there
-    var hasSoftSign = {
-        "\u043B\u044C":"\u043B",     // CYRILLIC SMALL LETTER EL and  SMALL LETTER SOFT SIGN
-        "\u043C\u044C":"\u043C",    // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
-        "\u043D\u044C":"\u043D",    // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
-        "\u04A3\u044C":"\u04A3",    // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
-
-        "\u041B\u044C":"\u041B",     // CYRILLIC CAPITAL LETTER EL and SMALL LETTER SOFT SIGN
-        "\u041C\u044C":"\u041C",    // CYRILLIC CAPITAL LETTER EM and SMALL LETTER SOFT SIGN
-        "\u041D\u044C":"\u041D",    // CYRILLIC CAPITAL LETTER EN and SMALL LETTER SOFT SIGN
-        "\u04A2\u044C":"\u04A2",    // CYRILLIC CAPITAL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
-    }
-
-    var undo_yaYuVowels = {
-        "\u04E3":"\u0438\u0438",    // CYRILLIC SMALL LETTER I with MACRON to 'ii' 
-        "\u0101":"\u0430\u0430",    // CYRILLIC SMALL LETTER A with MACRON to 'aa' 
-        "\u04EF":"\u0443\u0443",    // CYRILLIC SMALL LETTER U with MACRON to 'uu' 
-
-        "\u04E2":"\u0418",          // CYRILLIC CAPITAL LETTER I with MACRON to 'Ii'
-        "\u0100":"\u0410",          // CYRILLIC CAPITAL LETTER A with MACRON to 'Aa'
-        "\u04EE":"\u0423",          // CYRILLIC CAPITAL LETTER U with MACRON to 'Uu'
-
-        // TODO: Won't predict when YA and YU should rewrite to Yaa and Yuu
-        "\u042F":"\u04E4\u0430",    // CYRILLIC CAPITAL LETTER YA to 'Y-a'
-        "\u042E":"\u04E4\u0443",    // CYRILLIC CAPITAL LETTER YU to 'Y-u'
-
-        "\u044F":"\u04E5\u0430",                // CYRILLIC SMALL LETTER YA to 'y-a'
-        "\u044E":"\u04E5\u0443",                // CYRILLIC SMALL LETTER YU to 'y-u'
-        "\u044F\u0304":"\u04E5\u0430\u0430",    // CYRILLIC SMALL LETTER YA with MACRON to 'y-a-a'
-        "\u044E\u0304":"\u04E5\u0443\u0443",    // CYRILLIC SMALL LETTER YU with MACRON to 'y-u-u'
-    }
 
     var lzlls = { 
         "\u043B":"l",              // CYRILLIC SMALL LETTER EL
@@ -118,58 +87,15 @@ function undo_cyrillic_adjustments(graphemes) {
                                              // & SMALL LETTER U with DIERESIS
     }
 
-    var voicelessC = {
-        // Stops                                                                                                                      
-        "\u043F":"p",                       // CYRILLIC SMALL LETTER PE
-        "\u0442":"t",                       // CYRILLIC SMALL LETTER TE
-        "\u043A":"k",                       // CYRILLIC SMALL LETTER KA
-        "\u043A\u04F1":"kw",                // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
-        "\u049B":"q",                       // CYRILLIC SMALL LETTER KA with DESCENDER
-        "\u049B\u04F1":"qw",                // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
-
-        // Voiceless fricatives                                                                                                       
-        "\u0444":"ff",                      // CYRILLIC SMALL LETTER EF
-        "\u043B\u044C":"ll",                // CYRILLIC SMALL LETTER EL and SMALL LETTER SOFT SIGN
-        "\u0441":"s",                       // CYRILLIC SMALL LETTER ES
-        "\u0448":"rr",                      // CYRILLIC SMALL LETTER SHA
-        "\u0445":"gg",                      // CYRILLIC SMALL LETTER HA
-        "\u0445\u04F1":"wh",                // CYRILLIC SMALL LETTER HA and SMALL LETTER U with DIERESIS
-        "\u04B3":"ghh",                     // CYRILLIC SMALL LETTER HA with DESCENDER
-        "\u04B3\u04F1":"ghhw",              // CYRILLIC SMALL LETTER HA with DESCENDER and SMALL LETTER U with DIERESIS
-        "\u0433":"h",                       // CYRILLIC SMALL LETTER GHE
-
-        // Voiceless nasals                                                                                                           
-        "\u043C\u044C":"mm",                // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
-        "\u043D\u044C":"nn",                // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
-        "\u04A3\u044C":"ngng",              // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
-        "\u04A3\u044C\u04F1":"ngngw",       // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN & SMALL LETTER U with DIERESIS
-    }
-
-    // Inserts devoicing sign, i.e. Small Letter Soft Sign
-    var voicelessNasals = {
-        "\u043C":"\u043C\u044C",             // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
-        "\u043D":"\u043D\u044C",             // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
-        "\u04A3":"\u04A3\u044C",             // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
-        "\u04A3\u04F1":"\u04A3\u044C\u04F1", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN
-    }                                        // & SMALL LETTER U with DIERESIS
-
     var result = []
 
     for (var i = 0; i < graphemes.length; i++) {
         var grapheme = graphemes[i]
 
         // ADJUSTMENT 2: Delete the Cyrillic soft sign that is inserted between 'ya'/'yu' and a consonant
-        if (i < graphemes.length - 1 && grapheme == "\u044C" && graphemes[i+1] in undo_yaYuVowels) {
-            result.push(undo_yaYuVowels[graphemes[i+1]])
+        if (i < graphemes.length - 1 && grapheme == "\u044C" && graphemes[i+1] in undo_lzlls) {
+            result.push(graphemes[i+1])
             i++
-        } else if (i < graphemes.length - 1 && grapheme in hasSoftSign && graphemes[i+1] in undo_yaYuVowels) {
-            result.push(hasSoftSign[grapheme])
-        }
-
-        // ADJUSTMENT 1: Rewrite all Cyrillic vowels with macrons into their doubled counterparts and
-        // rewrite Cyrillic YA, YAA, YU, and YUU as 'y-a', 'y-u', 'y-a-a', 'y-u-u' respectively
-        else if (grapheme in undo_yaYuVowels) {
-            result.push(undo_yaYuVowels[grapheme])
         }
 
         // ADJUSTMENT 3: The 'ya', 'yu' Cyrillic representations are rewritten as 'a'
@@ -186,19 +112,6 @@ function undo_cyrillic_adjustments(graphemes) {
             i++
         }
 
-        // TODO: This inserts the 'e' before ANY voiceless consonant cluster, which should not always
-        //  be the case, e.g. neghyugtuq
-        // ADJUSTMENT - Cyrillic representation of 'e' is inserted before a voiceless consonant cluster
-        else if (i < graphemes.length - 1 && grapheme in voicelessC && graphemes[i+1] in voicelessC) {
-            result.push("\u044B", grapheme)
-        }
-
-        // ADJUSTMENT - Devoicing sign is inserted after a voiceless nasal if it follows
-        // a voiceless consonant
-        else if (i > 0 && graphemes[i-1] in voicelessC && grapheme in voicelessNasals) {
-            result.push(voicelessNasals[grapheme])
-        }
-
         // No adjustments applicable
         else {
             result.push(grapheme)
@@ -209,20 +122,39 @@ function undo_cyrillic_adjustments(graphemes) {
 }
 
 
-/**
 // Transliterates Cyrillic graphemes to Latin graphemes
 function cyrillic_to_latin(graphemes) {
 
-    var shortVowels = {
-        "\u0438":"i",                // CYRILLIC SMALL LETTER I 
-        "\u0430":"a",                // CYRILLIC SMALL LETTER A
-        "\u0443":"u",                // CYRILLIC SMALL LETTER U
-        "\u044B":"e",                // CYRILLIC SMALL LETTER YERU
+    var vowels = {
+        "\u0438":"i",               // CYRILLIC SMALL LETTER I 
+        "\u0430":"a",               // CYRILLIC SMALL LETTER A
+        "\u0443":"u",               // CYRILLIC SMALL LETTER U
+        "\u044B":"e",               // CYRILLIC SMALL LETTER YERU
 
-        "\u0418":"I",                // I to CYRILLIC CAPITAL LETTER I
-        "\u0410":"A",                // A to CYRILLIC CAPITAL LETTER A
-        "\u0423":"U",                // U to CYRILLIC CAPITAL LETTER U
-        "\u042B":"E",                // E to CYRILLIC CAPITAL LETTER YERU
+        "\u0418":"I",               // I to CYRILLIC CAPITAL LETTER I
+        "\u0410":"A",               // A to CYRILLIC CAPITAL LETTER A
+        "\u0423":"U",               // U to CYRILLIC CAPITAL LETTER U
+        "\u042B":"E",               // E to CYRILLIC CAPITAL LETTER YERU
+
+        "\u04E3":"ii",              // CYRILLIC SMALL LETTER I with MACRON 
+        "\u0430\u0304":"aa",        // CYRILLIC SMALL LETTER A with MACRON 
+        "\u04EF":"uu",              // CYRILLIC SMALL LETTER U with MACRON 
+
+        "\u04E2":"Ii",              // CYRILLIC CAPITAL LETTER I with MACRON
+        "\u0410\u0304":"Aa",        // CYRILLIC CAPITAL LETTER A with MACRON
+        "\u04EE":"Uu",              // CYRILLIC CAPITAL LETTER U with MACRON
+
+        "\u044F":"ya",              // CYRILLIC SMALL LETTER YA
+        "\u044E":"yu",              // CYRILLIC SMALL LETTER YU
+
+        "\u042F":"Ya",              // CYRILLIC CAPITAL LETTER YA
+        "\u042E":"Yu",              // CYRILLIC CAPITAL LETTER YU
+ 
+        "\u044F\u0304":"yaa",       // CYRILLIC SMALL LETTER YA with MACRON
+        "\u044E\u0304":"yuu",       // CYRILLIC SMALL LETTER YU with MACRON
+
+        "\u042F\u0304":"Yaa",       // CYRILLIC CAPITAL LETTER YA with MACRON
+        "\u042E\u0304":"Yuu",       // CYRILLIC CAPITAL LETTER YU with MACRON
     }
 
     var consonants= {
@@ -250,7 +182,7 @@ function cyrillic_to_latin(graphemes) {
         "\u0433":"g",              // CYRILLIC SMALL LETTER GHE
         "\u04F1":"w",              // CYRILLIC SMALL LETTER U with DIERESIS 
         "\u04F7":"gh",             // CYRILLIC SMALL LETTER GHE with DESCENDER
-        "\u04F7\u04F1":"ghw"       // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
+        "\u04F7\u04F1":"ghw",       // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
 
         "\u0412":"V",              // CYRILLIC CAPITAL LETTER VE
         "\u041B":"L",              // CYRILLIC CAPITAL LETTER EL
@@ -312,8 +244,8 @@ function cyrillic_to_latin(graphemes) {
     for (var i = 0; i < graphemes.length; i++) {
         var grapheme = graphemes[i]
 
-        if (grapheme in shortVowels) {
-            result.push(shortVowels[grapheme])
+        if (grapheme in vowels) {
+            result.push(vowels[grapheme])
         } else if (grapheme in consonants) {
             result.push(consonants[grapheme])
         } else {
@@ -323,4 +255,3 @@ function cyrillic_to_latin(graphemes) {
 
     return result
 }
-*/
