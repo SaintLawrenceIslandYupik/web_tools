@@ -1,4 +1,4 @@
-function tokenize_cyrillic(word, keep_punctuation) {
+function tokenize_cyr(word, keep_punctuation) {
     if (keep_punctuation === undefined) {
         keep_punctuation = false
     }
@@ -203,7 +203,6 @@ function cyrillic_to_latin(graphemes) {
         "\u0445\u04F1":"wh",      // CYRILLIC SMALL LETTER HA and SMALL LETTER U with DIERESIS
         "\u04B3":"ghh",           // CYRILLIC SMALL LETTER HA with DESCENDER
         "\u04B3\u04F1":"ghhw",    // CYRILLIC SMALL LETTER HA with DESCENDER and SMALL LETTER U with DIERESIS
-        "\u0433":"h",             // CYRILLIC SMALL LETTER GHE
 
         "\u0444":"F",             // CYRILLIC CAPITAL LETTER EF
         "\u041B\u044C":"Ll",      // CYRILLIC CAPITAL LETTER EL and SMALL LETTER SOFT SIGN
@@ -253,5 +252,67 @@ function cyrillic_to_latin(graphemes) {
         }
     }
 
+    return result
+}
+
+
+// Applies the Latin orthographic undoubling rules, i.e. undoubles the graphemes that are underlyingly voiceless
+function undouble(graphemes) {
+
+    var doubled_fricative    = new Set(['ll', 'rr', 'gg', 'ghh', 'ghhw'])
+
+    var doubleable_fricative = new Set(['l', 'r', 'g', 'gh', 'ghw'])
+    var doubleable_nasal     = new Set(['n', 'm', 'ng', 'ngw'])
+
+    var undoubleable_unvoiced_consonant = new Set(['p', 't', 'k', 'kw', 'q', 'qw', 'f', 's', 'wh'])
+
+    var undouble={'ll'  : 'l',
+                  'rr'  : 'r',
+                  'gg'  : 'g',
+                  'ghh' : 'gh',
+                  'ghhw': 'ghw',
+                  'nn'  : 'n',
+                  'mm'  : 'm',
+                  'ngng' : 'ng',
+                  'ngngw': 'ngw'}
+
+    var result = graphemes.slice(0) // Copy the list of graphemes
+
+    var i = 0
+
+    while (i+1 < result.length) {
+        var first = result[i]
+        var second = result[i+1]
+	
+        // Rule 1a                                                                                                                        
+        if (doubleable_fricative.has(first) && undoubleable_unvoiced_consonant.has(second)) {
+            result[i] = undouble[first]
+            i += 2
+        }
+        // Rule 1b                                                                                                                        
+        else if (undoubleable_unvoiced_consonant.has(first) && doubleable_fricative.has(second)) {
+            result[i+1] = undouble[second]
+            i += 2
+        }
+        // Rule 2                                                                                                                         
+        else if (undoubleable_unvoiced_consonant.has(first) && doubleable_nasal.has(second)) {
+            result[i+1] = undouble[second]
+            i += 2
+        }
+        // Rule 3a                                                                                                                        
+        else if (doubled_fricative.has(first) && (doubleable_fricative.has(second) || doubleable_nasal.has(second))) {
+            result[i+1] = undouble[second]
+            i += 2
+        }
+        // Rule 3b                                                                                                                        
+        else if ((doubleable_fricative.has(first) || doubleable_nasal.has(first)) && second=='ll') {
+            result[i] = double[first]
+            i += 2
+        } 
+        else {
+            i += 1	
+        }
+    } // End 'while' Loop
+	
     return result
 }

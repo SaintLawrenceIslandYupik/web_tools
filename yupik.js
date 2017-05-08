@@ -116,7 +116,7 @@ function tokens_to_string(tokens) {
 
 
 function tokenize_to_string(word) {
-    var tokens = graphemes2phonemes_nagai2001(undouble(tokenize(word.toLowerCase(), false)))
+    var tokens = graphemes2phonemes_nagai2001(redouble(tokenize(word.toLowerCase(), false)))
 	
     var s=""
     for (var i=0; i<tokens.length; i++) {
@@ -128,15 +128,15 @@ function tokenize_to_string(word) {
 }
 
 
-// Undoes the Latin orthographic undoubling rules, i.e. redoubles the graphemes that underlyingly voiceless
-function undouble(graphemes, color) {
+// Undoes the Latin orthographic undoubling rules, i.e. redoubles the graphemes that are underlyingly voiceless
+function redouble(graphemes, color) {
 
-    var doubled_fricative=new Set(['ll', 'rr', 'gg', 'ghh', 'ghhw'])
+    var doubled_fricative    =new Set(['ll', 'rr', 'gg', 'ghh', 'ghhw'])
 
-    var doubleable_fricative=new Set(['l', 'r', 'g', 'gh', 'ghw'])
-    var doubleable_nasal=new Set(['n', 'm', 'ng', 'ngw'])
+    var doubleable_fricative =new Set(['l', 'r', 'g', 'gh', 'ghw'])
+    var doubleable_nasal     =new Set(['n', 'm', 'ng', 'ngw'])
 
-    var undoubleable_unvoiced_consonant=new Set(['p', 't', 'k', 'kw', 'q', 'qw', 'f', 's', 'wh'])
+    var undoubleable_unvoiced_consonant = new Set(['p', 't', 'k', 'kw', 'q', 'qw', 'f', 's', 'wh'])
 
     var double={'l'  : 'll',
                 'r'  : 'rr',

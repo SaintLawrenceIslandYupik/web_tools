@@ -4,7 +4,7 @@ document.getElementById("button1").onclick = function() {
         var split_lines            = original.split("\n")
 
         var split_latin_text           = []
-        var split_undoubled_text       = []
+        var split_redoubled_text       = []
         var split_ipa_text             = []
         var split_krauss_text          = []
         var split_nagai_text           = []
@@ -21,7 +21,7 @@ document.getElementById("button1").onclick = function() {
         for (var l = 0; l < split_lines.length; l++) {
             if (split_lines[l] == "") {
                 split_latin_text.push("<p>")
-                split_undoubled_text.push("<p>")
+                split_redoubled_text.push("<p>")
                 split_ipa_text.push("<p>")
                 split_krauss_text.push("<p>")
                 split_nagai_text.push("<p>")
@@ -36,7 +36,7 @@ document.getElementById("button1").onclick = function() {
                 split_text = split_lines[l].split(" ")
 
                 var split_latin           = []
-                var split_undoubled       = []
+                var split_redoubled       = []
                 var split_ipa             = []
                 var split_krauss          = []
                 var split_nagai           = []
@@ -50,9 +50,9 @@ document.getElementById("button1").onclick = function() {
 
                     var tokenized                  = ""
                     var tokenized_with_punc        = ""
-                    var undoubled                  = ""
-                    var undoubled_with_color       = ""
-                    var undoubled_with_punc        = ""
+                    var redoubled                  = ""
+                    var redoubled_with_color       = ""
+                    var redoubled_with_punc        = ""
 
                     var phonetic_ipa               = "" 
                     var adjusted_phonetic_ipa      = "" 
@@ -99,14 +99,14 @@ document.getElementById("button1").onclick = function() {
                         }
                     }
 
-                    undoubled                  = undouble(tokenized, false)
-                    undoubled_with_color       = undouble(tokenized_with_punc, true)
-                    undoubled_with_punc        = undouble(tokenized_with_punc, false)
+                    redoubled                  = redouble(tokenized, false)
+                    redoubled_with_color       = redouble(tokenized_with_punc, true)
+                    redoubled_with_punc        = redouble(tokenized_with_punc, false)
 
-                    phonetic_ipa               = graphemes_to_phonemes_ipa(undoubled)
+                    phonetic_ipa               = graphemes_to_phonemes_ipa(redoubled)
                     adjusted_phonetic_ipa      = ipa_adjust_doubleVowel(phonetic_ipa)
-                    phonetic_krauss1975        = graphemes_to_phonemes_krauss1975(undoubled)
-                    phonetic_nagai2001         = graphemes_to_phonemes_nagai2001(undoubled)
+                    phonetic_krauss1975        = graphemes_to_phonemes_krauss1975(redoubled)
+                    phonetic_nagai2001         = graphemes_to_phonemes_nagai2001(redoubled)
 
                     latin_syllabified          = syllabify(tokenized, latin_vowels, false)
                     latin_stressed             = stress(latin_syllabified, latin_vowels, false)
@@ -115,18 +115,18 @@ document.getElementById("button1").onclick = function() {
                     ipa_stressed               = stress(ipa_syllabified, ipa_vowels, true)
                     ipa_stress_adjusted        = ipa_format_stress(ipa_stressed)
 
-                    tokenized_cyrillic         = latin_to_cyrillic(undoubled)
+                    tokenized_cyrillic         = latin_to_cyrillic(redoubled)
                     cyrillic_syllabified       = syllabify(tokenized_cyrillic, cyrillic_vowels, false)
                     cyrillic_stressed          = stress(cyrillic_syllabified, cyrillic_vowels, false)
                     cyrillic_stress_adjusted   = cyrillic_adjustments(cyrillic_stressed)
 
                     if (!cyrInput) {
-                        var cyrillic_with_punc         = latin_to_cyrillic(undoubled_with_punc)
+                        var cyrillic_with_punc         = latin_to_cyrillic(redoubled_with_punc)
                         var adjusted_cyrillic          = cyrillic_adjustments(cyrillic_with_punc)
-                        split_cyrillic.push(tokens_to_string(adjusted_cyrillic))
+                        split_cyrillic.push(tokens_to_string(adjusted_cyrillic))    // Latin to Cyrillic transliterated
                     }
 
-                    split_undoubled.push(tokens_to_string(undoubled_with_color))
+                    split_redoubled.push(tokens_to_string(redoubled_with_color))
                     split_ipa.push(tokens_to_string(adjusted_phonetic_ipa))
                     split_krauss.push(tokens_to_string(phonetic_krauss1975))
                     split_nagai.push(tokens_to_string(phonetic_nagai2001))
@@ -136,7 +136,7 @@ document.getElementById("button1").onclick = function() {
                 } // End word-'for' Loop
 
                 split_latin_text.push(split_latin.join(" "))
-                split_undoubled_text.push(split_undoubled.join(" "))
+                split_redoubled_text.push(split_redoubled.join(" "))
                 split_ipa_text.push(split_ipa.join(" "))
                 split_krauss_text.push(split_krauss.join(" "))
                 split_nagai_text.push(split_nagai.join(" "))
@@ -149,7 +149,7 @@ document.getElementById("button1").onclick = function() {
         } // End line-'for' Loop
 
         us_ess.innerHTML               = split_latin_text.join("<br>")
-        us_ess_undoubled.innerHTML     = split_undoubled_text.join("<br>")
+        us_ess_redoubled.innerHTML     = split_redoubled_text.join("<br>")
         ipa.innerHTML                  = split_ipa_text.join("<br>")
         krauss1975.innerHTML           = split_krauss_text.join("<br>")
         nagai2001.innerHTML            = split_nagai_text.join("<br>") 
