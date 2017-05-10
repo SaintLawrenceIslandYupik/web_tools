@@ -80,8 +80,8 @@ document.getElementById("button1").onclick = function() {
                         var tokenized_cyr       = tokenize_cyr(split_text[w], false)
                         var tokenized_cyr_punc  = tokenize_cyr(split_text[w], true)
 
-                        tokenized               = undouble(cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr)))
-                        tokenized_with_punc     = undouble(cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr_punc)))
+                        tokenized               = cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr))
+                        tokenized_with_punc     = cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr_punc))
 
                         split_latin.push(tokens_to_string(tokenized_with_punc))    // Cyrillic to Latin transliterated
                     }

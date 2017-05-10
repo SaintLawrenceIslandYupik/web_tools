@@ -3,19 +3,106 @@ function tokenize_cyr(word, keep_punctuation) {
         keep_punctuation = false
     }
 
-    var graphemes = ["\u04A2\u044C\u04F1", "\u04A3\u044C\u04F1", "\u04A2\u044C", "\u04A3\u044C", "\u04A2\u04F1", "\u04A3\u04F1",
-                     "\u04B2\u04F1", "\u04B3\u04F1", "\u04F6\u04F1", "\u04F7\u04F1", "\u041A\u04F1", "\u043A\u04F1",
-                     "\u041B\u044C", "\u043B\u044C", "\u041D\u044C", "\u043D\u044C", "\u0425\u04F1", "\u0445\u04F1",
-                     "\u041C\u044C", "\u043C\u044C", "\u049A\u04F1", "\u049B\u04F1",
-                     "\u0430\u0304",
-                     "\u04A2", "\u04A3", "\u04B2", "\u04B3", "\u04E4", "\u04E5", "\u04F0", "\u04F1", "\u04F6", "\u04F7",
-                     "\u041A", "\u043A", "\u041B", "\u043B", "\u041C", "\u043C", "\u041D", "\u043D", "\u041F", "\u043F",
-                     "\u042B", "\u044B", "\u049A", "\u049B",
-                     "\u0410", "\u0430", "\u0412", "\u0432", "\u0413", "\u0433", "\u0417", "\u0437", "\u0418", "\u0438",
-                     "\u0420", "\u0440", "\u0421", "\u0441", "\u0422", "\u0442", "\u0423", "\u0443", "\u0424", "\u0444",
-                     "\u0425", "\u0445", "\u0428", "\u0448",
-                     "\u04E2", "\u04E3", "\u0100", "\u0101", "\u04EE", "\u04EF",
-                     "\u044E\u0304", "\u044F\u0304", "\u042E", "\u044E", "\u042F", "\u044F"]
+    var graphemes = ["\u04A2\u044C\u04F1", // CYRILLIC CAPITAL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN & SMALL LETTER U with DIERESIS
+                     "\u04A3\u044C\u04F1", // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN & SMALL LETTER U with DIERESIS
+                     "\u04A2\u044C",       // CYRILLIC CAPITAL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
+                     "\u04A3\u044C",       // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER SOFT SIGN
+                     "\u04A2\u04F1",       // CYRILLIC CAPITAL LETTER EN with DESCENDER and SMALL LETTER U with DIERESIS
+                     "\u04A3\u04F1",       // CYRILLIC SMALL LETTER EN with DESCENDER and SMALL LETTER U with DIERESIS
+                     "\u04B2\u04F1",       // CYRILLIC CAPITAL LETTER HA with DESCENDER and SMALL LETTER U with DIERESIS
+                     "\u04B3\u04F1",       // CYRILLIC SMALL HA with DESCENDER and SMALL LETTER U with DIERESIS
+                     "\u04F6\u04F1",       // CYRILLIC CAPITAL LETTER GHE with DESCENDER
+                     "\u04F7\u04F1",       // CYRILLIC SMALL LETTER GHE with DESCENDER
+                     "\u041A\u04F1",       // CYRILLIC CAPITAL LETTER KA and SMALL LETTER U with DIERESIS
+                     "\u043A\u04F1",       // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
+                     "\u041B\u044C",       // CYRILLIC CAPITAL LETTER EL and SMALL LETTER SOFT SIGN
+                     "\u043B\u044C",       // CYRILLIC SMALL LETTER EL and SMALL LETTER SOFT SIGN
+                     "\u041D\u044C",       // CYRILLIC CAPITAL LETTER EN and SMALL LETTER SOFT SIGN
+                     "\u043D\u044C",       // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
+                     "\u0425\u04F1",       // CYRILLIC CAPITAL LETTER HA and SMALL LETTER U with DIERESIS 
+                     "\u0445\u04F1",       // CYRILLIC SMALL LETTER HA and SMALL LETTER U with DIERESIS 
+                     "\u041C\u044C",       // CYRILLIC CAPITAL LETTER EM and SMALL LETTER SOFT SIGN
+                     "\u043C\u044C",       // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
+                     "\u049A\u04F1",       // CYRILLIC CAPITAL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS
+                     "\u049B\u04F1",       // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS
+
+                     "\u0418\u0304",       // CYRILLIC CAPITAL LETTER I with COMBINING MACRON
+                     "\u0438\u0304",       // CYRILLIC SMALL LETTER I with COMBINING MACRON
+                     "\u0410\u0304",       // CYRILLIC CAPITAL LETTER A with COMBINING MACRON
+                     "\u0430\u0304",       // CYRILLIC SMALL LETTER A with COMBINING MACRON
+                     "\u0041\u0304",       // LATIN CAPITAL LETTER A with COMBINING MACRON
+                     "\u0061\u0304",       // LATIN SMALL LETTER A with COMBINING MACRON
+                     "\u0423\u0304",       // CYRILLIC CAPITAL LETTER U with COMBINING MACRON
+                     "\u0443\u0304",       // CYRILLIC SMALL LETTER U with COMBINING MACRON
+                     "\u042E\u0304",       // CYRILLIC CAPITAL LETTER YU with COMBINING MACRON
+                     "\u044E\u0304",       // CYRILLIC SMALL LETTER YU with COMBINING MACRON
+                     "\u042F\u0304",       // CYRILLIC CAPITAL LETTER YA with COMBINING MACRON
+                     "\u044F\u0304",       // CYRILLIC SMALL LETTER YA with COMBINING MACRON
+
+                     "\u0418\u0308",       // CYRILLIC CAPITAL LETTER I with COMBINING DIERESIS
+                     "\u0438\u0308",       // CYRILLIC SMALL LETTER I with COMBINING DIERESIS
+
+                     "\u04E2",             // CYRILLIC CAPITAL LETTER I with MACRON
+                     "\u04E3",             // CYRILLIC SMALL LETTER I with MACRON
+                     "\u0100",             // LATIN CAPITAL LETTER A with MACRON
+                     "\u0101",             // LATIN SMALL LETTER A with MACRON
+                     "\u04EE",             // CYRILLIC CAPITAL LETTER U with MACRON
+                     "\u04EF",             // CYRILLIC SMALL LETTER U with MACRON
+                     "\u042E",             // CYRILLIC CAPITAL LETTER YU
+                     "\u044E",             // CYRILLIC SMALL LETTER YU
+                     "\u042F",             // CYRILLIC CAPITAL LETTER YA
+                     "\u044F",             // CYRILLIC SMALL LETTER YA
+
+                     "\u0418",             // CYRILLIC CAPITAL LETTER I
+                     "\u0438",             // CYRILLIC SMALL LETTER I
+                     "\u0410",             // CYRILLIC CAPITAL LETTER A
+                     "\u0430",             // CYRILLIC SMALL LETTER A
+                     "\u0423",             // CYRILLIC CAPITAL LETTER U
+                     "\u0443",             // CYRILLIC SMALL LETTER U
+                     "\u042B",             // CYRILLIC CAPITAL LETTER YERU
+                     "\u044B",             // CYRILLIC SMALL LETTER YERU
+
+                     "\u04A2",             // CYRILLIC CAPITAL LETTER EN with DESCENDER
+                     "\u04A3",             // CYRILLIC SMALL LETTER EN with DESCENDER
+                     "\u04B2",             // CYRILLIC CAPITAL LETTER HA with DESCENDER
+                     "\u04B3",             // CYRILLIC SMALL LETTER HA with DESCENDER
+                     "\u04E4",             // CYRILLIC CAPITAL LETTER I with DIERESIS
+                     "\u04E5",             // CYRILLIC SMALL LETTER I with DIERESIS
+                     "\u04F0",             // CYRILLIC CAPITAL LETTER U with DIERESIS
+                     "\u04F1",             // CYRILLIC SMALL LETTER U with DIERESIS
+                     "\u04F6",             // CYRILLIC CAPITAL LETTER GHE with DESCENDER
+                     "\u04F7",             // CYRILLIC SMALL LETTER GHE with DESCENDER
+                     "\u041A",             // CYRILLIC CAPITAL LETTER KA
+                     "\u043A",             // CYRILLIC SMALL LETTER KA
+                     "\u041B",             // CYRILLIC CAPITAL LETTER EL
+                     "\u043B",             // CYRILLIC SMALL LETTER EL
+                     "\u041C",             // CYRILLIC CAPITAL LETTER EM
+                     "\u043C",             // CYRILLIC SMALL LETTER EM
+                     "\u041D",             // CYRILLIC CAPITAL LETTER EN
+                     "\u043D",             // CYRILLIC SMALL LETTER EN
+                     "\u041F",             // CYRILLIC CAPITAL LETTER PE
+                     "\u043F",             // CYRILLIC SMALL LETTER PE
+                     "\u049A",             // CYRILLIC CAPITAL LETTER KA with DESCENDER
+                     "\u049B",             // CYRILLIC SMALL LETTER KA with ER
+                     "\u0412",             // CYRILLIC CAPITAL LETTER VE
+                     "\u0432",             // CYRILLIC SMALL LETTER VE
+                     "\u0413",             // CYRILLIC CAPITAL LETTER GHE
+                     "\u0433",             // CYRILLIC SMALL LETTER GHE
+                     "\u0417",             // CYRILLIC CAPITAL LETTER ZE
+                     "\u0437",             // CYRILLIC SMALL LETTER ZE
+                     "\u0420",             // CYRILLIC CAPITAL LETTER ER
+                     "\u0440",             // CYRILLIC SMALL LETTER ER
+                     "\u0421",             // CYRILLIC CAPITAL LETTER ES
+                     "\u0441",             // CYRILLIC SMALL LETTER ES
+                     "\u0422",             // CYRILLIC CAPITAL LETTER TE
+                     "\u0442",             // CYRILLIC SMALL LETTER TE
+                     "\u0424",             // CYRILLIC CAPITAL LETTER EF
+                     "\u0444",             // CYRILLIC SMALL LETTER EF
+                     "\u0425",             // CYRILLIC CAPITAL LETTER HA
+                     "\u0445",             // CYRILLIC SMALL LETTER HA
+                     "\u0428",             // CYRILLIC CAPITAL LETTER SHA
+                     "\u0448",             // CYRILLIC SMALL LETTER SHA
+                     ]
 
     var punctuation = new Set(["'", '\u2019', '.', ',', '!', '?', ';', ':', '\u2500'])
 
@@ -71,8 +158,10 @@ function undo_cyrillic_adjustments(graphemes) {
     }  
 
     var undo_lzlls = {
-        "\u044F":"\u0430",         // CYRILLIC SMALL LETTER YA to 'a'
-        "\u044E":"\u0443",         // CYRILLIC SMALL LETTER YU to 'u'
+        "\u044F\u0304":"\u0430\u0430",  // CYRILLIC SMALL LETTER YA with COMBINING MACRON to 'aa'
+        "\u044F":"\u0430",              // CYRILLIC SMALL LETTER YA to 'a'
+        "\u044E\u0304":"\u0443\u0443",  // CYRILLIC SMALL LETTER YA with COMBINING MACRON to 'uu'
+        "\u044E":"\u0443",              // CYRILLIC SMALL LETTER YU to 'u'
     }
 
     // Moves labialization symbol, i.e. Small Letter U with Dieresis to post-consonant position
@@ -136,8 +225,11 @@ function cyrillic_to_latin(graphemes) {
         "\u0423":"U",               // U to CYRILLIC CAPITAL LETTER U
         "\u042B":"E",               // E to CYRILLIC CAPITAL LETTER YERU
 
+        "\u0438\u0304":"ii",        // CYRILLIC SMALL LETTER I with COMBINING MACRON
+        "\u0430\u0304":"aa",        // CYRILLIC SMALL LETTER A with COMBINING MACRON 
+        "\u0061\u0304":"aa",        // LATIN SMALL LETTER A with COMBINING MACRON
+        "\u0443\u0304":"uu",        // CYRILLIC SMALL LETTER U with COMBINING MACRON 
         "\u04E3":"ii",              // CYRILLIC SMALL LETTER I with MACRON 
-        "\u0430\u0304":"aa",        // CYRILLIC SMALL LETTER A with MACRON 
         "\u04EF":"uu",              // CYRILLIC SMALL LETTER U with MACRON 
 
         "\u04E2":"Ii",              // CYRILLIC CAPITAL LETTER I with MACRON
@@ -177,16 +269,18 @@ function cyrillic_to_latin(graphemes) {
         "\u0432":"v",              // CYRILLIC SMALL LETTER VE
         "\u043B":"l",              // CYRILLIC SMALL LETTER EL
         "\u0437":"z",              // CYRILLIC SMALL LETTER ZE
+        "\u0438\u0308":"y",        // CYRILLIC SMALL LETTER I with COMBINING DIERESIS
         "\u04E5":"y",              // CYRILLIC SMALL LETTER I with DIERESIS
         "\u0440":"r",              // CYRILLIC SMALL LETTER ER
         "\u0433":"g",              // CYRILLIC SMALL LETTER GHE
         "\u04F1":"w",              // CYRILLIC SMALL LETTER U with DIERESIS 
         "\u04F7":"gh",             // CYRILLIC SMALL LETTER GHE with DESCENDER
-        "\u04F7\u04F1":"ghw",       // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
+        "\u04F7\u04F1":"ghw",      // CYRILLIC SMALL LETTER GHE with DESCENDER and SMALL LETTER U with DIERESIS 
 
         "\u0412":"V",              // CYRILLIC CAPITAL LETTER VE
         "\u041B":"L",              // CYRILLIC CAPITAL LETTER EL
         "\u0417":"Z",              // CYRILLIC CAPITAL LETTER ZE
+        "\u0418\u0308":"Y",        // CYRILLIC CAPITAL LETTER I with COMBINING DIERESIS
         "\u04E4":"Y",              // CYRILLIC CAPITAL LETTER I with DIERESIS
         "\u0420":"R",              // CYRILLIC CAPITAL LETTER ER
         "\u0413":"G",              // CYRILLIC CAPITAL LETTER GHE
@@ -252,7 +346,8 @@ function cyrillic_to_latin(graphemes) {
         }
     }
 
-    return result
+    word = tokens_to_string(undouble(result))
+    return spellcheck_cyr(word)
 }
 
 
@@ -315,4 +410,31 @@ function undouble(graphemes) {
     } // End 'while' Loop
 	
     return result
+}
+
+
+function spellcheck_cyr(word) {
+
+    var rewriteH = {"aagaaleketiiq":"aahaaleketiiq",
+                    "aagaangwliq":"aahaangwliq",
+                    "agaa":"ahaa",
+                    "agaam":"ahaam",
+                    "agaamangam":"ahaamangam",
+                    "agaaw":"ahaaw",
+                    "agay":"ahay",
+                    "iьi":"ihi",
+                    "iьiьiьiy":"ihihihiy",
+                    "iьiьiьiyagh":"ihihihiyagh",
+                    "iьik":"ihik",
+                    "sааpghanghilnguq":"saaphanghilnguq",
+                    "uuьuk":"uuhuk",
+                    "uuьuuk":"uuhuuk",
+                    "wuguguguguu":"wuhuhuhuhuu",
+                    }
+
+    if (word in rewriteH) {
+        return tokenize_cyr(rewriteH[word])
+    } else {
+        return tokenize_cyr(word)
+    }
 }

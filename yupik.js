@@ -634,8 +634,8 @@ function cyrillic_adjustments(graphemes) {
         "\u0430":"\u042F",                      // CYRILLIC SMALL LETTER A to CAPITAL LETTER YA
         "\u0443":"\u042E",                      // CYRILLIC SMALL LETTER U to CAPITAL LETTER YU
  
-        "\u0430\u0304":"\u042F\u0304",          // CYRILLIC SMALL LETTER A with MACRON to CAPITAL LETTER YA
-        "\u04EF":"\u042E\u0304",                // CYRILLIC SMALL LETTER U with MACRON to CAPITAL LETTER YU
+        "\u0430\u0304":"\u042F\u0304",          // CYRILLIC SMALL LETTER A with MACRON to CAPITAL LETTER YA with MACRON
+        "\u04EF":"\u042E\u0304",                // CYRILLIC SMALL LETTER U with MACRON to CAPITAL LETTER YU with MACRON
     }
 
     var shortAU = {
@@ -661,20 +661,20 @@ function cyrillic_adjustments(graphemes) {
     }
 
     var vowels = {      
-        "\u0438":"i",                           // CYRILLIC SMALL LETTER I 
-        "\u0430":"a",                           // CYRILLIC SMALL LETTER A
-        "\u0443":"u",                           // CYRILLIC SMALL LETTER U
-        "\u044B":"e",                           // CYRILLIC SMALL LETTER YERU
-        "\u04E3":"ii",                          // CYRILLIC SMALL LETTER I with MACRON
-        "\u0430\u0304":"aa",                    // CYRILLIC SMALL LETTER A with MACRON
-        "\u04EF":"uu",                          // CYRILLIC SMALL LETTER U with MACRON
+        "\u0438":"i",              // CYRILLIC SMALL LETTER I 
+        "\u0430":"a",              // CYRILLIC SMALL LETTER A
+        "\u0443":"u",              // CYRILLIC SMALL LETTER U
+        "\u044B":"e",              // CYRILLIC SMALL LETTER YERU
+        "\u04E3":"ii",             // CYRILLIC SMALL LETTER I with MACRON
+        "\u0430\u0304":"aa",       // CYRILLIC SMALL LETTER A with MACRON
+        "\u04EF":"uu",             // CYRILLIC SMALL LETTER U with MACRON
     } 
 
-    var lzlls = { 
-        "\u043B":"l",                           // CYRILLIC SMALL LETTER EL
-        "\u0437":"z",                           // CYRILLIC SMALL LETTER ZE
-        "\u043B\u044C":"ll",                    // CYRILLIC SMALL LETTER EL and SMALL LETTER SOFT SIGN
-        "\u0441":"s",                           // CYRILLIC SMALL LETTER ES
+    var lzlls = {
+        "\u043B":"l",              // CYRILLIC SMALL LETTER EL
+        "\u0437":"z",              // CYRILLIC SMALL LETTER ZE
+        "\u043B\u044C":"ll",       // CYRILLIC SMALL LETTER EL and SMALL LETTER SOFT SIGN
+        "\u0441":"s",              // CYRILLIC SMALL LETTER ES
 
         "\u041B":"L",              // CYRILLIC CAPITAL LETTER EL
         "\u0417":"Z",              // CYRILLIC CAPITAL LETTER ZE
