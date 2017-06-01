@@ -44,6 +44,7 @@ function tokenize_cyr(word, keep_punctuation) {
 
                      "\u04E2",             // CYRILLIC CAPITAL LETTER I with MACRON
                      "\u04E3",             // CYRILLIC SMALL LETTER I with MACRON
+                     "ā",
                      "\u0100",             // LATIN CAPITAL LETTER A with MACRON
                      "\u0101",             // LATIN SMALL LETTER A with MACRON
                      "\u04EE",             // CYRILLIC CAPITAL LETTER U with MACRON
@@ -226,6 +227,7 @@ function cyrillic_to_latin(graphemes) {
         "\u042B":"E",               // E to CYRILLIC CAPITAL LETTER YERU
 
         "\u0438\u0304":"ii",        // CYRILLIC SMALL LETTER I with COMBINING MACRON
+        "ā":"aa",
         "\u0430\u0304":"aa",        // CYRILLIC SMALL LETTER A with COMBINING MACRON 
         "\u0061\u0304":"aa",        // LATIN SMALL LETTER A with COMBINING MACRON
         "\u0443\u0304":"uu",        // CYRILLIC SMALL LETTER U with COMBINING MACRON 
