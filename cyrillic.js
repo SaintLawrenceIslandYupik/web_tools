@@ -428,7 +428,7 @@ function spellcheck_cyr(word) {
                     "iьiьiьiy":"ihihihiy",
                     "iьiьiьiyagh":"ihihihiyagh",
                     "iьik":"ihik",
-                    "sааpghanghilnguq":"saaphanghilnguq",
+                    // "sааpghanghilnguq":"saaphanghilnguq",
                     "uuьuk":"uuhuk",
                     "uuьuuk":"uuhuuk",
                     "wuguguguguu":"wuhuhuhuhuu",
