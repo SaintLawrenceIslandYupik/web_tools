@@ -29,6 +29,7 @@ function spellcheck(graphemes, vowels, entry) {
 
     var consecutiveApostrophes = /''+/
     var consonantCluster = /ccc+/
+	var CClusterInOnset = /\bcc+/g
     var vowelCluster = /iii+|aaa+|uuu+|ee+|ia+|iu+|ie+|ai+|au+|ae+|ui+|ua+|ue+|ei+|ea+|eu+/
 
     if (apostrophe.test(str)) {
@@ -44,7 +45,9 @@ function spellcheck(graphemes, vowels, entry) {
         }
     } else if (vowelCluster.test(str) || consonantCluster.test(cv)) {
         return false
-    } // End 'for' Loop
+    } else if (CClusterInOnset.test(cv)) {
+		return false
+	}
 
     return true
 }
