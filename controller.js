@@ -83,7 +83,12 @@ document.getElementById("button1").onclick = function() {
                         tokenized               = cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr))
                         tokenized_with_punc     = cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr_punc))
 
-                        split_latin.push(tokens_to_string(tokenized_with_punc))    // Cyrillic to Latin transliterated
+						// Spellchecks the now-transliterated Cyrillic to Latin text
+                        if (spellcheck(tokenized, latin_vowels, lowercased)) {
+                            split_latin.push(tokens_to_string(tokenized_with_punc))
+                        } else {
+                            split_latin.push((tokens_to_string(tokenized_with_punc)).fontcolor("b20000"))
+                        }
                     }
 
                     // Selected functions for when input is in Latin
