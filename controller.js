@@ -15,7 +15,7 @@ document.getElementById("button1").onclick = function() {
 
         const cyrillicPattern = /[\u0400-\u04FF]/;
         var latin_vowels = new Set(['i', 'a', 'u', 'e'])
-        var ipa_vowels = new Set(['\u0069', '\u0251', '\u0075', '\u0259'])
+        var ipa_vowels = new Set(['\u0069', '\u0251', '\u0075', '\u0259', '\u0069\u02D0', '\u0251\u02D0', '\u0075\u02D0', '\u0259\u02D0'])
         var cyrillic_vowels = new Set(['\u0438', '\u0430', '\u0443', '\u044B', '\u04E3', '\u0101', '\u04EF'])
 
         for (var l = 0; l < split_lines.length; l++) {
