@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'doulosSIL';
+    src: url('DoulosSIL-R.ttf');
+}
+
+body {
+	background-color: powderblue;
+	
+	font-family: "doulosSIL", Times New Roman, serif;
+
+}
+
+h2, h6 {
+    padding: 2px;
+    margin: 0px;
+}
+
+br {
+    display: block;
+    margin-top: -5px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #444444;
+}
+
+li {
+    float: left;
+    border-right: 1px solid #f0f0f0;
+}
+
+li a {
+    display: inline-block;
+    color: #ffffff;
+    text-align: center;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #333333;
+}
+.rad {
+	display: none;
+}
+
+.rad_div {
+	padding-top: 10px;
+	padding-bottom: 0px;
+}
+
+label input.rad:checked + .label-text {
+	color: powderblue;
+	font-weight: bold;
+}
+
+.button {
+    background-color: #ffffff;
+    color: #4f4e3e;
+    border: outset 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
