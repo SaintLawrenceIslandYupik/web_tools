@@ -2,131 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Liinnaqumalghiit kukriqigalnguut</title>
+<title>TITLE</title>
 <link rel="stylesheet" type="text/css" href="style.css">
-<script type="text/javascript" src="cyrillic.js"></script>
-<script type="text/javascript" src="yupik.js"></script>
+
+<!--Icon set created by Lane Schwarz (lanes@illinois.edu)-->
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+<link rel="manifest" href="icons/site.webmanifest">
+<link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#50b5c2">
+<meta name="msapplication-TileColor" content="#b0e0e6">
+<meta name="theme-color" content="#b0e0e6">
+
 </head>
 
-<body>
-    <div style="background-color:#ffffff; padding:10px;">
-        <h2>St. Lawrence Island / Central Siberian Yupik</h2>
-    </div>
+LOL WE NEED A BETTER DESIGN
+<p>
+<a href="index_utilities.html">Utilities</a>
+<a href="index_dictionary.html">Dictionary</a>
 
-    <div style="background:#f0f0f0; padding:25px; padding-bottom:25px">
-
-    <div style="font-family:Times New Roman">
-    <ul>
-        <li>
-            <a><label><input type="checkbox" class="chkbox" checked><span class="label-text">Latin</label></label></a>
-        </li>
-        <li>
-            <a><label><input type="checkbox" class="chkbox"><span class="label-text">Doubled</label></label></a>
-        </li>
-        <li class="dropdown">
-            <a><label>Phonetic Transcription</label>
-            <div class="dropdown-content">
-                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Phonetic (IPA)</label></label></a>
-                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Phonetic (Krauss)</label></label></a>
-                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Phonetic (Nagai)</label></label></a>
-            </div>
-        </li>
-        <li>
-            <a><label><input type="checkbox" class="chkbox"><span class="label-text">Кириллица</label></label></a>
-        </li>
-        <li class="dropdown">
-            <a><label>Stress Patterning</label>
-            <div class="dropdown-content">
-                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Latin Stress Patterning</label></label></a>
-                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">IPA Stress Patterning<label></label></a>
-                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Cyrillic Stress Patterning</label></label></a>
-            </div>
-        </li>
-    </ul>
-    </div>
-
-        <div style="background:#ffffff; padding:25px; text-align:center;">
-            <textarea style="background-color:#ffffff; width:80%; height:100px" name="field1" id="field1" placeholder="Enter Text Here"></textarea>
-            <button class="button1" value="submit" id="button1">Enter</button>
-        </div>
-
-        <div style= "display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold"><a class="link-text" href="https://en.wikipedia.org/wiki/Latin_script">Latin</a></div>
-            <div id="us_ess"></div>
-        </div>
-
-        <div style="display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold">Doubled</div>
-            <div id="us_ess_redoubled"></div>
-        </div>
-   
-        <div style= "display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold"><a class="link-text" href="https://en.wikipedia.org/wiki/International_Phonetic_Alphabet">Phonetic (IPA)</a></div>
-            <div id="ipa"></div>
-        </div>
-
-        <div style= "display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold"><a class="link-text" href="https://en.wikipedia.org/wiki/Americanist_phonetic_notation">Phonetic</a> <a class="link-text" href="https://www.degruyter.com/view/j/ling.1975.13.issue-152/ling.1975.13.152.39/ling.1975.13.152.39.xml?format=INT">(Krauss 1975)</a></div>
-            <div id="krauss1975"></div>
-        </div>
-
-        <div style= "display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold"><a class="link-text" href="https://en.wikipedia.org/wiki/Americanist_phonetic_notation">Phonetic</a> <a class="link-text" href="http://lingdy.aacore.jp/en/elpr/publication-A2.html#A2-006">(Nagai 2001)</a></div>
-            <div id="nagai2001"></div>
-        </div>
-
-        <div style= "display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold"><a class="link-text" href="https://en.wikipedia.org/wiki/Cyrillic_script">Кириллица</a></div>
-            <div id="ru_ess"></div>
-        </div>
-
-        <div style= "display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold">Latin Stress Patterning</div>
-            <div id="latin_stress"></div>
-        </div>
-
-        <div style= "display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold">IPA Stress Patterning</div>
-            <div id="ipa_stress"></div>
-        </div>
-
-        <div style= "display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold">Cyrillic Stress Patterning</div>
-            <div id="cyrillic_stress"></div>
-        </div>
-
-    </div>
-
-    <div style="background-color:#ffffff; color:#444444; padding:5px;" align="center">
-        <h6></h6>
-    </div>
-
-<script type="text/javascript" src="controller.js"></script>
-
-<script>
-event_count = 0
-
-function showHide(event) {
-
-    if (event.target && event.target.className == 'button1' || event.target.className == "chkbox" && event_count > 0) {
-
-        var chkbox = document.getElementsByClassName("chkbox");
-        var chkbox_div = document.getElementsByClassName("chkbox_div");
-
-        for (var i = 0; i < chkbox.length; i++) {
-            if (chkbox[i].checked) {
-                chkbox_div[i].style.display = 'block';
-            } else {
-                chkbox_div[i].style.display = 'none';
-            }
-        }
-        event_count += 1
-    }
-
-}
-
-document.addEventListener('click', showHide, true);
-</script>
-
-</body> 
-</html>

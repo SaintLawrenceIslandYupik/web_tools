@@ -33,7 +33,7 @@ li {
 }
 
 li a, .dropbtn {
-    display: inline-block;
+    display: block;
     color: #ffffff;
     text-align: center;
     padding: 8px 16px;
@@ -45,7 +45,7 @@ li a:hover, .dropdown:hover .dropbtn {
 }
 
 li.dropdown {
-    display: inline-block;
+    display: block;
 }
 
 .dropdown-content {
@@ -90,6 +90,16 @@ label input.chkbox:checked + .dropdown-label {
     font-weight: bold;
 }
 
+label {
+ display: block; 
+ padding: 5px;
+}
+
+label:hover {
+ background:#eee;
+ cursor:pointer;
+}
+
 .button1 {
     background-color: #ffffff;
     color: #4f4e3e;
@@ -110,4 +120,10 @@ a:link, a:visited, a:active {
 
 a.link-text:hover {
     color: #444444;
+}
+
+textarea  
+{  
+   font-family:"Arial", sans-serif;  
+   font-size: 12px;   
 }
