@@ -28,10 +28,10 @@
 			<p style="margin:5px">Display all Yupik words that start with:</p>
 				<ul>
 					<li>
-						<a><label for="A"><input type="checkbox" class="box" name="alpha" id="A">A</label></a>
+						<a><label for="A"><input type="radio" class="rad" name="alpha" id="A">A</label></a>
 					</li>
 					<li>
-						<a><label for="E"><input type="checkbox" class="box" name="alpha" id="E">E</label></a>
+						<a><label for="E"><input type="radio" class="rad" name="alpha" id="E">E</label></a>
 					</li>
 					<li>
 						<a><label><input type="radio" class="rad" name="alpha" id="F"><span class="label-text">F</label></label></a>
@@ -163,14 +163,14 @@
 				  }
 			});
 			
-			var radio = document.getElementsByName("alpha");
-			for(var i=0; i<radio.length; i++) {
-				radio[i].addEventListener("click", alpha);
-			}
+			// var radio = document.getElementsByName("alpha");
+			// for(var i=0; i<radio.length; i++) {
+			//	radio[i].addEventListener("click", alpha);
+			// }
 
-			var box = document.getElementsByClassName("box");
-			for (var i = 0; i < box.length; i++) {
-				if (box[i].checked) {
+			var rad = document.getElementsByClassName("rad");
+			for (var i = 0; i < rad.length; i++) {
+				if (rad[i].checked) {
 					alpha();
 				}
 			}
