@@ -15,7 +15,7 @@ function readDict(file) {
 }
 
 
-window.onload = readDict('dictionary_js/bases_tab_3.txt');
+window.onload = readDict('dictionary_js/final_dict.tsv');
 
 
 function printEntry(entry) {
