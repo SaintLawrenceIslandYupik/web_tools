@@ -24,18 +24,18 @@ function printEntry(entry) {
 	var content = document.createElement("P");
 	
 	if(document.getElementById("showCyrillic").checked && document.getElementById("showIPA").checked){
-		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n[" + toIPA(entry[0]) + "]\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[3] + "<br>" + "<i>" + entry[4] + "</i>" + "<hr>";
+		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n[" + toIPA(entry[0]) + "]\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<hr>";
 	} 
 	else if(document.getElementById("showCyrillic").checked && !document.getElementById("showIPA").checked){
-		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[3] + "<br>" + "<i>" + entry[4] + "</i>" + "<hr>";
+		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<hr>";
 
 	}
 	else if(!document.getElementById("showCyrillic").checked && document.getElementById("showIPA").checked){
-		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n[" + toIPA(entry[0]) + "]\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[3] + "<br>" + "<i>" + entry[4] + "</i>" + "<hr>";
+		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n[" + toIPA(entry[0]) + "]\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<hr>";
 
 	}
 	else {
-		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[3] + "<br>" + "<i>" + entry[4] + "</i>" + "<hr>";
+		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<hr>";
 	}
 	
 	results.appendChild(content);
@@ -69,7 +69,7 @@ function search() {
 	else if(document.getElementById("englishToYupik").checked) {
 		
 		for(var j=0; j<lex.length; j++) {	
-			if(lex[j][3].includes(token)) {
+			if(lex[j][2].includes(token)) {
 				printEntry(lex[j]);
 				found = true;
 			}
