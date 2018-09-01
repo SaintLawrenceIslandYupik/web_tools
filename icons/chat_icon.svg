@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="150"
+   height="150"
+   viewBox="0 0 39.687498 39.687501"
+   version="1.1"
+   id="svg2560"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="chat_icon.svg"
+   inkscape:export-filename="C:\Users\Owner\Documents\icons\chat_icon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2554" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.959798"
+     inkscape:cx="64.645747"
+     inkscape:cy="108.79757"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:pagecheckerboard="true"
+     objecttolerance="1"
+     gridtolerance="10"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata2557">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-257.31249)">
+    <rect
+       style="fill:#0fc0c5;fill-opacity:1;stroke:none;stroke-width:0.26368201;stroke-opacity:1"
+       id="rect1418"
+       width="39.6875"
+       height="39.6875"
+       x="0.014197967"
+       y="257.3125"
+       ry="4.7278719" />
+    <g
+       id="g1416"
+       transform="matrix(2.9999999,0,0,2.9999999,0.08506896,-593.85714)">
+      <rect
+         ry="0.71486109"
+         y="286.75613"
+         x="2.6222098"
+         height="4.3877683"
+         width="6.0146942"
+         id="rect3115"
+         style="fill:#800000;fill-opacity:1;stroke:none;stroke-width:0.26343241;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3124"
+         d="m 8.9975693,288.21069 v 2.55647 c 0,0.44313 -0.3469427,0.80021 -0.7781049,0.80021 H 4.5451709 v 0.31599 c 0,0.39604 0.3189817,0.71502 0.715015,0.71502 h 4.5117134 l 0.7878107,1.3211 v -2.03612 -0.0836 -2.87462 c 0,-0.39603 -0.318982,-0.71447 -0.7150151,-0.71447 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26343241;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="rect3117"
+         d="m 3.3373021,286.75631 c -0.3960332,0 -0.7150153,0.31844 -0.7150153,0.71447 v 2.87462 0.0836 2.03612 l 0.787811,-1.3211 H 7.921811 c 0.3960332,0 0.7150153,-0.31899 0.7150153,-0.71502 v -2.9582 c 0,-0.39603 -0.3189821,-0.71447 -0.7150153,-0.71447 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26343241;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>
