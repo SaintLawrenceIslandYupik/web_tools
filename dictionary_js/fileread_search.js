@@ -24,18 +24,18 @@ function printEntry(entry) {
 	var content = document.createElement("P");
 	
 	if(document.getElementById("showCyrillic").checked && document.getElementById("showIPA").checked){
-		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n[" + toIPA(entry[0]) + "]\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<hr>";
+		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n[" + toIPA(entry[0]) + "]\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<br>" + "<hr>" + "<br>";
 	} 
 	else if(document.getElementById("showCyrillic").checked && !document.getElementById("showIPA").checked){
-		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<hr>";
+		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<br>" + "<hr>" + "<br>";
 
 	}
 	else if(!document.getElementById("showCyrillic").checked && document.getElementById("showIPA").checked){
-		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n[" + toIPA(entry[0]) + "]\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<hr>";
+		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n[" + toIPA(entry[0]) + "]\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<br>" + "<hr>" + "<br>";
 
 	}
 	else {
-		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<hr>";
+		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<br>" + "<hr>" + "<br>";
 	}
 	
 	results.appendChild(content);
