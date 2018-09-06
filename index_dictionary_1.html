@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="style_dict_1.css">
+		<title>Yupigestun Sangaawa/Ivalghiit Naalkigalnguut</title>
+		<script type="text/javascript" src = "dictionary_js/fileread_search.js"></script>
+		<script type="text/javascript" src = "dictionary_js/ipa_cyrillic.js"></script>	
+		
+		<!--Icon set created by Lane Schwartz (lanes@illinois.edu)-->
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+<link rel="manifest" href="icons/site.webmanifest">
+<link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#50b5c2">
+<meta name="msapplication-TileColor" content="#b0e0e6">
+<meta name="theme-color" content="#b0e0e6">
+	</head>
+	<body>
+
+		<div class="grid">
+			<div class="title"><h1>Ivalghiit Naalkigalnguut</h1></div>
+			<div class="nav">
+				<div class="box util"><a href="index_utilities.html"><img src="icons/utilities_icon_small.svg"></a></div>
+				<div class="box dict"><a href="index_dictionary_1.html"><img src="icons/book_icon_small.svg"></a></div>	
+				<div class="box map"><a href="index_template.html"><img src="icons/map_icon_small.svg"></a></div>	
+				<div class="box vid"><a href="index_template.html"><img src="icons/play_icon_small.svg"></a></div>	
+				<div class="box disc"><a href="index_template.html"><img src="icons/chat_icon_small.svg"></a></div>		
+				<div class="box info"><a href="index_info.html"><img src="icons/info_icon_small.svg"></a></div>	
+				<div class="box home"><a href="index_main.html"><img src="icons/home_icon.svg"></a></div>	
+			</div>
+			<div class="header"><h2>St. Lawrence Island / Central Siberian Yupik Dictionary</h2></div>
+			<div class="content">
+				<div class="alpha">
+				
+				</div>
+				<div class="input_cont">
+					<input type="text" name = "field1" id = "field1" placeholder = "Enter Search" autocomplete="off"></input>
+				</div>
+				<div class="filter">
+					<div class="y_e_cont">
+							<input type="radio" id="yupikToEnglish" name="direction" value="y_e" class="button y_e" checked>
+						<a>	
+							<label for="yupikToEnglish">Yupik-English</label>
+						</a>
+					</div>
+					<div class="e_y_cont">
+							<input type="radio" id="englishToYupik" name="direction" value="e_y" class="button e_y">
+						<a>	
+							<label for="englishToYupik">English-Yupik</label>
+						</a>
+					</div>
+					<div class="cyr_cont">
+							<input type="checkbox" id="showCyrillic" class="button cyrillic" checked>
+						<a>							
+							<label for="showCyrillic">Show Cyrillic</label>
+						</a>
+					</div>
+					<div class="ipa_cont">
+							<input type="checkbox" id="showIPA" class="button ipa" checked>
+						<a>							
+							<label for="showIPA">Show IPA</label>
+						</a>
+					</div>
+				</div>
+				<div class="search_cont">
+					<div class="search">
+						<a>
+							<button type="submit" value="submit" id = "search" class = "button"></button>
+							<label for="search">Search</label>
+						</a>
+					</div>
+				</div>
+				
+				<div id = "output" class="output" style = "width: 100%"></div>
+
+			</div>
+			<div class="footer">
+				<div class="box one">Contact</div>
+				<div class="box two">Contribute</div>
+			</div>
+		</div>
+		<script>
+			document.getElementById("search").addEventListener("click", search);
+			
+			document.addEventListener('keyup', function (event) {
+			  //check to see if the enter key was pressed
+				  if (event.keyCode === 13) {
+					//if so, run the search function
+					search();
+				  }
+			});
+			
+			 var radio = document.getElementsByName("alpha");
+			 for(var i=0; i<radio.length; i++) {
+				radio[i].addEventListener("click", alpha);
+			 }
+
+		</script>
+	</body>
+
+</html>
