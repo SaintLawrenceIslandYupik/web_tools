@@ -1,11 +1,12 @@
 * {
 	margin: 0;
 	padding: 0;
-	background-color: #F5F5F5;
 }
 
 body {
 	font-family: Verdana, Geneva, sans-serif;
+	background-color: #F5F5F5;
+
 }
 
 .grid {
@@ -73,7 +74,8 @@ body {
 		color: #444;
 		align-self: center;
 		height: 150px;
-
+		width: 150px;
+		border-radius: 20px;
 	}
 
 	.util {
@@ -82,6 +84,7 @@ body {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		background-color: #70ad47;
 	}
 
 	.dict {
@@ -90,6 +93,7 @@ body {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		background-color: #5b9bd5;
 	}
 
 	.map {
@@ -98,6 +102,8 @@ body {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		background-color: #ed7d31;
+
 	}
 
 	.vid {
@@ -106,6 +112,7 @@ body {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		background-color: #e20000;
 	}
 
 	.disc {
@@ -114,6 +121,7 @@ body {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		background-color: #0fc0c5;
 	}
 
 	.info {
@@ -122,9 +130,30 @@ body {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		background-color: #9966ff;
+	}
+
+	.content .box a {
+		background-color: inherit;
+		height: inherit;
+		width: inherit;
+		display: grid;
+		grid-template-rows: 70% 30%;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.content .box .label {
+		grid-row: 2;
+		text-align: center;
+		box-sizing: border-box;
+		transition: 0.5s;
+		background-color: inherit;
+		text-decoration: none;
 	}
 
 div a {
+	display: inline-block;
 	border-radius: 20px;
 }
 
