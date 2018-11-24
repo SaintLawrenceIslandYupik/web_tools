@@ -6,7 +6,7 @@ function readDict(file) {
 	http.onreadystatechange = function() {
 		var text = http.responseText;
 		var lines = text.split(/\r\n|\n|\r/);
-	
+
 		for(var i = 0; i < lines.length; i++) {
 			lex[i] = lines[i].split("\t");
 		}
@@ -19,13 +19,13 @@ window.onload = readDict('dictionary_js/final_dict.tsv');
 
 
 function printEntry(entry) {
-	
+
 	var results = document.getElementById("output");
 	var content = document.createElement("P");
-	
+
 	if(document.getElementById("showCyrillic").checked && document.getElementById("showIPA").checked){
 		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n[" + toIPA(entry[0]) + "]\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<br>" + "<hr>" + "<br>";
-	} 
+	}
 	else if(document.getElementById("showCyrillic").checked && !document.getElementById("showIPA").checked){
 		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n(" + latin_to_cyrillic(entry[0]) + ")\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<br>" + "<hr>" + "<br>";
 
@@ -37,49 +37,49 @@ function printEntry(entry) {
 	else {
 		content.innerHTML = "<b>" + entry[0] + "</b>" + "\n" + "<i>" + entry[1] + "</i>" + "\n- " + entry[2] + "<br>" + "<i>" + entry[3] + "</i>" + "<br>" + "<hr>" + "<br>";
 	}
-	
+
 	results.appendChild(content);
 }
 
 function search() {
-	var token = document.getElementById("field1").value;
+	var token = document.getElementById("field1").value.toLowerCase();
 	var results = document.getElementById("output");
 	var found = false;
 	results.innerHTML = "";
-	
+
 	if(token === "") {
 			results.innerHTML = "Please enter a search token.";
 		}
-		
+
 	else if(document.getElementById("yupikToEnglish").checked) {
-		
+
 		for(var i=0; i<lex.length; i++) {
 			if(lex[i][0].includes(token)){
 				printEntry(lex[i]);
 				found = true;
 			}
 		}
-		
+
 		if(!found) {
 			 //print "No results."
 			 results.innerHTML = "No results.";
 		}
 	}
-		
+
 	else if(document.getElementById("englishToYupik").checked) {
-		
-		for(var j=0; j<lex.length; j++) {	
+
+		for(var j=0; j<lex.length; j++) {
 			if(lex[j][2].includes(token)) {
 				printEntry(lex[j]);
 				found = true;
 			}
 		}
-		
+
 		if(!found) {
 			 //print "No results."
 			 results.innerHTML = "No results.";
 		}
-	}		
+	}
 }
 
 function alpha() {
@@ -96,19 +96,18 @@ function alpha() {
 			break;
 		}
 	}
-	
+
 	for(var j = 0; j<lex.length; j++) {
 		if(lex[j][0].toUpperCase().startsWith(token)) {
 			printEntry(lex[j]);
 			found = true;
 		}
-		
+
 	}
-	
+
 	if(!found) {
 			 //print "No results."
 			 results.innerHTML = "No results.";
 		}
-	
+
 }
-		
