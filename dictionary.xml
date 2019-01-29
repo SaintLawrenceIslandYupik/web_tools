@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary>
+
+  <entry>
+    <headword>ayvegh</headword>
+    <pos>n.</pos>
+    <def>walrus</def>
+    <notes>It’s a walrus</notes>
+  </entry>
+
+  <entry>
+    <headword>aghnagh</headword>
+    <pos>n.</pos>
+    <def>woman</def>
+    <notes>It’s a woman</notes>
+  </entry>
+
+  <entry>
+    <headword>angyagh</headword>
+    <pos>n.</pos>
+    <def>whale</def>
+    <notes>It’s a whale</notes>
+  </entry>
+
+  <entry>
+    <headword>savig</headword>
+    <pos>n.</pos>
+    <def>squirrel</def>
+    <notes>It’s a squirrel</notes>
+  </entry>
+
+  <entry>
+    <headword>iqalluk</headword>
+    <pos>n.</pos>
+    <def>fish</def>
+    <notes>It’s a fish</notes>
+  </entry>
+
+  <entry>
+    <headword>yug</headword>
+    <pos>n.</pos>
+    <def>man</def>
+    <notes>It’s a man</notes>
+  </entry>
+
+  <entry>
+    <headword>neqe</headword>
+    <pos>v.</pos>
+    <def>eat</def>
+    <notes>eating is fun</notes>
+  </entry>
+
+  <entry>
+    <headword>aate</headword>
+    <pos>v.</pos>
+    <def>arrive</def>
+    <notes>arriving is fun</notes>
+  </entry>
+</dictionary>
