@@ -41,8 +41,8 @@ function printEntry(entry) {
 	results.appendChild(content);
 }
 
-function search() {
-	var token = document.getElementById("field1").value.toLowerCase();
+function search(base) {
+	var token = base.toLowerCase();
 	var results = document.getElementById("output");
 	var found = false;
 	results.innerHTML = "";
