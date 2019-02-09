@@ -42,7 +42,7 @@ function printEntry(entry) {
 }
 
 function search(base) {
-	var token = base.toLowerCase();
+	var token = base[0].toLowerCase();
 	var results = document.getElementById("output");
 	var found = false;
 	results.innerHTML = "";

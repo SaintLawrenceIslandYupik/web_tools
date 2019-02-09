@@ -144,7 +144,7 @@
             document.getElementById("search").addEventListener("click", function () {
                 var userInput = document.getElementById("field1").value;
 								var result = foma_apply_down(myNet, userInput);
-								var lines = result.split(",");
+								var lines = result[0].split(",");
 								var token = new Array;
 								for(var i = 0; i < lines.length; i++) {
 									token[i] = lines[i].split("[");
@@ -157,7 +157,7 @@
                 if (key === 13) {
                     var userInput = document.getElementById("field1").value;
 										var result = foma_apply_down(myNet, userInput);
-										var lines = result.split(",");
+										var lines = result[0].split(",");
 										var token = new Array;
 										for(var i = 0; i < lines.length; i++) {
 											token[i] = lines[i].split("[");
