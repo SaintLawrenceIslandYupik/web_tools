@@ -144,17 +144,18 @@
             document.getElementById("search").addEventListener("click", function () {
                 var userInput = document.getElementById("field1").value;
 								var result = foma_apply_down(myNet, userInput);
-								var lines = result[0].split(",");
-								var token = new Array;
-								for(var i = 0; i < lines.length; i++) {
-									token[i] = lines[i].split("[");
-								}
-								if (typeof token[0] !== 'undefined') {
-									search(document.getElementById("field1").value)
-								}
-								else {
-									search(token[0]);
-								}
+										if (typeof result[0] == 'undefined') {
+											search(document.getElementById("field1").value)
+										}
+										else {
+											var lines = result[0].split(",");
+											var token = new Array;
+													for(var i = 0; i < lines.length; i++) {
+														token[i] = lines[i].split("[");
+													}
+											var stuff = token[0];
+											search(stuff);
+										}
             });
 
             document.addEventListener('keypress', function (e) {
@@ -162,16 +163,18 @@
                 if (key === 13) {
                     var userInput = document.getElementById("field1").value;
 										var result = foma_apply_down(myNet, userInput);
-										var lines = result[0].split(",");
-										var token = new Array;
-										for(var i = 0; i < lines.length; i++) {
-											token[i] = lines[i].split("[");
-										}
-										if (typeof token[0] !== 'undefined') {
+
+										if (typeof result[0] == 'undefined') {
 											search(document.getElementById("field1").value)
 										}
 										else {
-											search(token[0]);
+											var lines = result[0].split(",");
+											var token = new Array;
+													for(var i = 0; i < lines.length; i++) {
+														token[i] = lines[i].split("[");
+													}
+											var stuff = token[0];
+											search(stuff);
 										}
                 }
             });
