@@ -43,6 +43,7 @@ function printEntry(entry) {
 
 //This search is for matching nouns in absolutive
 //can be deleted in future iterations
+/*
 function exact_search(token) {
 		token = token.toLowerCase();
 		alert(token);
@@ -53,6 +54,7 @@ function exact_search(token) {
 			}
 		}
 }
+*/
 
 function search(tokenized, rawInput) {
 	var rawInput = rawInput.toLowerCase();
@@ -66,20 +68,20 @@ function search(tokenized, rawInput) {
 		}
 
 	else if(document.getElementById("yupikToEnglish").checked) {
-
+			/*
 			if(typeof tokenized == 'undefined') {
 				exact_search(rawInput);
 			}
-
-			else {
-				exact_search(rawInput);
+			*/
+	//	else {
+				//exact_search(rawInput);
 				for(var i=0; i<lex.length; i++) {
-					if(lex[i][0].includes(tokenized)){
+					if(lex[i][0].includes(tokenized) || lex[i][0].includes(rawInput)){
 						printEntry(lex[i]);
 						found = true;
 					}
-		 	}
-		}
+		 		}
+	//}
 
 		if(!found) {
 			 //print "No results."
