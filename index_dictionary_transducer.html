@@ -143,12 +143,16 @@
 
             document.getElementById("search").addEventListener("click", function () {
                 var userInput = document.getElementById("field1").value;
+								//This search is for matching nouns in absolutive
+
 		var result = foma_apply_down(myNet, userInput);
-		
+
 		if (typeof result[0] == 'undefined') {
-		    search(document.getElementById("field1").value)
+		    search(result[0], document.getElementById("field1").value)
 		}
+
 		else {
+
         	    //////////// START ////////////
 
                    /*
@@ -173,7 +177,7 @@
         		  -----------------------------------------
         	        */
 
-        	        var morphemes = new Array;	
+        	        var morphemes = new Array;
 
         		/*
         		inflNotSplit is a 1D array
@@ -204,12 +208,10 @@
         	        }
                         token.push(morphemes)
         	    }
-        	    alert(token[0][0])
-        		
+
         	    //////////// END ////////////
 
-        	    var stuff = token[0];
-        	    search(stuff);
+        	    search(token[0][0], userInput);
         	}
             });
 
