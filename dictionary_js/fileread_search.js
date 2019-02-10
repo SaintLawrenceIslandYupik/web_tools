@@ -41,23 +41,44 @@ function printEntry(entry) {
 	results.appendChild(content);
 }
 
-function search(base) {
-	var token = base.toLowerCase();
+//This search is for matching nouns in absolutive
+//can be deleted in future iterations
+function exact_search(token) {
+		token = token.toLowerCase();
+		alert(token);
+
+		for(var i=0; i<lex.length; i++) {
+			if(lex[i][0].match(token)){
+				printEntry(lex[i]);
+			}
+		}
+}
+
+function search(tokenized, rawInput) {
+	var rawInput = rawInput.toLowerCase();
 	var results = document.getElementById("output");
 	var found = false;
 	results.innerHTML = "";
 
-	if(token === "") {
+
+	if(tokenized === "") {
 			results.innerHTML = "Please enter a search token.";
 		}
 
 	else if(document.getElementById("yupikToEnglish").checked) {
 
-		for(var i=0; i<lex.length; i++) {
-			if(lex[i][0].includes(token)){
-				printEntry(lex[i]);
-				found = true;
+			if(typeof tokenized == 'undefined') {
+				exact_search(rawInput);
 			}
+
+			else {
+				exact_search(rawInput);
+				for(var i=0; i<lex.length; i++) {
+					if(lex[i][0].includes(tokenized)){
+						printEntry(lex[i]);
+						found = true;
+					}
+		 	}
 		}
 
 		if(!found) {
@@ -69,7 +90,7 @@ function search(base) {
 	else if(document.getElementById("englishToYupik").checked) {
 
 		for(var j=0; j<lex.length; j++) {
-			if(lex[j][2].includes(token)) {
+			if(lex[j][2].includes(rawInput)) {
 				printEntry(lex[j]);
 				found = true;
 			}
