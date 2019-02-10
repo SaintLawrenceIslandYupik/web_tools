@@ -12,7 +12,7 @@ body {
 	display: grid;
 	min-height: 100%;
 	grid-template-columns: 1fr 550px 550px 1fr;
-	grid-template-rows: 50px 75px 1fr 100px;
+	grid-template-rows: 50px 75px auto 100px;
 	grid-template-areas:
 	". title nav ."
 	". header header ."
@@ -115,7 +115,7 @@ body {
 	display: grid;
 	margin-top: 50px;
 	grid-template-columns: 50px 1fr 1fr 50px;
-	grid-template-rows: 100px 50px 150px 50px auto;
+	grid-template-rows: 100px 50px 150px 130px auto;
 	grid-template-areas:
 	". alpha alpha ."
 	". input_cont input_cont ."
@@ -141,7 +141,7 @@ body {
 	}
 
 	.alpha a {
-		background-color: #000080;
+		background-color: #5b9bd5;
 		place-self: center;
 		height: 100%;
 		width: 100%;
@@ -160,16 +160,16 @@ body {
 	}
 
 	.alpha a:hover {
-		background-color:  #5b9bd5;
+		background-color:  #000080;
 	}
 
 	.alpha .rad:checked + a {
-		background-color:  #5b9bd5;
+		background-color:  #000080;
 	}
 
 	.alpha .rad:checked + a>label {
 		font-weight: bold;
-		background-color:  #5b9bd5;
+		background-color:  #000080;
 	}
 
 	.alpha #A {
@@ -199,7 +199,7 @@ body {
 		height: 50px;
 		width: 100%;
 		border-style: solid;
-		border-color: #000080;
+		border-color: #5b9bd5;
 		border-radius: 0px 0px 10px 10px;
 		text-indent: 10px;
 	}
@@ -262,7 +262,7 @@ body {
 			border-radius: 20px;
 			height: 40px;
 			width: 140px;
-			background-color: #000080;
+			background-color: #5b9bd5;
 		}
 
 		.filter div a:hover {
@@ -271,12 +271,12 @@ body {
 		}
 
 		.filter .button:checked + a {
-			background-color:  #5b9bd5;
+			background-color:  #000080;
 		}
 
 		.filter .button:checked + a>label {
 			font-weight: bold;
-			background-color:  #5b9bd5;
+			background-color:  #000080;
 		}
 
 	.output {
@@ -307,7 +307,7 @@ body {
 		}
 
 		.search_cont label {
-			background-color:#000080;
+			background-color:#5b9bd5;
 			color: #F5F5F5;
 			cursor: pointer;
 			display: inline-block;
@@ -316,17 +316,22 @@ body {
 			width: 100%;
 		}
 
+		.search_cont label:hover {
+			background-color:  #000080;
+		}
+
 		.search_cont div a {
 			display: block;
 			border-radius: 20px;
 			height: 40px;
 			width: 125px;
-			background-color: #000080;
+			background-color: #5b9bd5;
 		}
 
 		.search_cont div a:hover {
 			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 			cursor: pointer;
+			background-color:  #000080;
 		}
 
 .footer {
