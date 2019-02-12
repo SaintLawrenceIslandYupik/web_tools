@@ -62,6 +62,7 @@ function search(tokenized, rawInput) {
 	var found = false;
 	results.innerHTML = "";
 
+	var allEntriesFound = new Array;
 
 	if(tokenized === "") {
 			results.innerHTML = "Please enter a search token.";
@@ -77,8 +78,9 @@ function search(tokenized, rawInput) {
 				//exact_search(rawInput);
 				for(var i=0; i<lex.length; i++) {
 					if(lex[i][0].includes(tokenized) || lex[i][0].includes(rawInput)){
-						printEntry(lex[i]);
+						// printEntry(lex[i]);
 						found = true;
+						allEntriesFound.push(lex[i]);
 					}
 		 		}
 	//}
@@ -93,8 +95,9 @@ function search(tokenized, rawInput) {
 
 		for(var j=0; j<lex.length; j++) {
 			if(lex[j][2].includes(rawInput)) {
-				printEntry(lex[j]);
+				// printEntry(lex[j]);
 				found = true;
+				allEntriesFound.push(lex[i]);
 			}
 		}
 
@@ -103,6 +106,7 @@ function search(tokenized, rawInput) {
 			 results.innerHTML = "No results.";
 		}
 	}
+	return allEntriesFound;
 }
 
 function alpha() {
