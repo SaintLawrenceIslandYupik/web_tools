@@ -219,7 +219,7 @@ function cyrillic_to_latin(graphemes) {
   var result = patt.test(graphemes);
 
   if (result) {
-    return;
+    return graphemes;
   }
 
     var vowels = {
@@ -356,7 +356,8 @@ function cyrillic_to_latin(graphemes) {
     }
 
     word = tokens_to_string(undouble(result))
-    return spellcheck_cyr(word)
+    var word1 = spellcheck_cyr(word)
+    return tokens_to_string(word1)
 }
 
 

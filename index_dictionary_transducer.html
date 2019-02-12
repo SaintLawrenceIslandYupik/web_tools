@@ -7,6 +7,7 @@
 		<script type="text/javascript" src = "dictionary_js/ipa_cyrillic.js"></script>
 		<script type="text/javascript" src = "dictionary_js/foma_apply_down.js"></script>
 		<script type="text/javascript" src = "dictionary_js/transducer.js"></script>
+		<script type="text/javascript" src = "dictionary_js/cyrillic_convert.js"></script>
 
 		<!--Icon set created by Lane Schwartz (lanes@illinois.edu)-->
 <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
@@ -142,9 +143,10 @@
 		<script>
 
             document.getElementById("search").addEventListener("click", function () {
-                var userInput = document.getElementById("field1").value;
+                var userInputRaw = document.getElementById("field1").value;
 								//This search is for matching nouns in absolutive
-
+								userInput = cyrillic_to_latin(userInputRaw);
+								alert(userInput);
 		var result = foma_apply_down(myNet, userInput);
 
 		if (typeof result[0] == 'undefined') {
