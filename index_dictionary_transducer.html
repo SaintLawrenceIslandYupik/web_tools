@@ -144,105 +144,100 @@
 
 		document.getElementById("search").addEventListener("click", function () {
 			var userInputRaw = document.getElementById("field1").value;
-				
-			//This search is for matching nouns in absolutive
+			// This search is for matching nouns in absolutive
 			userInput = cyrillic_to_latin(userInputRaw);
 
 			var result = foma_apply_down(myNet, userInput);
+ 
+			var foundEntries = new Array;
 
 			if (result === undefined || result.length == 0) {
-				var foundEntries = search("dummy", document.getElementById("field1").value)
-				alert(foundEntries[0])
+				foundEntries = search("dummy", document.getElementById("field1").value)
 			}
 
-		else {
+			else {
+				/*
+				// token is a 2D array
+				------------------------------------------------------
+				base1 | postbase11 | postbase22 | infl1      |       |
+				------------------------------------------------------
+				base2 | postbase21 | postbase22 | postbase23 | infl2 |
+				------------------------------------------------------
+				base3 | infl3      |            |            |       |
+				------------------------------------------------------
+				*/
 
-                   /*
-        	   token is a 2D array
-                     ------------------------------------------------------
-                     base1 | postbase11 | postbase22 | infl1      |       |
-        	     ------------------------------------------------------
-                     base2 | postbase21 | postbase22 | postbase23 | infl2 |
-        	     ------------------------------------------------------
-                     base3 | infl3      |            |            |       |
-                     ------------------------------------------------------
-        	   */
 
-
-        	    var token = new Array;
+				var token = new Array;
 
         	    for (var i = 0; i < result.length; i++) {
-        		/*
-        		morphemes is a 1D array
-        		  -----------------------------------------
-        		  base | postbase | ... | postbase | infl |
-        		  -----------------------------------------
-        	        */
+					/*
+					morphemes is a 1D array
+					-----------------------------------------
+					base | postbase | ... | postbase | infl |
+					-----------------------------------------
+					*/
 
         	        var morphemes = new Array;
 
-        		/*
-        		inflNotSplit is a 1D array
-        		  ---------------------------------------
-        		  base | postbase | ... | postbase+infl |
-        		  ---------------------------------------
-        		*/
+					/*
+					inflNotSplit is a 1D array
+					---------------------------------------
+					base | postbase | ... | postbase+infl |
+					---------------------------------------
+					*/
 
-        		var inflNotSplit = result[i].split("-");
+        			var inflNotSplit = result[i].split("-");
 
-        		// splits the [N] or [V] inflection tags
-        		// from the postbase it's attached to
-                        var inflSplit = new Array;
-        		for (var m = 0; m < inflNotSplit.length; m++) {
-                            if (inflNotSplit[m].includes("[N]")) {
-        	                inflSplit = inflNotSplit[m].split("[N]");
-        			tmp = morphemes.concat(inflSplit);
-        			morphemes = tmp;
-        		    }
-                            else if (inflNotSplit[m].includes("[V]")) {
-        	                inflSplit = inflNotSplit[m].split("[V]");
-        			tmp = morphemes.concat(inflSplit);
-        			morphemes = tmp;
-        		    }
-        	            else {
-        		        morphemes.push(inflNotSplit[m]);
-        		    }
-        	        }
-                        token.push(morphemes)
-        	    }
+					// Splits the [N] or [V] inflection tags
+					// from the postbase it's attached to
+					var inflSplit = new Array;
 
-                    // array to hold all morphophonological symbols
-                    var symbols = ["~", "–", ")"];
+					for (var m = 0; m < inflNotSplit.length; m++) {
+						if (inflNotSplit[m].includes("[N]")) {
+							inflSplit = inflNotSplit[m].split("[N]");
+							tmp = morphemes.concat(inflSplit);
+							morphemes = tmp;
+						}
+						else if (inflNotSplit[m].includes("[V]")) {
+							inflSplit = inflNotSplit[m].split("[V]");
+							tmp = morphemes.concat(inflSplit);
+							morphemes = tmp;
+						}
+						else {
+							morphemes.push(inflNotSplit[m]);
+						}
+					}
 
-		    var allOutput = new Array;
+					token.push(morphemes)
+				}
 
-                    for (var m = 0; m < token[0].length; m++) {
-                        searchToken = token[0][m].split("[")[0];
+				// Array to hold all morphophonological symbols
+				var symbols = ["~", "–", ")"];
 
-			for (var s = 0; s < symbols.length; s++) {
-                            symSplit = searchToken.split(symbols[s]);
-                            searchToken = symSplit[symSplit.length - 1];
-                        }
+				for (var m = 0; m < token[0].length; m++) {
+					searchToken = token[0][m].split("[")[0];
 
-		        if (searchToken.charAt(0) == "f") {
-		            var tmp = searchToken;
-			    searchToken = tmp.charAt(0) + "+"  + tmp.substr(1);
-                        }
+					for (var s = 0; s < symbols.length; s++) {
+						symSplit = searchToken.split(symbols[s]);
+						searchToken = symSplit[symSplit.length - 1];
+					}
 
-			if (searchToken != "") {
-			    var foundEntries = search(searchToken, userInput);
+					if (searchToken.charAt(0) == "f") {
+						var tmp = searchToken;
+						searchToken = tmp.charAt(0) + "+"  + tmp.substr(1);
+					}
 
-			    for (var e = 0; e < foundEntries.length; e++) {
-		                allOutput.push(foundEntries[e]);
-			    }
-		        }
-                    }
+					if (searchToken != "") {
+						var foundEntries = search(searchToken, userInput);
+					}
+				}
+			} // End 'else if'
 
-		    for (var i = 0; i < allOutput.length;  i++) {
-	                printEntry(allOutput[i]);
-	            }
-        	}
-            });
+			for (var i = 0; i < foundEntries.length;  i++) {
+				printEntry(foundEntries[i]);
+			}
+		});
 
             document.addEventListener('keypress', function (e) {
                 var key = e.which || e.keyCode;
