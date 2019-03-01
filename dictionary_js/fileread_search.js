@@ -6,7 +6,6 @@ function readDict(file) {
 	http.onreadystatechange = function() {
 		var text = http.responseText;
 		var lines = text.split(/\r\n|\n|\r/);
-
 		for(var i = 0; i < lines.length; i++) {
 			lex[i] = lines[i].split("\t");
 		}
@@ -41,20 +40,6 @@ function printEntry(entry) {
 	results.appendChild(content);
 }
 
-//This search is for matching nouns in absolutive
-//can be deleted in future iterations
-/*
-function exact_search(token) {
-		token = token.toLowerCase();
-		alert(token);
-
-		for(var i=0; i<lex.length; i++) {
-			if(lex[i][0].match(token)){
-				printEntry(lex[i]);
-			}
-		}
-}
-*/
 
 function search(tokenized, rawInput) {
 	var rawInput = rawInput.toLowerCase();
@@ -66,46 +51,34 @@ function search(tokenized, rawInput) {
 
 	if(tokenized === "") {
 			results.innerHTML = "Please enter a search token.";
-		}
-
-	else if(document.getElementById("yupikToEnglish").checked) {
-			/*
-			if(typeof tokenized == 'undefined') {
-				exact_search(rawInput);
-			}
-			*/
-	//	else {
-				//exact_search(rawInput);
-				for(var i=0; i<lex.length; i++) {
-					if(lex[i][0].includes(tokenized) || lex[i][0].includes(rawInput)){
-						// printEntry(lex[i]);
-						found = true;
-						allEntriesFound.push(lex[i]);
-					}
-		 		}
-	//}
-
-		if(!found) {
-			 //print "No results."
-			 results.innerHTML = "No results.";
-		}
 	}
 
-	else if(document.getElementById("englishToYupik").checked) {
-
-		for(var j=0; j<lex.length; j++) {
-			if(lex[j][2].includes(rawInput)) {
-				// printEntry(lex[j]);
+	else if(document.getElementById("yupikToEnglish").checked) {
+		for(var i=0; i<lex.length; i++) {
+			if(lex[i][0].includes(tokenized) || lex[i][0].includes(rawInput)){
 				found = true;
 				allEntriesFound.push(lex[i]);
 			}
 		}
 
 		if(!found) {
-			 //print "No results."
-			 results.innerHTML = "No results.";
+			results.innerHTML = "No results.";
 		}
 	}
+
+	else if(document.getElementById("englishToYupik").checked) {
+		for(var i=0; i< (lex.length - 1); i++) {
+			if(lex[i][2].includes(rawInput)){
+				found = true;
+				allEntriesFound.push(lex[i]);
+			}
+		}
+
+		if(!found) {
+			results.innerHTML = "No results.";
+		}
+	}
+
 	return allEntriesFound;
 }
 

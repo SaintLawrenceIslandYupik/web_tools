@@ -149,10 +149,10 @@
 
 			var result = foma_apply_down(myNet, userInput);
  
-			var foundEntries = new Array;
+			var allOutput = new Array;
 
 			if (result === undefined || result.length == 0) {
-				foundEntries = search("dummy", document.getElementById("field1").value)
+				allOutput = search("dummy", document.getElementById("field1").value)
 			}
 
 			else {
@@ -230,14 +230,18 @@
 
 					if (searchToken != "") {
 						var foundEntries = search(searchToken, userInput);
+
+						for (var e = 0; e < foundEntries.length; e++) {
+							allOutput.push(foundEntries[e]);
+						}
 					}
 				}
-			} // End 'else if'
+		} // End 'else' statement
 
-			for (var i = 0; i < foundEntries.length;  i++) {
-				printEntry(foundEntries[i]);
-			}
-		});
+		for (var i = 0; i < allOutput.length;  i++) {
+			printEntry(allOutput[i]);
+		}
+	});
 
             document.addEventListener('keypress', function (e) {
                 var key = e.which || e.keyCode;
