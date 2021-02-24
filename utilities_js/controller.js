@@ -9,6 +9,7 @@ document.getElementById("button1").onclick = function() {
         var split_krauss_text          = []
         var split_nagai_text           = []
         var split_cyrillic_text        = []
+        var split_menov_text           = []
         var split_latin_stress_text    = []
         var split_ipa_stress_text      = []
         var split_cyrillic_stress_text = []
@@ -26,6 +27,7 @@ document.getElementById("button1").onclick = function() {
                 split_krauss_text.push("<p>")
                 split_nagai_text.push("<p>")
                 split_cyrillic_text.push("<p>")
+                split_menov_text.push("<p>")
                 split_latin_stress_text.push("<p>")
                 split_ipa_stress_text.push("<p>")
                 split_cyrillic_stress_text.push("<p>")
@@ -41,6 +43,7 @@ document.getElementById("button1").onclick = function() {
                 var split_krauss          = []
                 var split_nagai           = []
                 var split_cyrillic        = []
+                var split_menov           = []
                 var split_latin_stress    = []
                 var split_ipa_stress      = []
                 var split_cyrillic_stress = []
@@ -71,11 +74,13 @@ document.getElementById("button1").onclick = function() {
                     var cyrillic_stressed          = ""
                     var cyrillic_stress_adjusted   = "" 
 
-                    // Selected functions for when input is in Cyrillic
+                    // transliterates Cyrillic text to the Latin orthography
                     if (cyrillicPattern.test(split_text[w])) {
                         cyrInput = true
 
-                        split_cyrillic.push(split_text[w])    // Original Cyrillic text
+                        // output the original cyrillic text
+                        split_cyrillic.push(split_text[w])
+                        split_menov.push(split_text[w])
  
                         var tokenized_cyr       = tokenize_cyr(split_text[w], false)
                         var tokenized_cyr_punc  = tokenize_cyr(split_text[w], true)
@@ -83,7 +88,7 @@ document.getElementById("button1").onclick = function() {
                         tokenized               = cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr))
                         tokenized_with_punc     = cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr_punc))
 
-						// Spellchecks the now-transliterated Cyrillic to Latin text
+						// spellcheck the transliterated text (Cyrillic to Latin) and output
                         if (spellcheck(tokenized, latin_vowels, lowercased)) {
                             split_latin.push(tokens_to_string(tokenized_with_punc))
                         } else {
@@ -91,9 +96,9 @@ document.getElementById("button1").onclick = function() {
                         }
                     }
 
-                    // Selected functions for when input is in Latin
+                    // selected functions for when input is in Latin
                     else {
-                        var lowercased     = split_text[w].toLowerCase()
+                        var lowercased = split_text[w].toLowerCase()
                         tokenized      = tokenize(lowercased, false)
                         tokenized_with_punc = tokenize(split_text[w], true)
 
@@ -125,10 +130,13 @@ document.getElementById("button1").onclick = function() {
                     cyrillic_stressed          = stress(cyrillic_syllabified, cyrillic_vowels, false)
                     cyrillic_stress_adjusted   = cyrillic_adjustments(cyrillic_stressed)
 
+                    // transliterates Latin text to the STANDARD Cyrillic orthography
+                    // i.e. not Menovshchikov's system, but the one described in Jacobson (2001)
                     if (!cyrInput) {
-                        var cyrillic_with_punc         = latin_to_cyrillic(redoubled_with_punc)
-                        var adjusted_cyrillic          = cyrillic_adjustments(cyrillic_with_punc)
-                        split_cyrillic.push(tokens_to_string(adjusted_cyrillic))    // Latin to Cyrillic transliterated
+                        var cyrillic_with_punc = latin_to_cyrillic(redoubled_with_punc)
+                        var adjusted_cyrillic  = cyrillic_adjustments(cyrillic_with_punc)
+                        split_cyrillic.push(tokens_to_string(adjusted_cyrillic))
+                        // split_menov.push(tokens_to_string(adjusted_cyrillic))
                     }
 
                     split_redoubled.push(tokens_to_string(redoubled_with_color))
@@ -146,6 +154,7 @@ document.getElementById("button1").onclick = function() {
                 split_krauss_text.push(split_krauss.join(" "))
                 split_nagai_text.push(split_nagai.join(" "))
                 split_cyrillic_text.push(split_cyrillic.join(" "))
+                split_menov_text.push(split_menov.join(" "))
                 split_latin_stress_text.push(split_latin_stress.join(" "))
                 split_ipa_stress_text.push(split_ipa_stress.join(" "))
                 split_cyrillic_stress_text.push(split_cyrillic_stress.join(" "))
@@ -159,6 +168,7 @@ document.getElementById("button1").onclick = function() {
         krauss1975.innerHTML           = split_krauss_text.join("<br>")
         nagai2001.innerHTML            = split_nagai_text.join("<br>") 
         ru_ess.innerHTML               = split_cyrillic_text.join("<br>") 
+        ru_menov.innerHTML             = split_menov_text.join("<br>") 
         latin_stress.innerHTML         = split_latin_stress_text.join("<br>") 
         ipa_stress.innerHTML           = split_ipa_stress_text.join("<br>") 
         cyrillic_stress.innerHTML      = split_cyrillic_stress_text.join("<br>") 

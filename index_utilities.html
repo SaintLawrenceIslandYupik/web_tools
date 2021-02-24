@@ -42,8 +42,12 @@
                 <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Phonetic (Nagai)</label></label></a>
             </div>
         </li>
-        <li>
-            <a><label><input type="checkbox" class="chkbox"><span class="label-text">Кириллица</label></label></a>
+        <li class="dropdown">
+            <a><label>Cyrillic</label>
+            <div class="dropdown-content">
+                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Standard</label></label></a>
+                <a><label><input type="checkbox" class="chkbox"><span class="dropdown-label">Menovshchikov</label></label></a>
+            </div>
         </li>
         <li class="dropdown">
             <a><label>Stress Patterning</label>
@@ -87,8 +91,13 @@
         </div>
 
         <div style= "display:none" class="chkbox_div">
-            <div style="font-family:Times New Roman; font-weight:bold"><a class="link-text" href="https://en.wikipedia.org/wiki/Cyrillic_script">Кириллица</a></div>
+            <div style="font-family:Times New Roman; font-weight:bold"><a class="link-text" href="https://en.wikipedia.org/wiki/Cyrillic_script">Cyrillic</a></div>
             <div id="ru_ess"></div>
+        </div>
+
+        <div style= "display:none" class="chkbox_div">
+            <div style="font-family:Times New Roman; font-weight:bold">Menovshchikov</div>
+            <div id="ru_menov"></div>
         </div>
 
         <div style= "display:none" class="chkbox_div">

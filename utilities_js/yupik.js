@@ -628,7 +628,7 @@ function cyrillic_adjust_doubleVowel(graphemes) {
 }
 
 
-// Applies Cyrillic orthography adjustments
+// applies Cyrillic orthography adjustments
 function cyrillic_adjustments(graphemes) {
 
     cyr_graphemes = cyrillic_adjust_doubleVowel(graphemes)
@@ -685,7 +685,7 @@ function cyrillic_adjustments(graphemes) {
         "\u041B\u044C":"Ll",       // CYRILLIC CAPITAL LETTER EL and SMALL LETTER SOFT SIGN
     } 
 
-    // Swaps position of the labialization symbol, i.e. Small Letter U with Dieresis
+    // swaps the position of the labialization symbol, i.e. Small Letter U with Dieresis
     var labialC = {
         "\u043A\u04F1":"\u04F1\u043A",             // CYRILLIC SMALL LETTER KA and SMALL LETTER U with DIERESIS
         "\u049B\u04F1":"\u04F1\u049B",             // CYRILLIC SMALL LETTER KA with DESCENDER and SMALL LETTER U with DIERESIS 
@@ -724,7 +724,7 @@ function cyrillic_adjustments(graphemes) {
         "\u04A3\u044C\u04F1":"ngngw",       // CYRILLIC SMALL LETTER EN with DESCENDER & SMALL LETTER SOFT SIGN & SMALL LETTER U with DIERESIS
     }
     
-    // Removes devoicing sign, i.e. Small Letter Soft Sign
+    // removes the devoicing sign, i.e. Small Letter Soft Sign
     var voicelessNasals = {
         "\u043C\u044C":"\u043C",             // CYRILLIC SMALL LETTER EM and SMALL LETTER SOFT SIGN
         "\u043D\u044C":"\u043D",             // CYRILLIC SMALL LETTER EN and SMALL LETTER SOFT SIGN
@@ -737,9 +737,9 @@ function cyrillic_adjustments(graphemes) {
     for (var i = 0; i < cyr_graphemes.length; i++) {
         var grapheme = cyr_graphemes[i]
 
-        // ADJUSTMENT 1: The Cyrillic pairings of 'y-a', 'y-u', 'y-aa', 'y-uu'are rewritten
-        // into Cyrillic YA, YU, YA WITH MACRON, YU with MACRON respectively
-        // First checks if grapheme is Cyrillic 'y'
+        // ADJUSTMENT 1: the Cyrillic pairings of 'y-a', 'y-u', 'y-aa', 'y-uu'are rewritten
+        //               into Cyrillic YA, YU, YA WITH MACRON, YU with MACRON respectively
+        //               first checks if grapheme is Cyrillic 'y'
         if (grapheme == "\u04E4" && (i < cyr_graphemes.length - 1)) {
             after_for_capitals = cyr_graphemes[i+1]
 
@@ -753,7 +753,7 @@ function cyrillic_adjustments(graphemes) {
             after = cyr_graphemes[i+1]
 
             if (after in shortAU) {
-            // ADJUSTMENT 2: If 'ya' or 'yu' follow a consonant, insert a Cyrillic soft sign between
+            // ADJUSTMENT 2: if 'ya' or 'yu' follow a consonant, insert a Cyrillic soft sign between
                 if (i > 0 && isAlpha(cyr_graphemes[i-1]) && !(cyr_graphemes[i-1] in vowels)) {
                     result.push("\u044C")
                 }
@@ -767,26 +767,26 @@ function cyrillic_adjustments(graphemes) {
             }
         } 
 
-        // ADJUSTMENT 3: The 'a', 'u' Cyrillic representations are rewritten 
-        // if they follow the Cyrillic representations of 'l', 'z', 'll', 's'
+        // ADJUSTMENT 3: the 'a', 'u' Cyrillic representations are rewritten 
+        //               if they follow the Cyrillic representations of 'l', 'z', 'll', 's'
         else if (i > 0 && grapheme in shortAU && cyr_graphemes[i-1] in lzlls) {
             result.push(shortAU[grapheme])
         }
     
-        // ADJUSTMENT - Labialization symbol can appear either before or after
-        // the consonant it labializes. It moves to appear next to a vowel 
+        // ADJUSTMENT - the labialization symbol can appear either before or after
+        //              the consonant it labializes. it moves to appear next to a vowel 
         else if (i > 0 && grapheme in labialC && cyr_graphemes[i-1] in vowels) {
             result.push(labialC[grapheme])
         }
 
-        // ADJUSTMENT - Cyrillic representation of 'e' deletes before a voiceless
-        // consonant cluster
-        else if (grapheme == "\u042B" && (i < cyr_graphemes.length - 2) &&
+        // ADJUSTMENT - the Cyrillic letter 'e' deletes before a voiceless
+        //              consonant cluster at the beginning of a word
+        else if (i == 0 && grapheme == "\u042B" && cyr_graphemes.length > 2 &&
             cyr_graphemes[i+1] in voicelessC && cyr_graphemes[i+2] in voicelessC) {
             result.push("")
             result.push(cyr_graphemes[i+1].toUpperCase())
             i++
-        } else if (grapheme == "\u044B" && (i < cyr_graphemes.length - 2) &&
+        } else if (i == 0 && grapheme == "\u044B" && cyr_graphemes.length > 2 &&
             cyr_graphemes[i+1] in voicelessC && cyr_graphemes[i+2] in voicelessC) {
             result.push("") 
         }
