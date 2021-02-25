@@ -82,17 +82,19 @@ document.getElementById("button1").onclick = function() {
                         split_cyrillic.push(split_text[w])
                         split_menov.push(split_text[w])
  
-                        var tokenized_cyr       = tokenize_cyr(split_text[w], false)
-                        var tokenized_cyr_punc  = tokenize_cyr(split_text[w], true)
+                        var tokenized_cyr      = tokenize_cyr(split_text[w], false)
+                        var tokenized_cyr_punc = tokenize_cyr(split_text[w], true)
 
-                        tokenized               = cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr))
-                        tokenized_with_punc     = cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr_punc))
+                        // messy hack to restore menovshchikov's vowel diacritics
+                        // to help with preston's translation of the menovshchikov grammar
+                        tranlisterated           = restore_vowel_diacritics(tokenized_cyr, cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr)))
+                        transliterated_with_punc = restore_vowel_diacritics(tokenized_cyr_punc, cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr_punc)))
 
 						// spellcheck the transliterated text (Cyrillic to Latin) and output
                         if (spellcheck(tokenized, latin_vowels, lowercased)) {
-                            split_latin.push(tokens_to_string(tokenized_with_punc))
+                            split_latin.push(tokens_to_string(transliterated_with_punc))
                         } else {
-                            split_latin.push((tokens_to_string(tokenized_with_punc)).fontcolor("b20000"))
+                            split_latin.push((tokens_to_string(transliterated_with_punc)).fontcolor("b20000"))
                         }
                     }
 

@@ -707,6 +707,8 @@ function cyrillic_to_latin(graphemes) {
     }
 
     // TODO: will need to change this back so latin output undoubles
+    //       currently doesn't undouble to help preston with his
+    //       translation of the menovshchikov grammar
     //word = tokens_to_string(undouble(result))
     word = tokens_to_string(result)
 
@@ -810,4 +812,91 @@ function spellcheck_cyr(word) {
     } else {
         return tokenize_cyr(word)
     }
+}
+
+
+// messy hack to restore menovshchikov vowel diacritics
+// e.g. ӯ х с я н ->  ū gg s a n
+function restore_vowel_diacritics(original, transliterated) {
+
+   vowels_with_macrons = {
+        // letter I with macron
+        "\u0438\u0304":"\u012B",    // CYRILLIC SMALL LETTER I with COMBINING MACRON to LATIN SMALL LETTER I with MACRON
+        "\u04E3":"\u012B",          // CYRILLIC SMALL LETTER I with MACRON           to LATIN SMALL LETTER I with MACRON
+        // letter A with macron
+        "\u0430\u0304":"\u0101",    // CYRILLIC SMALL LETTER A with COMBINING MACRON to LATIN SMALL LETTER A with MACRON
+        "\u0061\u0304":"\u0101",    // LATIN    SMALL LETTER A with COMBINING MACRON to LATIN SMALL LETTER A with MACRON
+        "ā":"\u0101",               // idk why this is even here                     to LATIN SMALL LETTER A with MACRON
+        // letter U with macron
+        "\u0443\u0304":"\u016B",    // CYRILLIC SMALL LETTER U with COMBINING MACRON to LATIN SMALL LETTER U with MACRON
+        "\u04EF":"\u016B",          // CYRILLIC SMALL LETTER U with MACRON           to LATIN SMALL LETTER U with MACRON
+        // letter YERU (e) with macron 
+        "\u044B\u0304":"\u0113",    // CYRILLIC SMALL LETTER YERU with COMBINING MACRON to LATIN SMALL LETTER E with MACRON
+        "\u0435\u0304":"\u0113",    // CYRILLIC SMALL LETTER E    with COMBINING MACRON to LATIN SMALL LETTER E with MACRON
+        // letter O with macron 
+        "\u043E\u0304":"\u014D",    // CYRILLIC SMALL LETTER O with COMBINING MACRON    to LATIN SMALL LETTER O with MACRON
+   }
+
+   vowels_with_other_diacritics = {
+        // [ ACUTE ACCENT ]
+        // letter I with acute accent
+        "\u0438\u0301":"\u00ED",    // CYRILLIC SMALL LETTER I with COMBINING ACUTE ACCENT to LATIN SMALL LETTER I with ACUTE ACCENT
+        // letter A with acute accent
+        "\u0430\u0301":"\u00E1",    // CYRILLIC SMALL LETTER A with COMBINING ACUTE ACCENT to LATIN SMALL LETTER A with ACUTE ACCENT
+        // letter U with acute accent
+        "\u0443\u0301":"\u00FA",    // CYRILLIC SMALL LETTER U with COMBINING ACUTE ACCENT to LATIN SMALL LETTER U with ACUTE ACCENT
+        // letter YERU (e) with acute accent 
+        "\u044B\u0301":"\u00E9",    // CYRILLIC SMALL LETTER YERU with COMBINING ACUTE ACCENT to LATIN SMALL LETTER E with ACUTE ACCENT
+        "\u0435\u0301":"\u00E9",    // CYRILLIC SMALL LETTER E    with COMBINING ACUTE ACCENT to LATIN SMALL LETTER E with ACUTE ACCENT
+        // letter O with acute accent 
+        "\u043E\u0301":"\u00F3",    // CYRILLIC SMALL LETTER O with COMBINING ACUTE ACCENT    to LATIN SMALL LETTER O with ACUTE ACCENT
+
+        // [ BREVE]
+        // letter I with breve
+        "\u0438\u0306":"\u012D",    // CYRILLIC SMALL LETTER I with COMBINING BREVE to LATIN SMALL LETTER I with BREVE
+        "\u0439":"\u012D",          // CYRILLIC SMALL LETTER I with BREVE           to LATIN SMALL LETTER I with BREVE 
+        // letter A with breve
+        "\u0430\u0306":"\u0103",    // CYRILLIC SMALL LETTER A with COMBINING BREVE to LATIN SMALL LETTER A with BREVE
+        "\u04D1":"\u0103",          // CYRILLIC SMALL LETTER A with BREVE           to LATIN SMALL LETTER A with BREVE
+        // letter U with breve
+        "\u0443\u0306":"\u016D",    // CYRILLIC SMALL LETTER U with COMBINING BREVE to LATIN SMALL LETTER U with BREVE
+        "\u045E":"\u016D",          // CYRILLIC SMALL LETTER U with BREVE           to LATIN SMALL LETTER U with BREVE
+        // letter YERU (e) with breve
+        "\u044B\u0306":"\u00E9",    // CYRILLIC SMALL LETTER YERU with COMBINING BREVE to LATIN SMALL LETTER E with BREVE
+        "\u0435\u0306":"\u00E9",    // CYRILLIC SMALL LETTER E    with COMBINING BREVE to LATIN SMALL LETTER E with BREVE
+        // letter O with breve
+        "\u043E\u0306":"\u00F3",    // CYRILLIC SMALL LETTER O with COMBINING BREVE    to LATIN SMALL LETTER O with BREVE
+
+        // [ DIAERESIS ]
+        // letter I with diaeresis
+        "\u0438\u0308":"\u00EF",    // CYRILLIC SMALL LETTER I with COMBINING DIAERESIS to LATIN SMALL LETTER I with DIAERESIS 
+        "\u04E5":"\u00EF",          // CYRILLIC SMALL LETTER I with DIAERESIS           to LATIN SMALL LETTER I with DIARESIS
+        // letter A with diaeresis
+        "\u0430\u0308":"\u00E4",    // CYRILLIC SMALL LETTER A with COMBINING DIAERESIS to LATIN SMALL LETTER A with DIAERESIS
+        "\u04D3":"\u00E4",          // CYRILLIC SMALL LETTER A with DIAERESIS           to LATIN SMALL LETTER A with DIAERESIS
+        // letter U with diaeresis
+        "\u0443\u0308":"\u00FC",    // CYRILLIC SMALL LETTER U with COMBINING DIAERESIS to LATIN SMALL LETTER U with DIAERESIS
+        "\u04F1":"\u00FC",          // CYRILLIC SMALL LETTER U with DIAERESIS           to LATIN SMALL LETTER U with DIAERESIS
+        // letter YERU (e) with diaeresis
+        "\u044B\u0308":"\u00EB",    // CYRILLIC SMALL LETTER YERU with COMBINING DIAERESIS to LATIN SMALL LETTER E with DIAERESIS
+        "\u04F9":"\u00EB",          // CYRILLIC SMALL LETTER YERU with DIAERESIS           to LATIN SMALL LETTER E with DIAERESIS
+        "\u0435\u0308":"\u00EB",    // CYRILLIC SMALL LETTER E    with COMBINING DIAERESIS to LATIN SMALL LETTER E with DIAERESIS
+        // letter O with diaeresis
+        "\u043E\u0308":"\u00F6",    // CYRILLIC SMALL LETTER O with COMBINING DIAERESIS to LATIN SMALL LETTER O with DIAERESIS 
+   }
+
+   for (var i = 0; i < original.length; i++) {
+        var grapheme = original[i];
+		
+        if (grapheme in vowels_with_macrons) {
+            if (i < transliterated.length-1 && transliterated[i] == transliterated[i+1]) {
+                transliterated[i] = vowels_with_macrons[grapheme];
+                transliterated.splice(i+1, 1);
+            }
+        }
+        else if (grapheme in vowels_with_other_diacritics) {
+            transliterated[i] = vowels_with_other_diacritics[grapheme];
+        }
+   }
+   return transliterated 
 }
