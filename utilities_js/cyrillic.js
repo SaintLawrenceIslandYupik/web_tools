@@ -894,9 +894,9 @@ function restore_vowel_diacritics(original, transliterated) {
                 transliterated.splice(i+1, 1);
             }
         }
-        else if (grapheme in vowels_with_other_diacritics) {
-            transliterated[i] = vowels_with_other_diacritics[grapheme];
-        }
+        //else if (grapheme in vowels_with_other_diacritics) {
+        //    transliterated[i] = vowels_with_other_diacritics[grapheme];
+        //}
    }
    return transliterated 
 }
