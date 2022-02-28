@@ -212,6 +212,68 @@ function redouble(graphemes, color) {
     return result
 }
 
+// applies the Latin orthography's undoubling rules
+function undouble(graphemes) {
+
+    var doubled_fricative = new Set(['ll', 'rr', 'gg', 'ghh', 'ghhw'])
+    var doubled_nasal     = new Set(['nn', 'mm', 'ngng', 'ngngw'])
+
+    var doubleable_fricative = new Set(['l', 'r', 'g', 'gh', 'ghw'])
+    var doubleable_nasal     = new Set(['n', 'm', 'ng', 'ngw'])
+
+    var undoubleable_unvoiced_consonant = new Set(['p', 't', 'k', 'kw', 'q', 'qw', 'f', 's', 'wh'])
+
+    var undouble={'ll'  : 'l',
+                  'rr'  : 'r',
+                  'gg'  : 'g',
+                  'ghh' : 'gh',
+                  'ghhw': 'ghw',
+                  'nn'  : 'n',
+                  'mm'  : 'm',
+                  'ngng' : 'ng',
+                  'ngngw': 'ngw'}
+
+    var result = graphemes.slice(0) // copy the list of graphemes
+
+    var i = 0
+
+    while (i+1 < result.length) {
+        var first = result[i]
+        var second = result[i+1]
+	
+        // Rule 1a                                                                                                                        
+        if (doubled_fricative.has(first) && undoubleable_unvoiced_consonant.has(second)) {
+            result[i] = undouble[first]
+            i += 2
+        }
+        // Rule 1b                                                                                                                        
+        else if (undoubleable_unvoiced_consonant.has(first) && doubled_fricative.has(second)) {
+            result[i+1] = undouble[second]
+            i += 2
+        }
+        // Rule 2                                                                                                                         
+        else if (undoubleable_unvoiced_consonant.has(first) && doubled_nasal.has(second)) {
+            result[i+1] = undouble[second]
+            i += 2
+        }
+        // Rule 3a                                                                                                                        
+        else if (doubled_fricative.has(first) && (doubled_fricative.has(second) || doubled_nasal.has(second))) {
+            result[i+1] = undouble[second]
+            i += 2
+        }
+        // Rule 3b                                                                                                                        
+        else if ((doubled_fricative.has(first) || doubled_nasal.has(first)) && second=='ll') {
+            result[i] = undouble[first]
+            i += 2
+        } 
+        else {
+            i += 1	
+        }
+    } // end 'while' Loop
+	
+    return result
+}
+
 
 function graphemes_to_phonemes_ipa(graphemes) {
 

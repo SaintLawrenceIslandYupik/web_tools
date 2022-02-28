@@ -1,6 +1,6 @@
 document.getElementById("button1").onclick = function() { 
 
-	var original               = field1.value
+    var original               = field1.value
         var split_lines            = original.split("\n")
 
         var split_latin_text           = []
@@ -90,7 +90,7 @@ document.getElementById("button1").onclick = function() {
                         tranlisterated           = restore_vowel_diacritics(tokenized_cyr, cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr)))
                         transliterated_with_punc = restore_vowel_diacritics(tokenized_cyr_punc, cyrillic_to_latin(undo_cyrillic_adjustments(tokenized_cyr_punc)))
 
-						// spellcheck the transliterated text (Cyrillic to Latin) and output
+                        // spellcheck the transliterated text (Cyrillic to Latin) and output
                         if (spellcheck(tokenized, latin_vowels, lowercased)) {
                             split_latin.push(tokens_to_string(transliterated_with_punc))
                         } else {
@@ -105,7 +105,7 @@ document.getElementById("button1").onclick = function() {
                         tokenized_with_punc = tokenize(split_text[w], true)
 
                         if (spellcheck(tokenized, latin_vowels, lowercased)) {
-                            split_latin.push(tokens_to_string(tokenized_with_punc))
+                            split_latin.push(tokens_to_string(undouble(tokenized_with_punc)))
                         } else {
                             split_latin.push((tokens_to_string(tokenized_with_punc)).fontcolor("b20000"))
                         }
